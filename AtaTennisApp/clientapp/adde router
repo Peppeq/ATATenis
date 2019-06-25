@@ -1,0 +1,213 @@
+warning: LF will be replaced by CRLF in package-lock.json.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in package.json.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in src/App.vue.
+The file will have its original line endings in your working directory.
+[1mdiff --git a/package-lock.json b/package-lock.json[m
+[1mindex 3a7c8b5..911494f 100644[m
+[1m--- a/package-lock.json[m
+[1m+++ b/package-lock.json[m
+[36m@@ -10842,6 +10842,11 @@[m
+         "vue-style-loader": "^4.1.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "vue-router": {[m
+[32m+[m[32m      "version": "3.0.6",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/vue-router/-/vue-router-3.0.6.tgz",[m
+[32m+[m[32m      "integrity": "sha512-Ox0ciFLswtSGRTHYhGvx2L44sVbTPNS+uD2kRISuo8B39Y79rOo0Kw0hzupTmiVtftQYCZl87mwldhh2L9Aquw=="[m
+[32m+[m[32m    },[m
+     "vue-style-loader": {[m
+       "version": "4.1.2",[m
+       "resolved": "https://registry.npmjs.org/vue-style-loader/-/vue-style-loader-4.1.2.tgz",[m
+[1mdiff --git a/package.json b/package.json[m
+[1mindex 8265a82..aa2e0b7 100644[m
+[1m--- a/package.json[m
+[1m+++ b/package.json[m
+[36m@@ -9,7 +9,8 @@[m
+   },[m
+   "dependencies": {[m
+     "core-js": "^2.6.5",[m
+[31m-    "vue": "^2.6.10"[m
+[32m+[m[32m    "vue": "^2.6.10",[m
+[32m+[m[32m    "vue-router": "^3.0.3"[m
+   },[m
+   "devDependencies": {[m
+     "@vue/cli-plugin-babel": "^3.8.0",[m
+[1mdiff --git a/src/App.vue b/src/App.vue[m
+[1mindex fcc5662..238aa08 100644[m
+[1m--- a/src/App.vue[m
+[1m+++ b/src/App.vue[m
+[36m@@ -1,21 +1,13 @@[m
+ <template>[m
+   <div id="app">[m
+[31m-    <img alt="Vue logo" src="./assets/logo.png">[m
+[31m-    <HelloWorld msg="Welcome to Your Vue.js App"/>[m
+[32m+[m[32m    <div id="nav">[m
+[32m+[m[32m      <router-link to="/">Home</router-link> |[m
+[32m+[m[32m      <router-link to="/about">About</router-link>[m
+[32m+[m[32m    </div>[m
+[32m+[m[32m    <router-view/>[m
+   </div>[m
+ </template>[m
+ [m
+[31m-<script>[m
+[31m-import HelloWorld from './components/HelloWorld.vue'[m
+[31m-[m
+[31m-export default {[m
+[31m-  name: 'app',[m
+[31m-  components: {[m
+[31m-    HelloWorld[m
+[31m-  }[m
+[31m-}[m
+[31m-</script>[m
+[31m-[m
+ <style>[m
+ #app {[m
+   font-family: 'Avenir', Helvetica, Arial, sans-serif;[m
+[1mdiff --git a/src/components/HelloWorld.vue b/src/components/HelloWorld.vue[m
+[1mindex 879051a..fa1ef4e 100644[m
+[1m--- a/src/components/HelloWorld.vue[m
+[1m+++ b/src/components/HelloWorld.vue[m
+[36m@@ -1,58 +1,74 @@[m
+ <template>[m
+[31m-  <div class="hello">[m
+[31m-    <h1>{{ msg }}</h1>[m
+[31m-    <p>[m
+[31m-      For a guide and recipes on how to configure / customize this project,<br>[m
+[31m-      check out the[m
+[31m-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.[m
+[31m-    </p>[m
+[31m-    <h3>Installed CLI Plugins</h3>[m
+[31m-    <ul>[m
+[31m-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>[m
+[31m-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>[m
+[31m-    </ul>[m
+[31m-    <h3>Essential Links</h3>[m
+[31m-    <ul>[m
+[31m-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>[m
+[31m-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>[m
+[31m-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>[m
+[31m-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>[m
+[31m-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>[m
+[31m-    </ul>[m
+[31m-    <h3>Ecosystem</h3>[m
+[31m-    <ul>[m
+[31m-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>[m
+[31m-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>[m
+[31m-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>[m
+[31m-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>[m
+[31m-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>[m
+[31m-    </ul>[m
+[31m-  </div>[m
+[32m+[m[32m    <div class="hello">[m
+[32m+[m[32m        <h1>{{ msg }}</h1>[m
+[32m+[m[32m        <h1>{{ reversedMsg }}</h1>[m
+[32m+[m[32m        <p>[m
+[32m+[m[32m            {{player.name}}[m
+[32m+[m[32m        </p>[m
+[32m+[m[32m        <p>[m
+[32m+[m[32m        </p>[m
+[32m+[m[32m        <p>wtf</p>[m
+[32m+[m[32m    </div>[m
+ </template>[m
+[31m-[m
+ <script>[m
+[31m-export default {[m
+[31m-  name: 'HelloWorld',[m
+[31m-  props: {[m
+[31m-    msg: String[m
+[31m-  }[m
+[31m-}[m
+[31m-</script>[m
+[32m+[m[32m    // import testApi from '../../api/SampleDataAPI.js';[m
+ [m
+[32m+[m[32m    export default {[m
+[32m+[m[32m        name: 'HelloWorld',[m
+[32m+[m[32m        data: function () {[m
+[32m+[m[32m            return {[m
+[32m+[m[32m                players: [],[m
+[32m+[m[32m                nameWhat: String,[m
+[32m+[m[32m            }[m
+[32m+[m[32m        },[m
+[32m+[m[32m        props: {[m
+[32m+[m[32m            msg: String,[m
+[32m+[m[32m        },[m
+[32m+[m[32m        mounted: async function () {[m
+[32m+[m[32m            // this.players = await testApi.getData();[m
+[32m+[m[32m        },[m
+[32m+[m
+[32m+[m[32m        method: {[m
+[32m+[m[41m            [m
+[32m+[m[32m        },[m
+[32m+[m[32m        //computed the same as method but have caching[m
+[32m+[m[32m        computed: {[m
+[32m+[m[32m            reversedMsg: function () {[m
+[32m+[m[32m                return this.msg.split('').reverse().join('')[m
+[32m+[m[32m            },[m
+[32m+[m[32m            getPlayerName() {[m
+[32m+[m[32m                return this.player == null ? '' : this.player.Name;[m
+[32m+[m[32m            }[m
+[32m+[m[41m            [m
+[32m+[m[32m        },[m
+[32m+[m[32m        setPlayerName: function (player) {[m
+[32m+[m[32m            this.player = player;[m
+[32m+[m[32m        }[m
+[32m+[m[32m        //watch: {[m
+[32m+[m[32m        //    player: function (playerVal) {[m
+[32m+[m[32m        //        this.player = await testApi.getData();[m
+[32m+[m[32m        //    }[m
+[32m+[m[32m        //}[m
+[32m+[m[32m    }[m
+[32m+[m[32m</script>[m
+ <!-- Add "scoped" attribute to limit CSS to this component only -->[m
+ <style scoped>[m
+[31m-h3 {[m
+[31m-  margin: 40px 0 0;[m
+[31m-}[m
+[31m-ul {[m
+[31m-  list-style-type: none;[m
+[31m-  padding: 0;[m
+[31m-}[m
+[31m-li {[m
+[31m-  display: inline-block;[m
+[31m-  margin: 0 10px;[m
+[31m-}[m
+[31m-a {[m
+[31m-  color: #42b983;[m
+[31m-}[m
+[32m+[m
+[32m+[m[32m    h3 {[m
+[32m+[m[32m        margin: 40px 0 0;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    ul {[m
+[32m+[m[32m        list-style-type: none;[m
+[32m+[m[32m        padding: 0;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    li {[m
+[32m+[m[32m        display: inline-block;[m
+[32m+[m[32m        margin: 0 10px;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    a {[m
+[32m+[m[32m        color: #42b983;[m
+[32m+[m[32m    }[m
+ </style>[m
+[1mdiff --git a/src/main.js b/src/main.js[m
+[1mindex 63eb05f..659607d 100644[m
+[1m--- a/src/main.js[m
+[1m+++ b/src/main.js[m
+[36m@@ -1,8 +1,10 @@[m
+ import Vue from 'vue'[m
+ import App from './App.vue'[m
+[32m+[m[32mimport router from './router'[m
+ [m
+ Vue.config.productionTip = false[m
+ [m
+ new Vue({[m
+[31m-  render: h => h(App),[m
+[32m+[m[32m  router,[m
+[32m+[m[32m  render: h => h(App)[m
+ }).$mount('#app')[m

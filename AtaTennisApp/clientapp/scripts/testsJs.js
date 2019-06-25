@@ -1,0 +1,1 @@
+console.log('nazdar from testsJs.js file')
