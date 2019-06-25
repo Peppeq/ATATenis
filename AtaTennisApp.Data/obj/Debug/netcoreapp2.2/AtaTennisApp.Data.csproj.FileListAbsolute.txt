@@ -1,0 +1,11 @@
+C:\Source\AtaTennisApp\AtaTennisApp.Data\bin\Debug\netcoreapp2.2\AtaTennisApp.Data.deps.json
+C:\Source\AtaTennisApp\AtaTennisApp.Data\bin\Debug\netcoreapp2.2\AtaTennisApp.Data.dll
+C:\Source\AtaTennisApp\AtaTennisApp.Data\obj\Debug\netcoreapp2.2\AtaTennisApp.Data.csproj.CoreCompileInputs.cache
+C:\Source\AtaTennisApp\AtaTennisApp.Data\obj\Debug\netcoreapp2.2\AtaTennisApp.Data.AssemblyInfoInputs.cache
+C:\Source\AtaTennisApp\AtaTennisApp.Data\obj\Debug\netcoreapp2.2\AtaTennisApp.Data.AssemblyInfo.cs
+C:\Source\AtaTennisApp\AtaTennisApp.Data\bin\Debug\netcoreapp2.2\AtaTennisApp.Data.pdb
+C:\Source\AtaTennisApp\AtaTennisApp.Data\obj\Debug\netcoreapp2.2\AtaTennisApp.Data.csprojAssemblyReference.cache
+C:\Source\AtaTennisApp\AtaTennisApp.Data\obj\Debug\netcoreapp2.2\AtaTennisApp.Data.dll
+C:\Source\AtaTennisApp\AtaTennisApp.Data\obj\Debug\netcoreapp2.2\AtaTennisApp.Data.pdb
+C:\Source\AtaTennisApp\AtaTennisApp.Data\bin\Debug\netcoreapp2.2\AtaTennisApp.Data.runtimeconfig.json
+C:\Source\AtaTennisApp\AtaTennisApp.Data\bin\Debug\netcoreapp2.2\AtaTennisApp.Data.runtimeconfig.dev.json
