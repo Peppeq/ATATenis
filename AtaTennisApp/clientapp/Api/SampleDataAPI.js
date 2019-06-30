@@ -1,5 +1,5 @@
 ﻿export default {
-    getData: () => {
+    getData: async () => {
         return fetch('/api/Player', {
             method: 'get'
         }).then(function (response) {

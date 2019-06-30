@@ -12,7 +12,7 @@
             </div> -->
 
     <d-row>
-        <d-col :align-self="center">
+        <d-col >
             <!-- Main Navbar -->
             <main-navbar />
 

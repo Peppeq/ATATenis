@@ -4,16 +4,16 @@
         <h1>{{ reversedMsg }}</h1>
         <p>
         </p>
-        <p>{{players}}
-        </p>
+        <!-- <p>{{players}} -->
+        <!-- </p> -->
         <!-- <div v-for="player in players.players">
             {{player.name}}
         </div> -->
-        <p>{{getPlayerNames}}</p>
+        <!-- <p>{{getPlayerNames}}</p> -->
     </div>
 </template>
 <script>
-     import testApi from '../../Api/SampleDataAPI.js';
+    //  import testApi from '../../Api/SampleDataAPI.js';
 
     export default {
         name: 'HelloWorld',
@@ -27,7 +27,8 @@
             msg: String,
         },
         mounted: async function () {
-             this.players = await testApi.getData();
+            //  this.players = await testApi.getData().catch(() => 
+            //  { alert('no nenatiahli sa data..')});
         },
 
         method: {

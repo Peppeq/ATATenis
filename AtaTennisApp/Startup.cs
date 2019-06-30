@@ -27,7 +27,7 @@ namespace AtaTennisApp
             // In production, the Vue files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/dist";
+                configuration.RootPath = "clientapp/dist";
             });
 
             services.AddDbContext<AtaTennisContext>(options
@@ -45,8 +45,10 @@ namespace AtaTennisApp
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
+            
+            //neviem naco je ked aj tak mam https
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -57,11 +59,16 @@ namespace AtaTennisApp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+                
+                //neviem naco je
+                //routes.MapSpaFallbackRoute(
+                //    name: "spa-fallback",
+                //    defaults: new { controller = "Home", action = "Index" });
             });
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "clientapp";
 
                 if (env.IsDevelopment())
                 {
