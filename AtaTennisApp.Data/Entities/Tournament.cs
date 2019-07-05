@@ -19,6 +19,7 @@ namespace AtaTennisApp.Data.Entities
         public int PlayingSystem { get; set; }
         public int? BallsType { get; set; }
         public string Description { get; set; }
+        public int Points { get; set; }
 
         public virtual ICollection<Draw> Draw { get; set; }
         public virtual ICollection<Match> Match { get; set; }

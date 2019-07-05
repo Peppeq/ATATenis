@@ -25,6 +25,7 @@ namespace AtaTennisApp.Data.Entities
         public int? FinalistCount { get; set; }
         public int? TournamentCount { get; set; }
         public bool? Member { get; set; }
+        public int Points { get; set; }
 
         public virtual ICollection<MatchPlayer> MatchPlayer { get; set; }
     }

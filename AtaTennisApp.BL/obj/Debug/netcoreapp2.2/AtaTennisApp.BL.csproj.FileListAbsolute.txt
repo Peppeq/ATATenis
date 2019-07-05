@@ -1,9 +1,0 @@
-C:\Source\AtaTennisApp\AtaTennisApp.BL\bin\Debug\netcoreapp2.2\AtaTennisApp.BL.deps.json
-C:\Source\AtaTennisApp\AtaTennisApp.BL\bin\Debug\netcoreapp2.2\AtaTennisApp.BL.dll
-C:\Source\AtaTennisApp\AtaTennisApp.BL\bin\Debug\netcoreapp2.2\AtaTennisApp.BL.pdb
-C:\Source\AtaTennisApp\AtaTennisApp.BL\obj\Debug\netcoreapp2.2\AtaTennisApp.BL.csprojAssemblyReference.cache
-C:\Source\AtaTennisApp\AtaTennisApp.BL\obj\Debug\netcoreapp2.2\AtaTennisApp.BL.csproj.CoreCompileInputs.cache
-C:\Source\AtaTennisApp\AtaTennisApp.BL\obj\Debug\netcoreapp2.2\AtaTennisApp.BL.AssemblyInfoInputs.cache
-C:\Source\AtaTennisApp\AtaTennisApp.BL\obj\Debug\netcoreapp2.2\AtaTennisApp.BL.AssemblyInfo.cs
-C:\Source\AtaTennisApp\AtaTennisApp.BL\obj\Debug\netcoreapp2.2\AtaTennisApp.BL.dll
-C:\Source\AtaTennisApp\AtaTennisApp.BL\obj\Debug\netcoreapp2.2\AtaTennisApp.BL.pdb
