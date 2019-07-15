@@ -98,7 +98,6 @@
 
 
 
-
     IEnumerable<Type> AllApplicableTypeClasses(Class cls)
     {
         return AllApplicableTypes(cls, false);
@@ -122,7 +121,7 @@
             AllApplicableTypesOfTypeRec(method.Type, retVal); 
         } 
        
-        var retList = retVal.Select(p => p.Value);
+        var retList = retVal.Select(p => p.Value).Where(p => !p.Name.Contains("ActionResult") && !p.FullName.Contains("System.Collections.Generic") && TypeClassName(p) != "any");;
         if (isEnum) {
             return retList.Where(p => p.IsEnum == true).Distinct();
         } else {

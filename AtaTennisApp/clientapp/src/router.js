@@ -25,6 +25,11 @@ export default new Router({
             component: () => import('./views/Players.vue')
         },
         {
+            path: '/tournament',
+            name: 'Tournament',
+            component: () => import('./views/Tournament.vue')
+        },
+        {
             path: '/test',
             name: 'testName',
             component: () => import('./views/test.vue')

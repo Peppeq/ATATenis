@@ -1,7 +1,6 @@
 <template>
 <div id="app">
     <app-layout>
-      som v slote app layoutu
         <router-view />
     </app-layout>
 </div>

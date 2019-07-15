@@ -7,21 +7,22 @@ namespace AtaTennisApp.Data.Entities
     {
         public Tournament()
         {
-            Draw = new HashSet<Draw>();
+            Draw = new Draw();
             Match = new HashSet<Match>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Year { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public string Place { get; set; }
-        public int Category { get; set; }
-        public int PlayingSystem { get; set; }
-        public int? BallsType { get; set; }
+        public TournamentCategory Category { get; set; }
+        public PlayingSystem PlayingSystem { get; set; }
+        public BallsType? BallsType { get; set; }
         public string Description { get; set; }
-        public int Points { get; set; }
+        public TournamentType TournamentType { get; set; }
 
-        public virtual ICollection<Draw> Draw { get; set; }
+        public virtual Draw Draw { get; set; }
         public virtual ICollection<Match> Match { get; set; }
     }
 }

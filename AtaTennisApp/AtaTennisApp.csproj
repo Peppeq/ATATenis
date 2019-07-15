@@ -31,11 +31,15 @@
 
   <ItemGroup>
     <Folder Include="clientapp\Components\" />
+    <Folder Include="clientapp\src\assets\images\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="clientapp\Api\PlayerController.ts">
       <CustomToolNamespace>Controllers\PlayerController.cs</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\Api\TournamentController.ts">
+      <CustomToolNamespace>Controllers\TournamentController.cs</CustomToolNamespace>
     </None>
   </ItemGroup>
 

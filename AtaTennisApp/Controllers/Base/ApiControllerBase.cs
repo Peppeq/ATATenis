@@ -20,6 +20,7 @@ namespace AtaTennisApp.Controllers.Base
     }
 
     // contex session something like that...
+    [ApiController]
     public class ApiControllerBase : ControllerBase
     {
         protected ActionResult GetErrorResponse(HttpStatusCode statusCode, string message, object errData)

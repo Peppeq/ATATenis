@@ -3,46 +3,6 @@
 
 
 
-export class PlayerResponse { 
-    Players: Player[] = null;
-    Test: string = null;
-    Kolesa: number = null;
-}
-export class Player { 
-    Id: number = null;
-    Name: string = null;
-    Surname: string = null;
-    Age: number = null;
-    Height: number = null;
-    Residence: string = null;
-    Forehand: boolean = null;
-    Backhand: boolean = null;
-    Racquet: string = null;
-    Surface: number = null;
-    FavouritePlayer: string = null;
-    TitlesCount: number = null;
-    FinalistCount: number = null;
-    TournamentCount: number = null;
-    Member: boolean = null;
-    Points: number = null;
-    MatchPlayer: MatchPlayer[] = null;
-}
-export class MatchPlayer { 
-    Id: number = null;
-    MatchId: number = null;
-    PlayerId: number = null;
-    Match: Match = null;
-    Player: Player = null;
-}
-export class Match { 
-    Id: number = null;
-    TournamentId: number = null;
-    Score: number = null;
-    Retired: boolean = null;
-    Tournament: Tournament = null;
-    DrawMatch: DrawMatch[] = null;
-    MatchPlayer: MatchPlayer[] = null;
-}
 export class Tournament { 
     Id: number = null;
     Name: string = null;
@@ -72,6 +32,41 @@ export class DrawMatch {
     Draw: Draw = null;
     Match: Match = null;
 }
+export class Match { 
+    Id: number = null;
+    TournamentId: number = null;
+    Score: number = null;
+    Retired: boolean = null;
+    Tournament: Tournament = null;
+    DrawMatch: DrawMatch[] = null;
+    MatchPlayer: MatchPlayer[] = null;
+}
+export class MatchPlayer { 
+    Id: number = null;
+    MatchId: number = null;
+    PlayerId: number = null;
+    Match: Match = null;
+    Player: Player = null;
+}
+export class Player { 
+    Id: number = null;
+    Name: string = null;
+    Surname: string = null;
+    Age: number = null;
+    Height: number = null;
+    Residence: string = null;
+    Forehand: boolean = null;
+    Backhand: boolean = null;
+    Racquet: string = null;
+    Surface: number = null;
+    FavouritePlayer: string = null;
+    TitlesCount: number = null;
+    FinalistCount: number = null;
+    TournamentCount: number = null;
+    Member: boolean = null;
+    Points: number = null;
+    MatchPlayer: MatchPlayer[] = null;
+}
 
 
 export class TournamentCategory { 
@@ -85,10 +80,10 @@ export class TournamentType {
 export class DrawType { 
 }
 
-export default class PlayerClient{
+export default class TournamentClient{
 
-    getWithoutParams<TResult extends PlayerResponse>(): Promise<TResult> {
-        return fetch('api/Player', {
+    get<TArgs extends number, TResult extends Tournament>(data: TArgs): Promise<TResult> {
+        return fetch('api/Tournament?id=${id}', {
             method: "get"
         }).then(function (response) {
             return response.json();

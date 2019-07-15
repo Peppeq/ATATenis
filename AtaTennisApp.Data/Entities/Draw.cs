@@ -11,7 +11,7 @@ namespace AtaTennisApp.Data.Entities
         }
 
         public int Id { get; set; }
-        public int Type { get; set; }
+        public DrawType Type { get; set; } = DrawType.playoff;
         public int CountOfPlayers { get; set; }
         public int TournamentId { get; set; }
         public int Round { get; set; }

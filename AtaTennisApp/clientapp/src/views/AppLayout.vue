@@ -20,9 +20,8 @@
     </d-row>
     <d-row>
         <d-col>
-
-        <!-- Content -->
-        <slot />
+            <!-- Content -->
+            <slot />
         </d-col>
     </d-row>
     <!-- Main Footer -->

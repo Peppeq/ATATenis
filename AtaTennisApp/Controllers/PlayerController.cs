@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 namespace AtaTennisApp.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class PlayerController : ApiControllerBase
     {
         private AtaTennisContext _dbContext;
@@ -28,7 +27,7 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpGet]
-        public async Task<PlayerResponse> Get()
+        public async Task<ActionResult<PlayerResponse>> Get()
         {
             var response = new PlayerResponse();
             response.Players = await _dbContext.Player.ToListAsync();

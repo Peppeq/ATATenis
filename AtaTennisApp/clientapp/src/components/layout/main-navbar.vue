@@ -8,7 +8,7 @@
     </d-navbar-brand>
     <d-collapse is-nav id="nav-collapse">   
         <d-navbar-nav v-bind:justified="true" >  
-            <d-nav-item to="/">Turnaje</d-nav-item>
+            <d-nav-item to="/tournament">Turnaj</d-nav-item>
             <d-nav-item to="/" >Rebríčky</d-nav-item>
             <d-nav-item to="/players" >Hráči</d-nav-item>
         </d-navbar-nav>

@@ -41,8 +41,8 @@ namespace AtaTennisApp.Data.Entities
                     .HasName("FK_Draw_Tournament");
 
                 entity.HasOne(d => d.Tournament)
-                    .WithMany(p => p.Draw)
-                    .HasForeignKey(d => d.TournamentId)
+                    .WithOne(p => p.Draw)
+                    .HasForeignKey<Draw>(d => d.TournamentId)
                     .HasConstraintName("FK_Draw_Tournament");
             });
 

@@ -20,16 +20,46 @@ namespace AtaTennisApp.Data
 
             var players = new Player[]
             {
-            new Player{Age=33, Name = "Peter", Surname = "Sveter"},
-            new Player{Age=33, Name = "Jano", Surname = "Slany"},
-            new Player{Age=39, Name = "Miso", Surname = "Sef"},
-            new Player{Age=55, Name = "Jozo", Surname = "Suly"},
+                new Player{Age=33, Name = "Peter", Surname = "Sveter"},
+                new Player{Age=33, Name = "Jano", Surname = "Slany"},
+                new Player{Age=39, Name = "Miso", Surname = "Sef"},
+                new Player{Age=55, Name = "Jozo", Surname = "Suly"},
             };
 
             foreach (Player p in players)
             {
                 context.Player.Add(p);
             }
+
+            if (context.Tournament.Any())
+            {
+                return;
+            }
+
+            var tournaments = new Tournament[]
+            {
+                new Tournament{
+                    Category = TournamentCategory.singles,
+                    BallsType = BallsType.slazenger,
+                    Description = "wimbledon summer challange dufajme za pekneho letneho pocasia...",
+                    Draw = new Draw{
+                        CountOfPlayers = 16,
+                        Round = 1,
+                        Type = DrawType.playoff
+                    },
+                    Name = "Wimbledon Challange",
+                    Place = "Kopčany",
+                    PlayingSystem = PlayingSystem.prince,
+                    TournamentType = TournamentType.challangerSpecial,
+                    StartTime = DateTime.Now
+                }
+            };
+
+            foreach (var tournament in tournaments)
+            {
+                context.Tournament.Add(tournament);
+            }
+
             context.SaveChanges();
         }
     }
