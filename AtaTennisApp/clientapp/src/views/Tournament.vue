@@ -21,22 +21,25 @@
     </d-container>
 </template>
 
-<script>
-    //import { Player } from '../../Api/TournamentController'
+<script lang="ts">
+    import Vue from 'vue';
+    import Component from 'vue-class-component';
+    import TournamentClient, { Tournament } from '../../Api/TournamentController'
 
-    export default {
-        name: 'Tournament',
-        data: function () {
-            return {
-                tournament: { Name: "" }
-            }
-        },
-        mounted: function () {
-            //var tournament = new Tournament()
+    @Component
+    export default class TournamentClass extends Vue {
+        tournament?: Tournament = new Tournament();
+        async mounted() {
+            var _this = this;
+            console.log('tour was mounted');
+            var tournamentClient = new TournamentClient();
             //natiahnut data z bekendu ...
-            var tournament = {
-                Name: "Wimbledon"};
-            this.tournament = tournament;
-        },
-    }
+            await tournamentClient.get({ Id: 1 }).then((tournament) => {
+                _this.tournament = tournament;
+            }).catch((reason) => {
+            });
+            //var tournament = {
+            //    Name: "Wimbledon"};
+        };
+    };
 </script>

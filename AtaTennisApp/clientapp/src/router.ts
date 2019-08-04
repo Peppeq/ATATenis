@@ -1,7 +1,9 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from './views/Home.vue';
-Vue.use(Router);
+import Vue from 'vue'
+import Router from 'vue-router'
+import Home from './views/Home.vue'
+
+Vue.use(Router)
+
 export default new Router({
     mode: "history",
     routes: [
@@ -34,5 +36,4 @@ export default new Router({
             component: () => import('./views/test.vue')
         }
     ]
-});
-//# sourceMappingURL=router.js.map
+})

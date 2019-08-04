@@ -41,6 +41,15 @@
     <None Update="clientapp\Api\TournamentController.ts">
       <CustomToolNamespace>Controllers\TournamentController.cs</CustomToolNamespace>
     </None>
+    <None Update="clientapp\Api\TournamentControllerFetch.ts">
+      <CustomToolNamespace>Controllers\TournamentController.cs</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="clientapp\tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
