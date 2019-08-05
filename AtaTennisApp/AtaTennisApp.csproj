@@ -19,8 +19,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="clientapp\Components\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="clientapp\Components\**" />
+    <EmbeddedResource Remove="clientapp\Components\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="clientapp\Components\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -30,18 +34,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="clientapp\Components\" />
     <Folder Include="clientapp\src\assets\images\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="clientapp\Api\PlayerController.ts">
+    <None Update="clientapp\src\Api\PlayerController.ts">
       <CustomToolNamespace>Controllers\PlayerController.cs</CustomToolNamespace>
     </None>
-    <None Update="clientapp\Api\TournamentController.ts">
+    <None Update="clientapp\src\Api\TournamentController.ts">
       <CustomToolNamespace>Controllers\TournamentController.cs</CustomToolNamespace>
     </None>
-    <None Update="clientapp\Api\TournamentControllerFetch.ts">
+    <None Update="clientapp\src\Api\TournamentControllerFetch.ts">
       <CustomToolNamespace>Controllers\TournamentController.cs</CustomToolNamespace>
     </None>
   </ItemGroup>

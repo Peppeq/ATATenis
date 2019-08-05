@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-    import PlayerClient, { Player } from '../../Api/PlayerController'
+    import PlayerClient, { Player } from '../Api/PlayerController'
     import { Component, Vue } from 'vue-property-decorator';
 
     @Component

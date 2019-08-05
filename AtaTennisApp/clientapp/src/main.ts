@@ -13,15 +13,21 @@ import router from "./router";
 // layouts
 import Layout from "./views/AppLayout.vue";
 
+// plugins
+import Notifications from "vue-notification";
+import {i18n}  from "./plugins/i18n";
+
 // tests
-import "./../scripts/testsJs.ts";
+import "./scripts/testsJs.ts";
 
 Vue.config.productionTip = false;
 
 Vue.component("app-layout", Layout);
 Vue.use(ShardsVue);
+Vue.use(Notifications);
 
 new Vue({
   router,
+  i18n,
   render: h => h(App)
 }).$mount("#app");

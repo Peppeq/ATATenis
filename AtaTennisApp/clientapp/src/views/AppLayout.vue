@@ -20,7 +20,9 @@
         <d-row>
             <d-col>
                 <!-- Content -->
-                <slot />
+                <div class="content-wrapper">
+                    <slot />
+                </div>
             </d-col>
         </d-row>
         <!-- Main Footer -->

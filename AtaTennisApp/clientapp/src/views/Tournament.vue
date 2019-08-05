@@ -24,22 +24,25 @@
 <script lang="ts">
     import Vue from 'vue';
     import Component from 'vue-class-component';
-    import TournamentClient, { Tournament } from '../../Api/TournamentController'
+    import TournamentClient, { Tournament } from '../Api/TournamentController'
+import { BaseComponentClass } from '../common/BaseComponentClass';
+import { NotificationUtils } from '../common/notification';
 
     @Component
-    export default class TournamentClass extends Vue {
+    export default class TournamentClass extends BaseComponentClass {
         tournament?: Tournament = new Tournament();
         async mounted() {
             var _this = this;
             console.log('tour was mounted');
             var tournamentClient = new TournamentClient();
             //natiahnut data z bekendu ...
-            await tournamentClient.get({ Id: 1 }).then((tournament) => {
+            await tournamentClient.get({ Id: 1 }).then((tournament: Tournament) => {
                 _this.tournament = tournament;
-            }).catch((reason) => {
+            }).catch((reason: Error) => {
+                NotificationUtils.ShowErrorMessage('hahaaaaaaaaaaaa');
             });
             //var tournament = {
             //    Name: "Wimbledon"};
-        };
-    };
+        }
+    }
 </script>
