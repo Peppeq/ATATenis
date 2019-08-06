@@ -11,7 +11,7 @@ import App from "./App.vue";
 import router from "./router";
 
 // layouts
-import Layout from "./views/AppLayout.vue";
+import Layout from "./components/layout/AppLayout.vue";
 
 // plugins
 import Notifications from "vue-notification";

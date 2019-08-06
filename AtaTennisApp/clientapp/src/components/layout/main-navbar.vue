@@ -1,28 +1,44 @@
 <template>
-<d-navbar toggleable="md" type="dark" theme="primary" fixed="top"  >
+  <d-navbar toggleable="md" type="dark" theme="primary" fixed="top">
     <d-navbar-toggle target="nav-collapse"></d-navbar-toggle>
-    <d-navbar-brand tag="a" to="/" >
-        <!-- <d-nav-item > -->
-            <h6 class="text-white my-auto mr-4">ATA Tenis</h6>
-        <!-- </d-nav-item> -->
+    <d-navbar-brand tag="a" to="/">
+      <!-- <d-nav-item > -->
+      <h6 class="text-white my-auto mr-4 nav-link">ATA Tenis</h6>
+      <!-- </d-nav-item> -->
     </d-navbar-brand>
-    <d-collapse is-nav id="nav-collapse">   
-        <d-navbar-nav v-bind:justified="true" >  
-            <d-nav-item to="/tournament">Turnaj</d-nav-item>
-            <d-nav-item to="/" >Rebríčky</d-nav-item>
-            <d-nav-item to="/players" >Hráči</d-nav-item>
-        </d-navbar-nav>
+    <d-collapse is-nav id="nav-collapse">
+      <d-navbar-nav v-bind:justified="true">
+        <d-nav-item to="/tournament">{{$t("tournament")}}</d-nav-item>
+        <d-nav-item to="/">{{$t("rankings")}}</d-nav-item>
+        <d-nav-item to="/players">{{$tc("player",1)}}</d-nav-item>
+      </d-navbar-nav>
     </d-collapse>
-</d-navbar>
+    <d-form-select
+      v-model="selectedLanguage"
+      v-on:change="onChangeLang($event)"
+      :options="languages"
+      class="language-select float-right"
+    />
+  </d-navbar>
 </template>
 
-<script>
-export default {
-    name: 'main-navbar',
-    data () {
-return {
-    navbarIsJustified: true
-}
-    }
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+
+@Component
+export default class MainNavbar extends Vue {
+  navbarIsJustified: boolean = true;
+  languages: string[] = ["EN", "SK"];
+  selectedLanguage: string = null;
+
+  mounted() {
+    this.selectedLanguage = this.languages[0];
+  }
+  onChangeLang(language: string): void {
+    this.$i18n.locale = language.toLowerCase();
+  }
 }
 </script>
+<style>
+@import "main-navbar.css";
+</style>

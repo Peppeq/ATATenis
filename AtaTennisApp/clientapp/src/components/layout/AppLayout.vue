@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-    import mainNavbar from '@/components/layout/main-navbar.vue'
+    import mainNavbar from './main-navbar.vue';
     import { Component, Vue } from 'vue-property-decorator';
 
     @Component({

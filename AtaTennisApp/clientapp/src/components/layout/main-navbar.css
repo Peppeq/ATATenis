@@ -1,0 +1,11 @@
+.language-select{
+    width: 60px;
+    margin: 0px !important;
+    padding: 0 0 0 5px !important;
+    height: 30px !important;
+    border-radius: 5px;
+}
+
+.nav-link:hover{
+    cursor: pointer;
+}
