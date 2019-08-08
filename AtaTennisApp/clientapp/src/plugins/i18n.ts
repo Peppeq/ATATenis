@@ -60,14 +60,17 @@ export const i18n: VueI18n = new VueI18n({
             rankings: "Rankings",
             player: "Player | Players",
             error: "Error",
-            language: "Language"
+            language: "Language",
+            errorMessageGeneral: "There is an error in our application, reload or contact us."
         },
         sk: {
             tournament: "Turnaj",
             rankings: "Rebríčky",
             player: "Hráč | Hráči",
             error: "Chyba",
-            language: "Jazyk"
+            language: "Jazyk",
+            errorMessageGeneral: "V aplikácii nastala chyba, načítajte znova alebo nás kontaktujte."
+
         }
     },
     dateTimeFormats: dateTimeFormats,
