@@ -86,15 +86,15 @@ namespace AtaTennisApp
                 //    defaults: new { controller = "Home", action = "Index" });
             });
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "clientapp";
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "clientapp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseVueCli(npmScript: "serve");
-                }
-            });
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseVueCli(npmScript: "serve");
+            //    }
+            //});
         }
     }
 }

@@ -51,7 +51,58 @@ namespace AtaTennisApp.Data
                     Place = "Kopčany",
                     PlayingSystem = PlayingSystem.prince,
                     TournamentType = TournamentType.challangerSpecial,
-                    StartTime = DateTime.Now
+                    StartTime = DateTime.Now,
+                    Surface = SurfaceType.grass
+                },
+                new Tournament{
+                    Category = TournamentCategory.singles,
+                    BallsType = BallsType.dunlop,
+                    Description = "Areal nitrianskeho futbaloveho stadiona",
+                    Draw = new Draw{
+                        CountOfPlayers = 19,
+                        Round = 1,
+                        Type = DrawType.playoff
+                    },
+                    Name = "Temprim CUP",
+                    Place = "Nitra",
+                    PlayingSystem = PlayingSystem.prince,
+                    TournamentType = TournamentType.challanger,
+                    StartTime = DateTime.Now,
+                    Surface = SurfaceType.clay
+                },
+                new Tournament{
+                    Category = TournamentCategory.singles,
+                    BallsType = BallsType.slazenger,
+                    Description = "wimbledon summer challange dufajme za pekneho letneho pocasia...",
+                    Draw = new Draw{
+                        CountOfPlayers = 16,
+                        Round = 1,
+                        Type = DrawType.playoff
+                    },
+                    Name = "Senica OPEN",
+                    Place = "Senica",
+                    PlayingSystem = PlayingSystem.prince,
+                    TournamentType = TournamentType.ata,
+                    StartTime = DateTime.Now,
+                    EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1),
+                    Surface = SurfaceType.clay
+                },
+                new Tournament{
+                    Category = TournamentCategory.singles,
+                    BallsType = BallsType.dunlop,
+                    Description = "wimbledon summer challange dufajme za pekneho letneho pocasia...",
+                    Draw = new Draw{
+                        CountOfPlayers = 16,
+                        Round = 1,
+                        Type = DrawType.playoff
+                    },
+                    Name = "Summer Cup Open",
+                    Place = "Břeclav",
+                    PlayingSystem = PlayingSystem.prince,
+                    TournamentType = TournamentType.challanger,
+                    StartTime = DateTime.Now,
+                    EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1),
+                    Surface = SurfaceType.clay
                 }
             };
 

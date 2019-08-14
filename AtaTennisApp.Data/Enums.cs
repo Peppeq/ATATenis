@@ -37,4 +37,11 @@ namespace AtaTennisApp.Data
         playoff = 0,
         group = 1
     }
+
+    public enum SurfaceType
+    {
+        clay = 0,
+        grass = 1,
+        hard = 2
+    }
 }

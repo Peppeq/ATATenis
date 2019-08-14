@@ -56,7 +56,7 @@ export const i18n: VueI18n = new VueI18n({
     fallbackLocale: "en",
     messages: {
         en: {
-            tournament: "Tournament",
+            tournament: "Tournament | Tournaments",
             rankings: "Rankings",
             player: "Player | Players",
             error: "Error",
@@ -64,7 +64,7 @@ export const i18n: VueI18n = new VueI18n({
             errorMessageGeneral: "There is an error in our application, reload or contact us."
         },
         sk: {
-            tournament: "Turnaj",
+            tournament: "Turnaj | Turnaje",
             rankings: "Rebríčky",
             player: "Hráč | Hráči",
             error: "Chyba",

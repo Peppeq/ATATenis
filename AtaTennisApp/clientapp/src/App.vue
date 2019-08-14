@@ -3,7 +3,7 @@
         <app-layout>
             <router-view />
         </app-layout>
-        <notifications group="foo" position="top center" />
+        <notifications group="error" position="top center" />
         <!-- <notifications group="foo" position="top center" classes="notification-class"/> -->
     </div>
 </template>
@@ -33,6 +33,15 @@
 
 div.notifications{
   top: 78px !important;
+}
+
+.vue-notification-template{
+  border-radius: 5px;
+}
+
+.notification-error {
+  background-color: aqua;
+
 }
 
 @import "App.css";

@@ -1,25 +1,39 @@
 ﻿<template>
-    <div>
-        <h1>List of Players</h1>
-        <div v-for="(player,index) in players" v-bind:key="player.id">
-            <div><label>{{index}}.</label>{{player.Name}}</div>
-        </div>
+  <div>
+    <h1>List of Players</h1>
+    <div
+      v-for="(player,index) in players"
+      :key="player.id"
+    >
+      <div>
+        <label>{{ index }}.</label>
+        {{ player.Name }}
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
-    import PlayerClient, { Player } from '../Api/PlayerController'
-    import { Component, Vue } from 'vue-property-decorator';
+import PlayerClient, { Player, PlayerResponse } from "../Api/PlayerController";
+import { Component } from "vue-property-decorator";
+import { BaseComponentClass } from "../common/BaseComponentClass";
 
-    @Component
-    export default class PlayersView extends Vue {
-        players: Player[] = [];
-        async mounted() {
-            var client = new PlayerClient();
-            console.log(client);
-            await client.getWithoutParams()
-                .then(result => { console.log(result); this.players = result.Players })
-                .catch((reason) => { alert("something went wrong with player " + reason); });
-        }
+@Component
+export default class PlayersView extends BaseComponentClass {
+    players: Player[] = [];
+    async mounted() {
+        var client = new PlayerClient();
+        console.log(client);
+
+        this.tryGetDataByArgs<PlayerResponse, void>({
+            apiMethod: client.getWithoutParams,
+            showError: true,
+            requestArgs: null
+        }).then(result => {
+            if (result != null) {
+                this.players = result.Players;
+            }
+        });
     }
+}
 </script>

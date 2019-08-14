@@ -21,6 +21,7 @@ namespace AtaTennisApp.Data.Entities
         public BallsType? BallsType { get; set; }
         public string Description { get; set; }
         public TournamentType TournamentType { get; set; }
+        public SurfaceType Surface { get; set; }
 
         public virtual Draw Draw { get; set; }
         public virtual ICollection<Match> Match { get; set; }

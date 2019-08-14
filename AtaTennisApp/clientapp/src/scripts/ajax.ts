@@ -1,6 +1,4 @@
-﻿import { NotificationUtils } from "../common/notification";
-
-const enum ApiMethod {
+﻿const enum ApiMethod {
     GET = "GET",
     POST = "POST",
     DELETE = "DELETE"
@@ -10,21 +8,24 @@ export class AjaxProvider {
 
     private static getApiUrl(methodName: string): string {
         // var url = window.location.href;
-        var url: string = "http://localhost:55000";
+        var url = "http://localhost:55000";
         var apiUrl: string = url + "/api/" + methodName;
         console.log(apiUrl);
         return apiUrl;
     }
 
     private static apiCall<TResult, TArgs>(apiPath: string, data: TArgs, apiMethod: ApiMethod): Promise<TResult> {
-        var apiUrl: string = this.getApiUrl(apiPath);
+        // var apiUrl: string = this.getApiUrl(apiPath);
+        var apiUrl: string = "http://localhost:55000/api/" + apiPath;
         var urlObj: URL = new URL(apiUrl);
         if (data != null) {
             var param: URLSearchParams = new URLSearchParams;
-            Object.keys(data).forEach(key => {
+            Object.keys(data).forEach((key: string): void => {
                 // @ts-ignore
                 var argKey: string = data[key];
-                param.append(key, argKey);
+                if (argKey != null) {
+                    param.append(key, argKey);
+                }
             });
             urlObj.search = param.toString();
         }
@@ -57,9 +58,32 @@ export class AjaxProvider {
 
     }
 
-    public static apiGet<TResult, TArgs>(apiPath: string, data: TArgs): Promise<TResult> {
-        return this.apiCall(apiPath, data, ApiMethod.GET);
-    }
+    //public static apiGet<TResult, TArgs>(apiPath: string, data: TArgs): Promise<TResult> {
+    //    var apiUrl: string = this.getApiUrl(apiPath);
+    //    var urlObj: URL = new URL(apiUrl);
+    //    if(data != null) {
+    //        var param: URLSearchParams = new URLSearchParams;
+    //        Object.keys(data).forEach(key => {
+    //            // @ts-ignore
+    //            var argKey: string = data[key];
+    //            param.append(key, argKey);
+    //        });
+    //        urlObj.search = param.toString();
+    //    }
+
+    //    return fetch(urlObj.toString(), {
+    //        method: "GET",
+    //    }).then(function (response: Response): Promise<TResult> {
+    //        if (!response.ok) {
+    //            throw new Error(response.status.toString());
+    //        }
+    //        return response.json() as Promise<TResult>;
+    //    });
+    //}
+
+     public static apiGet<TResult, TArgs>(apiPath: string, data: TArgs): Promise<TResult> {
+         return this.apiCall(apiPath, data, ApiMethod.GET);
+     }
 
     public static apiPost<TResult, TArgs>(apiPath: string, data: TArgs): Promise<TResult> {
         return this.apiCall(apiPath, data, ApiMethod.POST);
@@ -67,7 +91,6 @@ export class AjaxProvider {
 
     public static apiDelete<TResult, TArgs>(apiPath: string, data: TArgs): Promise<TResult> {
         return this.apiCall(apiPath, data, ApiMethod.DELETE);
-        console.log('abc');
     }
 
     // public static apiPost<TArgs, TResult>(apiPath: string, data: TArgs): Promise<TResult> {

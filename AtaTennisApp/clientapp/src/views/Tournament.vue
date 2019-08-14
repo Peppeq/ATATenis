@@ -26,32 +26,33 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import TournamentClient, {
-  Tournament,
-  TournamentArgs
+    Tournament,
+    TournamentArgs
 } from "../Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import { NotificationUtils } from "../common/notification";
 
 @Component
 export default class TournamentClass extends BaseComponentClass {
-  tournament?: Tournament = new Tournament();
-  async mounted() {
-    var _this = this;
-    console.log("tour was mounted");
-    var tournamentClient = new TournamentClient();
-    //natiahnut data z bekendu ...
+    tournament?: Tournament = new Tournament();
+    async mounted() {
+        var _this = this;
+        console.log("tour was mounted");
+        var tournamentClient = new TournamentClient();
+        //natiahnut data z bekendu ...
 
-    this.tryGetDataByArgs<Tournament, TournamentArgs>({
-      apiMethod: tournamentClient.get,
-      showError: true,
-      requestArgs: {
-        Id: 1
-      }
-    }).then((tournament: Tournament) => {
-        if(tournament != null){
-            _this.tournament = tournament;
-        }
-    });
-  }
+        this.tryGetDataByArgs<Tournament[], TournamentArgs>({
+            apiMethod: tournamentClient.get,
+            showError: true,
+            requestArgs: {
+                Id: 1,
+                Year: 0
+            }
+        }).then((tournament: Tournament[]) => {
+            if(tournament != null && tournament.length > 0){
+                _this.tournament = tournament[0];
+            }
+        });
+    }
 }
 </script>

@@ -21,8 +21,10 @@
   },
   "devDependencies": {
     "@types/node": "^12.6.8",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
     "@vue/cli-plugin-babel": "^3.8.0",
-    "@vue/cli-plugin-eslint": "^3.8.0",
+    "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-service": "^3.8.0",
     "@vue/eslint-config-typescript": "^4.0.0",
     "babel-eslint": "^10.0.1",
@@ -42,9 +44,7 @@
       "eslint:recommended",
       "@vue/typescript"
     ],
-    "rules": {
-       	"no-console": "off"
-    },
+    "rules": {},
     "parserOptions": {
       "parser": "@typescript-eslint/parser"
     }

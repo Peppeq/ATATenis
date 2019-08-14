@@ -1,5 +1,5 @@
 ﻿import Vue from "vue";
-import {i18n} from "../plugins/i18n";
+import { i18n } from "../plugins/i18n";
 
 
 //const enum Theme {
@@ -12,16 +12,14 @@ import {i18n} from "../plugins/i18n";
 //    dark = "dark",
 //}
 
-interface INotificationArgs {
+interface NotificationArgs {
     message: string;
     title: string;
 }
 
-export
-    class NotificationUtils {
+export class NotificationUtils {
 
-
-    public static Show(args: INotificationArgs): void {
+    public static Show(args: NotificationArgs): void {
         // return '<d-alert theme=' + args.theme.toString() + ' dismissible show>' + args.message + '</d-alert>'
         Vue.notify({
             group: "foo",
@@ -32,7 +30,7 @@ export
 
     public static ShowErrorMessage(message: string): void {
         Vue.notify({
-            group: "foo",
+            group: "error",
             title: i18n.t("error").toString(),
             type: "error",
             text: message,

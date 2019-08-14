@@ -21,19 +21,30 @@ namespace AtaTennisApp.Controllers
 
         public class TournamentArgs
         {
-            public int Id { get; set; }
+            public int? Id { get; set; }
+            public int? Year { get; set; }
         }
 
+
         [HttpGet]
-        public async Task<ActionResult<Tournament>> Get([FromQuery]TournamentArgs args)
+        public async Task<ActionResult<List<Tournament>>> Get([FromQuery]TournamentArgs args)
         {
-            var response = new Tournament();
-            response = await _dbContext.Tournament.Where(t=> t.Id == args.Id).FirstOrDefaultAsync();
-            if (response == null)
+            var response = default(List<Tournament>);
+            if (args.Id != null)
+            {
+                response = await _dbContext.Tournament.Where(t => t.Id == args.Id).ToListAsync();
+            }
+            else if (args.Year != null)
+            {
+                response = await _dbContext.Tournament.Where(t => t.StartTime.Year == args.Year).ToListAsync();
+            }
+
+            if (response == null || response.Count == 0)
             {
                 return NotFound();
             }
             return response;
         }
+
     }
 }

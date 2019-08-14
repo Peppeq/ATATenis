@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>Teeeeeeeeeeeest!</h1>
+    <h1>Teeeeeeeeeeeest</h1>
     <d-button @click="handleClick">Click me!</d-button>
     <d-button @click="handleClick">Click 2 me!</d-button>
     <d-alert dismissible theme="light" :show="showAlert" @alert-dismissed="siChuj">No co jeeeeeeeee</d-alert>
     <div>
       <d-navbar toggleable="lg">
-        <d-navbar-nav v-bind:justified="true">
+        <d-navbar-nav :justified="true">
           <d-nav-item to="/">Turnaje</d-nav-item>
           <d-nav-item to="/">Rebríčky</d-nav-item>
           <d-nav-item to="/players">Hráči</d-nav-item>
@@ -28,7 +28,7 @@
 // import dAlert from '../src/components/alert/Alert'
 
 export default {
-  name: "test",
+  name: "Test",
   components: {
     // dButton,
     // dAlert

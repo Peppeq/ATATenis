@@ -8,7 +8,8 @@
     </d-navbar-brand>
     <d-collapse is-nav id="nav-collapse">
       <d-navbar-nav v-bind:justified="true">
-        <d-nav-item to="/tournament">{{$t("tournament")}}</d-nav-item>
+        <d-nav-item to="/tournamentList">{{$tc("tournament",0)}}</d-nav-item>
+        <d-nav-item to="/tournament">{{$tc("tournament",1)}}</d-nav-item>
         <d-nav-item to="/">{{$t("rankings")}}</d-nav-item>
         <d-nav-item to="/players">{{$tc("player",1)}}</d-nav-item>
       </d-navbar-nav>

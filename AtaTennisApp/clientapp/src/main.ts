@@ -27,7 +27,8 @@ Vue.use(ShardsVue);
 Vue.use(Notifications);
 
 new Vue({
-  router,
-  i18n,
-  render: h => h(App)
+    router,
+    i18n,
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    render: h => h(App)
 }).$mount("#app");

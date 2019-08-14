@@ -2,14 +2,14 @@
 import { NotificationUtils } from "./notification";
 import { i18n } from "@/plugins/i18n";
 
-interface ITryGetApiArgs<TResult, TArgs> {
+interface TryGetApiArgs<TResult, TArgs> {
     apiMethod: (args: TArgs) => Promise<TResult>;
     showError: boolean;
     requestArgs: TArgs;
 }
 
 export abstract class BaseComponentClass extends Vue {
-    public async tryGetDataByArgs<TResult, TArgs>(args: ITryGetApiArgs<TResult, TArgs>): Promise<TResult> {
+    public async tryGetDataByArgs<TResult, TArgs>(args: TryGetApiArgs<TResult, TArgs>): Promise<TResult> {
         let response: TResult = null;
         try {
             response = await args.apiMethod(args.requestArgs);
