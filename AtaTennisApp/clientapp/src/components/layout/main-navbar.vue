@@ -16,9 +16,9 @@
     </d-collapse>
     <d-form-select
       v-model="selectedLanguage"
-      v-on:change="onChangeLang($event)"
       :options="languages"
       class="language-select float-right"
+      @change="onChangeLang($event)"
     />
   </d-navbar>
 </template>
@@ -28,16 +28,16 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class MainNavbar extends Vue {
-  navbarIsJustified: boolean = true;
-  languages: string[] = ["EN", "SK"];
-  selectedLanguage: string = null;
+    navbarIsJustified: boolean = true;
+    languages: string[] = ["EN", "SK"];
+    selectedLanguage: string = null;
 
-  mounted() {
-    this.selectedLanguage = this.languages[0];
-  }
-  onChangeLang(language: string): void {
-    this.$i18n.locale = language.toLowerCase();
-  }
+    mounted() {
+        this.selectedLanguage = this.languages[0];
+    }
+    onChangeLang(language: string): void {
+        this.$i18n.locale = language.toLowerCase();
+    }
 }
 </script>
 <style>

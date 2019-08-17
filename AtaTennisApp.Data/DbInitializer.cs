@@ -13,7 +13,7 @@ namespace AtaTennisApp.Data
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.Player.Any())
+            if (context.Player.Any() && context.Tournament.Any())
             {
                 return;   // DB has been seeded
             }
@@ -51,7 +51,7 @@ namespace AtaTennisApp.Data
                     Place = "Kopčany",
                     PlayingSystem = PlayingSystem.prince,
                     TournamentType = TournamentType.challangerSpecial,
-                    StartTime = DateTime.Now,
+                    StartTime = new DateTime(2019,7,12),
                     Surface = SurfaceType.grass
                 },
                 new Tournament{
@@ -67,7 +67,7 @@ namespace AtaTennisApp.Data
                     Place = "Nitra",
                     PlayingSystem = PlayingSystem.prince,
                     TournamentType = TournamentType.challanger,
-                    StartTime = DateTime.Now,
+                    StartTime = new DateTime(2019,1,19),
                     Surface = SurfaceType.clay
                 },
                 new Tournament{
@@ -83,7 +83,7 @@ namespace AtaTennisApp.Data
                     Place = "Senica",
                     PlayingSystem = PlayingSystem.prince,
                     TournamentType = TournamentType.ata,
-                    StartTime = DateTime.Now,
+                    StartTime = new DateTime(2019,8,2),
                     EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1),
                     Surface = SurfaceType.clay
                 },
@@ -100,7 +100,7 @@ namespace AtaTennisApp.Data
                     Place = "Břeclav",
                     PlayingSystem = PlayingSystem.prince,
                     TournamentType = TournamentType.challanger,
-                    StartTime = DateTime.Now,
+                    StartTime = new DateTime(2019,9,12),
                     EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1),
                     Surface = SurfaceType.clay
                 }

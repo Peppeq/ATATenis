@@ -253,10 +253,11 @@ EXEC sp_rename 'Tournament.Year', 'StartTime'
 alter table tournament alter column  EndTime datetime null
 
 
+Alter table [tournament] alter column Surface int not null;
+update Tournament set Surface = 0 
+select * FROM [AtaTennis].[dbo].[Tournament]
 
-
-
-
+delete from [AtaTennis].[dbo].[Tournament]
 
 
 
