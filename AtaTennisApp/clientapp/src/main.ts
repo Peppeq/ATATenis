@@ -15,7 +15,7 @@ import Layout from "./components/layout/AppLayout.vue";
 
 // plugins
 import Notifications from "vue-notification";
-import {i18n}  from "./plugins/i18n";
+import { i18n } from "./plugins/i18n";
 
 // tests
 import "./scripts/testsJs.ts";
@@ -27,8 +27,8 @@ Vue.use(ShardsVue);
 Vue.use(Notifications);
 
 new Vue({
-    router,
-    i18n,
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    render: h => h(App)
+	router,
+	i18n,
+	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+	render: h => h(App)
 }).$mount("#app");

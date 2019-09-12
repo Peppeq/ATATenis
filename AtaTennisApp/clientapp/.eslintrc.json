@@ -1,16 +1,38 @@
 {
-  "parserOptions": {
-    "parser": "@typescript-eslint/parser"
-  },
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:vue/recommended"
-  ],
-  "plugins": [
-    "@typescript-eslint"
-  ],
-  "rules": {
-    "vue/max-attributes-per-line": "off",
-    "vue/singleline-html-element-content-newline": "off"
-  }
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser"
+	},
+	"extends": [
+		"plugin:@typescript-eslint/recommended",
+		"plugin:vue/recommended",
+		"prettier/vue",
+		"prettier/@typescript-eslint",
+		"plugin:prettier/recommended"
+	],
+	"plugins": [
+		"@typescript-eslint"
+	],
+
+	"rules": {
+		"vue/max-attributes-per-line": "off",
+		"vue/singleline-html-element-content-newline": "off",
+		"vue/component-name-in-template-casing": [
+			"error",
+			"PascalCase"
+		],
+		"indent": "off",
+		"@typescript-eslint/indent": ["error", "tab"],
+		"printWidth": 100,
+		"no-console": "off",
+		"no-debugger": "off",
+		"prettier/prettier": [
+			"error",
+			{
+				"singleQuote": false,
+				"useTabs": true,
+				"tabWidth": 4,
+				"printWidth": 120
+			}
+		]
+	}
 }
