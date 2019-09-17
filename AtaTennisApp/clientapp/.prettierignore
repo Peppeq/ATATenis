@@ -2,5 +2,7 @@
 src/**/*.js
 src/**/*.map
 src/*.js
+src/Api/*.ts
+src/Api/*.js
 src/shims-tsx.d.ts
 src/shims-vue.d.ts

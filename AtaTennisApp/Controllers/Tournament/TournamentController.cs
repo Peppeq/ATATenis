@@ -1,4 +1,5 @@
 ﻿using AtaTennisApp.Controllers.Base;
+using AtaTennisApp.Data;
 using AtaTennisApp.Data.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace AtaTennisApp.Controllers
         {
             public int? Id { get; set; }
             public int? Year { get; set; }
+            public TournamentType? Type { get; set; }
         }
 
 
@@ -36,13 +38,21 @@ namespace AtaTennisApp.Controllers
             }
             else if (args.Year != null)
             {
-                response = await _dbContext.Tournament.Where(t => t.StartTime.Year == args.Year).ToListAsync();
-            }
+                var tournamentQueryable = _dbContext.Tournament.Where(t => t.StartTime.Year == args.Year);
 
-            if (response == null || response.Count == 0)
-            {
-                return NotFound();
+                if (args.Type != null)
+                {
+                    tournamentQueryable = tournamentQueryable.Where(t => t.TournamentType == args.Type);
+                }
+
+                response = await tournamentQueryable.ToListAsync();
             }
+            
+
+            //if (response == null || response.Count == 0)
+            //{
+            //    return NotFound();
+            //}
             return response;
         }
 

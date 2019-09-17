@@ -45,7 +45,8 @@ export default class TournamentClass extends BaseComponentClass {
 			showError: true,
 			requestArgs: {
 				Id: this.tournamentId,
-				Year: 0
+				Year: 0,
+				Type: null
 			}
 		}).then((tournament: Tournament[]) => {
 			if (tournament != null && tournament.length > 0) {

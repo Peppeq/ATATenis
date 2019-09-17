@@ -62,7 +62,37 @@ export const i18n: VueI18n = new VueI18n({
 			player: "Player | Players",
 			error: "Error",
 			language: "Language",
-			errorMessageGeneral: "There is an error in our application, reload or contact us."
+			errorMessageGeneral: "There is an error in our application, reload or contact us.",
+			year: "Year",
+			type: "Type",
+			all: "All",
+			calendar: "Calendar",
+
+			tournamentType0: "Grandslam",
+			tournamentType1: "ATA",
+			tournamentType2: "Challanger",
+			tournamentType3: "ATA Special",
+			tournamentType4: "Challanger Special",
+
+			tournamentCategory0: "Singles",
+			tournamentCategory1: "Doubles",
+
+			playingSystem0: "Complete",
+			playingSystem1: "Prince",
+			playingSystem2: "Kombi",
+			playingSystem3: "Group",
+
+			BallsType0: "Slazenger",
+			BallsType1: "Dunlop All Court",
+			BallsType2: "Wilson US Open",
+			BallsType3: "Wilson Australian Open",
+
+			DrawType0: "Playoff",
+			DrawType1: "Group",
+
+			surfaceType0: "Clay",
+			surfaceType1: "Grass",
+			surfaceType2: "Hard"
 		},
 		sk: {
 			tournament: "Turnaj | Turnaje",
@@ -70,7 +100,23 @@ export const i18n: VueI18n = new VueI18n({
 			player: "Hráč | Hráči",
 			error: "Chyba",
 			language: "Jazyk",
-			errorMessageGeneral: "V aplikácii nastala chyba, načítajte znova alebo nás kontaktujte."
+			errorMessageGeneral: "V aplikácii nastala chyba, načítajte znova alebo nás kontaktujte.",
+			year: "Rok",
+			type: "Typ",
+			all: "Všetky",
+			calendar: "Kalendár",
+
+			tournamentType3: "ATA Špeciál",
+
+			surfaceType0: "Antuka",
+			surfaceType1: "Tráva",
+			surfaceType2: "Betón",
+
+			tournamentCategory0: "Dvojhra",
+			tournamentCategory1: "Štvorhra",
+
+			DrawType0: "Playoff",
+			DrawType1: "Skupiny"
 		}
 	},
 	dateTimeFormats: dateTimeFormats,

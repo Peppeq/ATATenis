@@ -9,6 +9,7 @@ import { AjaxProvider } from "../scripts/ajax";
 export class TournamentArgs {
     Id: number = null;
     Year: number = null;
+    Type: TournamentType = null;
 }
 export class Tournament {
     Id: number = null;
@@ -77,17 +78,35 @@ export class Player {
 }
 
 
-export class TournamentCategory {
+export const enum TournamentType {
+    grandslam = 0,
+    ata = 1,
+    challanger = 2,
+    ataSpecial = 3,
+    challangerSpecial = 4
 }
-export class PlayingSystem {
+export const enum TournamentCategory {
+    singles = 0,
+    doubles = 1
 }
-export class BallsType {
+export const enum PlayingSystem {
+    complete = 0,
+    prince = 1,
+    kombi = 2,
+    group = 3
 }
-export class TournamentType {
+export const enum BallsType {
+    slazenger = 0,
+    dunlop = 1
 }
-export class SurfaceType {
+export const enum SurfaceType {
+    clay = 0,
+    grass = 1,
+    hard = 2
 }
-export class DrawType {
+export const enum DrawType {
+    playoff = 0,
+    group = 1
 }
 
 export default class TournamentClient {

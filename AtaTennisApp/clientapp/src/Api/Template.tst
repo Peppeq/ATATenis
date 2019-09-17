@@ -359,8 +359,8 @@ export class $Name {$AllProperties[
 }]
 
 $AllApplicableTypeEnums[
-export class $Name {$AllProperties[
-    $Name: $Type = null;]
+export const enum $Name {$Constants[
+    $Name = $Value][,]
 }]
 
 export default class $ControllerClassName {
