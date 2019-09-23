@@ -19,18 +19,29 @@ namespace AtaTennisApp.Controllers
             _dbContext = dbContext;
         }
 
+        public class PlayerArgs
+        {
+            public int? Id { get; set; }
+            public int? Count { get; set; }
+            public bool? Ranking { get; set; }
+        }
         public class PlayerResponse
         {
             public List<Player> Players { get; set; }
-            public string Test { get; set; }
-            public int Kolesa { get; set; }
         }
 
         [HttpGet]
-        public async Task<ActionResult<PlayerResponse>> Get()
+        public async Task<ActionResult<PlayerResponse>> Get(PlayerArgs args)
         {
             var response = new PlayerResponse();
-            response.Players = await _dbContext.Player.ToListAsync();
+            if (args.Id != null)
+            {
+                response.Players = await _dbContext.Player.Where(p => p.Id == args.Id).ToListAsync();
+            }
+            else if (args.Ranking != null && args.Ranking == true)
+            {
+                response.Players = await _dbContext.Player.OrderBy(p => p.Points).ToListAsync();
+            }
             return response;
         }
     }

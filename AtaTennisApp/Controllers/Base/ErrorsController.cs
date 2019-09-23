@@ -13,10 +13,10 @@ namespace AtaTennisApp.Controllers.Base
     public class ErrorsController : ControllerBase
     {
         [Route("{code}")]
-        public IActionResult Error(int code)
+        public IActionResult Error(HttpStatusCode code)
         {
-            HttpStatusCode parsedCode = (HttpStatusCode)code;
-            ApiError error = new ApiError(code, parsedCode.ToString());
+            //HttpStatusCode parsedCode = code;
+            ApiError error = new ApiError(code, code.ToString() + " my message");
 
             return new ObjectResult(error);
         }

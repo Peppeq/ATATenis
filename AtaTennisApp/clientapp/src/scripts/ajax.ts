@@ -4,18 +4,22 @@
 	DELETE = "DELETE"
 }
 
+export interface ErrorResponse {
+	StatusCode: string;
+    StatusDescription: string;
+    Message: string;
+}
+
 export class AjaxProvider {
 	private static getApiUrl(methodName: string): string {
 		// var url = window.location.href;
 		var url = "http://localhost:55000";
 		var apiUrl: string = url + "/api/" + methodName;
-		console.log(apiUrl);
 		return apiUrl;
 	}
 
 	private static apiCall<TResult, TArgs>(apiPath: string, data: TArgs, apiMethod: ApiMethod): Promise<TResult> {
-		// var apiUrl: string = this.getApiUrl(apiPath);
-		var apiUrl: string = "http://localhost:55000/api/" + apiPath;
+		var apiUrl: string = this.getApiUrl(apiPath);
 		var urlObj: URL = new URL(apiUrl);
 		if (data != null) {
 			var param: URLSearchParams = new URLSearchParams();
@@ -50,7 +54,9 @@ export class AjaxProvider {
 
 		return fetch(urlObj.toString(), requestInit).then(function(response: Response): Promise<TResult> {
 			if (!response.ok) {
-				throw new Error(response.status.toString());
+				// throw new Error(response.status.toString());
+				// throwing response in order to move all response with body error message from my API (catched by BaseComponentClass)
+				throw response;
 			}
 			return response.json() as Promise<TResult>;
 		});

@@ -11,9 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
     <PackageReference Include="VueCliMiddleware" Version="2.2.0" />
   </ItemGroup>
 
@@ -52,6 +54,9 @@
     </None>
     <None Update="clientapp\src\Api\TournamentListController.ts">
       <CustomToolNamespace>Controllers\Tournament\TournamentListController.cs</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\UserController.ts">
+      <CustomToolNamespace>Controllers\UserController.cs</CustomToolNamespace>
     </None>
   </ItemGroup>
 

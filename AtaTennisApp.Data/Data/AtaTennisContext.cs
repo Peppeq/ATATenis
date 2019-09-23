@@ -21,6 +21,7 @@ namespace AtaTennisApp.Data.Entities
         public virtual DbSet<MatchPlayer> MatchPlayer { get; set; }
         public virtual DbSet<Player> Player { get; set; }
         public virtual DbSet<Tournament> Tournament { get; set; }
+        public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,7 +39,8 @@ namespace AtaTennisApp.Data.Entities
             modelBuilder.Entity<Draw>(entity =>
             {
                 entity.HasIndex(e => e.TournamentId)
-                    .HasName("FK_Draw_Tournament");
+                    .HasName("FK_Draw_Tournament")
+                    .IsUnique();
 
                 entity.HasOne(d => d.Tournament)
                     .WithOne(p => p.Draw)
@@ -50,6 +52,8 @@ namespace AtaTennisApp.Data.Entities
             {
                 entity.HasKey(e => new { e.DrawId, e.MatchId })
                     .HasName("PK__DrawMatc__0696BFAF7276884F");
+
+                entity.HasIndex(e => e.MatchId);
 
                 entity.HasOne(d => d.Draw)
                     .WithMany(p => p.DrawMatch)
@@ -122,6 +126,22 @@ namespace AtaTennisApp.Data.Entities
                 entity.Property(e => e.Place)
                     .IsRequired()
                     .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Email).HasMaxLength(75);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(64)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(75);
             });
         }
     }

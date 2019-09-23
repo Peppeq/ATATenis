@@ -1,0 +1,12 @@
+compare two files
+Command Window =>
+Tools.DiffFiles AtaTennisApp.Data\Entities\Player.cs AtaTennisApp.Data\Models\Player.cs
+
+Reverse engineer (DB first to model)
+Package manager console (PowerShell) =>
+Scaffold-DbContext "Server=PCPQ\SQLEXPRESS;Database=AtaTennis;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -ContextDir Data -OutputDir Entities -force
+
+Console => 
+
+dotnet ef dbcontext scaffold "Server=PCPQ\SQLEXPRESS;Database=AtaTennis;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer --context-dir Data --output-dir Entities --force
+

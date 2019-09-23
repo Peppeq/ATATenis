@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import PlayerClient, { Player, PlayerResponse } from "../Api/PlayerController";
+import PlayerClient, { Player, PlayerResponse, PlayerArgs } from "../Api/PlayerController";
 import { Component } from "vue-property-decorator";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 
@@ -22,10 +22,10 @@ export default class PlayersView extends BaseComponentClass {
 		var client = new PlayerClient();
 		console.log(client);
 
-		this.tryGetDataByArgs<PlayerResponse, void>({
-			apiMethod: client.getWithoutParams,
+		this.tryGetDataByArgs<PlayerResponse, PlayerArgs>({
+			apiMethod: client.get,
 			showError: true,
-			requestArgs: null
+			requestArgs: { Id: null, Count: null, Ranking: null }
 		}).then(result => {
 			if (result != null) {
 				this.players = result.Players;

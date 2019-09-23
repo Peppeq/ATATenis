@@ -1,6 +1,7 @@
 ﻿using AtaTennisApp.Controllers.Base;
 using AtaTennisApp.Data;
 using AtaTennisApp.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace AtaTennisApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class TournamentController : ApiControllerBase
     {
@@ -26,7 +28,6 @@ namespace AtaTennisApp.Controllers
             public int? Year { get; set; }
             public TournamentType? Type { get; set; }
         }
-
 
         [HttpGet]
         public async Task<ActionResult<List<Tournament>>> Get([FromQuery]TournamentArgs args)

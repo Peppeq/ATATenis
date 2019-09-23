@@ -6,10 +6,13 @@ import { AjaxProvider } from "../scripts/ajax";
 
 
 
+export class PlayerArgs {
+    Id: number = null;
+    Count: number = null;
+    Ranking: boolean = null;
+}
 export class PlayerResponse {
     Players: Player[] = null;
-    Test: string = null;
-    Kolesa: number = null;
 }
 export class Player {
     Id: number = null;
@@ -111,7 +114,7 @@ export const enum DrawType {
 
 export default class PlayerClient {
 
-    getWithoutParams<TResult extends PlayerResponse>(): Promise<TResult> {
-        return AjaxProvider.apiGet("Player", null);
+    get<TArgs extends PlayerArgs, TResult extends PlayerResponse>(data: TArgs): Promise<TResult> {
+        return AjaxProvider.apiGet("Player", data);
     }
 }
