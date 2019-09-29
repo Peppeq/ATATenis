@@ -32,6 +32,16 @@ export default new Router({
 			component: () => import("./views/Tournament.vue")
 		},
 		{
+			path: "/admin",
+			name: "Admin",
+			component: () => import("./views/user/Login.vue")
+		},
+		{
+			path: "/register",
+			name: "Register",
+			component: () => import("./views/user/Register.vue")
+		},
+		{
 			path: "/tournamentList",
 			name: "TournamentList",
 			component: () => import("./views/TournamentList.vue")

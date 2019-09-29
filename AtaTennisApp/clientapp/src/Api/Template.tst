@@ -250,6 +250,23 @@
         }
     }
 
+    string ApiMethodPath(Method m)
+    {
+        if (m.Attributes != null)
+        {
+            foreach(var attr in m.Attributes)
+            {
+                if(attr == "HttpGet" || attr == "HttpPost" ||attr == "HttpDelete")
+                {
+                    if(attr.Value != null && !attr.Value.Contains("{"))
+                        return "/" + attr.Value;
+                }
+            }
+        }
+
+        return null;
+    }
+
     string AjaxProviderMethod(Method m)
     {
         var fullName = m.FullName;
@@ -366,7 +383,7 @@ export const enum $Name {$Constants[
 export default class $ControllerClassName {
 $Methods[
     $ApiMethodName<$Parameters[TArgs extends $Type, ]TResult extends $ReturnType>($Parameters[data: TArgs]): Promise<TResult> {
-        return $AjaxProviderMethod("$ControllerName", $ParameterDeclaration);
+        return $AjaxProviderMethod("$ControllerName$ApiMethodPath", $ParameterDeclaration);
     }
 ]}
 ]

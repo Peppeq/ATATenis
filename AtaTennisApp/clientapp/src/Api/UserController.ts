@@ -9,22 +9,22 @@ import { AjaxProvider } from "../scripts/ajax";
 export class UserDTO {
     Username: string = null;
     Password: string = null;
-    Email: string = null;
+    Token: string = null;
 }
 
 
 
 export default class UserClient {
 
-    authenticate<TArgs extends UserDTO, TResult extends any>(data: TArgs): Promise<TResult> {
-        return AjaxProvider.apiPost("User", data);
+    authenticate<TArgs extends UserDTO, TResult extends UserDTO>(data: TArgs): Promise<TResult> {
+        return AjaxProvider.apiPost("User/authenticate", data);
     }
 
     register<TArgs extends UserDTO, TResult extends any>(data: TArgs): Promise<TResult> {
-        return AjaxProvider.apiPost("User", data);
+        return AjaxProvider.apiPost("User/register", data);
     }
 
-    getWithoutParams<TResult extends any>(): Promise<TResult> {
+    getWithoutParams<TResult extends UserDTO[]>(): Promise<TResult> {
         return AjaxProvider.apiGet("User", null);
     }
 

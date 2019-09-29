@@ -2,6 +2,8 @@
 src/**/*.js
 src/**/*.map
 src/*.js
+src/store/**/*.ts
+src/store/**/*.js
 src/Api/*.ts
 src/Api/*.js
 src/shims-tsx.d.ts

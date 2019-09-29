@@ -40,9 +40,14 @@ namespace AtaTennisApp.Controllers
             _mapper = MapperHelper.GetUserMapper();
         }
 
+        //public class AuthenticatedUser {
+        //    public string UserName { get; set; }
+        //    public string Token { get; set; }
+        //}
+
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]UserDTO userDto)
+        public async Task<ActionResult<UserDTO>> Authenticate([FromBody]UserDTO userDto)
         {
             var user = await _userService.AuthenticateAsync(userDto.Username, userDto.Password);
             if (user == null)
@@ -67,10 +72,9 @@ namespace AtaTennisApp.Controllers
             var tokenString = tokenHandler.WriteToken(token);
 
             // return basic user info (without password) and token to store client side
-            return Ok(new
+            return Ok(new UserDTO
             {
-                user.Id,
-                user.Username,
+                Username = user.Username,
                 //FirstName = user.FirstName,
                 //LastName = user.LastName,
                 Token = tokenString
@@ -95,7 +99,7 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public ActionResult<IList<UserDTO>> GetAll()
         {
             var users = _userService.GetAll();
             var userDtos = _mapper.Map<IList<UserDTO>>(users);

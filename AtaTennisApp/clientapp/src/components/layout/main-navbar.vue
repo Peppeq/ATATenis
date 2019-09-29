@@ -1,5 +1,5 @@
 <template>
-	<d-navbar toggleable="md" type="dark" theme="primary" fixed="top">
+	<d-navbar toggleable="md" type="dark" theme="primary" :sticky="true">
 		<d-navbar-toggle target="nav-collapse"></d-navbar-toggle>
 		<d-navbar-brand tag="a" to="/">
 			<!-- <d-nav-item > -->

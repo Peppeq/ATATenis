@@ -16,6 +16,7 @@ import Layout from "./components/layout/AppLayout.vue";
 // plugins
 import Notifications from "vue-notification";
 import { i18n } from "./plugins/i18n";
+import { store } from "./store/indexx";
 
 // tests
 import "./scripts/testsJs.ts";
@@ -28,6 +29,7 @@ Vue.use(Notifications);
 
 new Vue({
 	router,
+	store,
 	i18n,
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	render: h => h(App)
