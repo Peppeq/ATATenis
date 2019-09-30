@@ -1,12 +1,14 @@
 // @ts-nocheck
 import { userService } from "../../views/user/helper/user-service";
 import { UserDTO } from "@/Api/UserController";
+import { router } from '@/router';
+import { ErrorResponse } from '@/scripts/ajax';
+import { NotificationUtils } from '@/common/notification';
 
-export enum AccountStateStatus {
-	loggedIn,
-	loggingIn,
-	registering,
-	none
+export interface AccountStateStatus {
+	loggedIn: boolean;
+	loggingIn: boolean;
+	registering: boolean;
 }
 
 interface AccountState {
@@ -16,8 +18,8 @@ interface AccountState {
 
 const user = JSON.parse(localStorage.getItem("user"));
 const state: AccountState = user
-	? { status: AccountStateStatus.loggedIn, user }
-	: { status: AccountStateStatus.none, user: null };
+	? { status: { loggedIn: true,loggingIn:false,registering:false }, user }
+	: { status: null, user: null };
 
 const actions = {
 	login({ dispatch, commit }: any, userDto: UserDTO) {
@@ -25,13 +27,16 @@ const actions = {
 		userService.login(userDto.Username, userDto.Password).then(
 			user => {
 				commit("loginSuccess", user);
-				// router.push("/");
-			},
-			error => {
-				commit("loginFailure", error);
-				dispatch("alertModule/error", error, { root: true });
+				router.push("/dashboard");
 			}
-		);
+		).catch(error => {
+			console.log(error.json().then((e: ErrorResponse) => {
+				console.log(e)
+				commit("loginFailure");
+				dispatch("alertModule/error", e.Message, { root: true });
+				NotificationUtils.ShowErrorMessage(e.Message);
+			}));
+		});
 	}
 	// logout({ commit }) {
 	// 	userService.logout();
@@ -62,25 +67,25 @@ const mutations = {
 		state.user = accountState.user;
 	},
 	loginSuccess(accountState: AccountState) {
-		state.status = AccountStateStatus.loggedIn;
-		state.user = user;
+		state.status = { loggedIn: true,loggingIn:false,registering:false };
+		state.user = accountState.user;
 	},
-	loginFailure(accountState: AccountState) {
-		state.status = AccountStateStatus.none;
+	loginFailure() {
+		state.status = null;
 		state.user = null;
 	},
 	logout() {
-		state.status = AccountStateStatus.none;
+		state.status = null;
 		state.user = null;
 	},
 	registerRequest() {
-		state.status = AccountStateStatus.registering;
+		state.status = { loggedIn: false,loggingIn:false,registering:true };
 	},
 	registerSuccess() {
-		state.status = AccountStateStatus.none;
+		state.status = null;
 	},
 	registerFailure() {
-		state.status = AccountStateStatus.none;
+		state.status = null;
 	}
 };
 

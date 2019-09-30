@@ -8,13 +8,18 @@ import "shards-ui/dist/css/shards.css";
 
 // core
 import App from "./App.vue";
-import router from "./router";
+import { router } from "./router";
 
 // layouts
 import Layout from "./components/layout/AppLayout.vue";
 
-// plugins
+// components
 import Notifications from "vue-notification";
+// @ts-ignore
+import Spinner from "vue-spinkit";
+import LoadingButton from "./components/elements/loading-button.vue";
+
+// plugins
 import { i18n } from "./plugins/i18n";
 import { store } from "./store/indexx";
 
@@ -24,6 +29,9 @@ import "./scripts/testsJs.ts";
 Vue.config.productionTip = false;
 
 Vue.component("app-layout", Layout);
+Vue.component("Spinner", Spinner);
+Vue.component("loading-button", LoadingButton);
+
 Vue.use(ShardsVue);
 Vue.use(Notifications);
 

@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import UserClient, { UserDTO } from "@/Api/UserController";
+import { ErrorResponse } from "@/scripts/ajax";
+import { NotificationUtils } from "@/common/notification";
 
 const userClient = new UserClient();
 
@@ -15,18 +17,26 @@ export const userService = {
 
 async function login(username: string, password: string): Promise<UserDTO> {
 	console.log("inside login func");
-	return await userClient.authenticate({ Password: password, Username: username, Token: null }).then(
-		(user: UserDTO): UserDTO => {
-			// login successful if there's a jwt token in the response
-			console.log("successful authentication");
-			if (user.Token) {
-				// store user details and jwt token in local storage to keep user logged in between page refreshes
-				localStorage.setItem("user", JSON.stringify(user));
-			}
+	return await userClient
+		.authenticate({ Password: password, Username: username, Token: null })
+		.then(
+			(user: UserDTO): UserDTO => {
+				// login successful if there's a jwt token in the response
+				if (user.Token) {
+					// store user details and jwt token in local storage to keep user logged in between page refreshes
+					localStorage.setItem("user", JSON.stringify(user));
+					console.log("successful authentication");
+				}
 
-			return user;
-		}
-	);
+				return user;
+			}
+		)
+		.catch(
+			(e): Promise<UserDTO> => {
+				console.log(e);
+				throw e;
+			}
+		);
 }
 
 export function logout(): void {

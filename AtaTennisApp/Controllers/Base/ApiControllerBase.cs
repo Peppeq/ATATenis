@@ -68,7 +68,9 @@ namespace AtaTennisApp.Controllers.Base
         }
         protected ActionResult GetErrorResponse(HttpStatusCode statusCode, string statusDescription, string message)
         {
-            return new ObjectResult(new ApiError(statusCode, statusDescription, message));
+            var retVal = new ObjectResult(new ApiError(statusCode, statusDescription, message));
+            retVal.StatusCode = (int)statusCode;
+            return retVal;
         }
 
     }

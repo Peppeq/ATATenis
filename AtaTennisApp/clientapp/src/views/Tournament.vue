@@ -27,7 +27,7 @@ import Component from "vue-class-component";
 import TournamentClient, { Tournament, TournamentArgs } from "../Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import { Watch } from "vue-property-decorator";
-import router from "../router";
+import { router } from "@/router";
 
 @Component
 export default class TournamentClass extends BaseComponentClass {

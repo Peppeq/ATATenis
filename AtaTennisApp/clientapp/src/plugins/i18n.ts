@@ -67,6 +67,7 @@ export const i18n: VueI18n = new VueI18n({
 			type: "Type",
 			all: "All",
 			calendar: "Calendar",
+			login: "Login",
 
 			tournamentType0: "Grandslam",
 			tournamentType1: "ATA",
@@ -105,6 +106,7 @@ export const i18n: VueI18n = new VueI18n({
 			type: "Typ",
 			all: "Všetky",
 			calendar: "Kalendár",
+			login: "Prihlásenie",
 
 			tournamentType3: "ATA Špeciál",
 

@@ -5,7 +5,7 @@ import Home from "./views/Home.vue";
 
 Vue.use(Router);
 
-export default new Router({
+export const router = new Router({
 	mode: "history",
 	routes: [
 		{
@@ -42,6 +42,11 @@ export default new Router({
 			component: () => import("./views/user/Register.vue")
 		},
 		{
+			path: "/dashboard",
+			name: "Dashboard",
+			component: () => import("./views/Dashboard.vue")
+		},
+		{
 			path: "/tournamentList",
 			name: "TournamentList",
 			component: () => import("./views/TournamentList.vue")
@@ -50,6 +55,21 @@ export default new Router({
 			path: "/test",
 			name: "testName",
 			component: () => import("./views/test.vue")
-		}
+		},
+		// otherwise redirect to home
+		{ path: "*", redirect: "/" }
 	]
+});
+
+router.beforeEach((to, from, next) => {
+	// redirect to admin page if not logged in and trying to access a restricted page
+	const privatePages = ["/dashboard", "/register"];
+	const authRequired = privatePages.includes(to.path);
+	const loggedIn = localStorage.getItem("user");
+
+	if (authRequired && !loggedIn) {
+		return next("/admin");
+	}
+
+	next();
 });

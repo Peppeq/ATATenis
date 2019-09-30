@@ -27,8 +27,7 @@
 						<div v-show="submitted && !password" class="invalid-feedback">Password is required</div>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-primary" :disabled="isBtnDisabled">Login</button>
-						<router-link to="/register" class="btn btn-link">Register</router-link>
+						<loading-button :size="null" :text="loginText" :show-loading="status.loggedIn" />
 					</div>
 				</form>
 			</d-card-body>
@@ -40,15 +39,17 @@
 import Component from "vue-class-component";
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import { AccountStateStatus } from "../../store/modules/account";
+import { i18n } from "@/plugins/i18n";
 
 @Component
 export default class LoginViewClass extends BaseComponentClass {
 	submitted: boolean = false;
 	username: string = null;
 	password: string = null;
-	//zistit preco sa neda vyexportovat const ENUM iba ENUM
-	status: AccountStateStatus = AccountStateStatus.none;
+	status: AccountStateStatus = { loggedIn: false, loggingIn: false, registering: false };
 	isBtnDisabled: boolean = false;
+	loginText: string = i18n.t("login").toString();
+	showLoading: boolean = false;
 
 	computed() {
 		this.status = this.$store.state.AccountState.AccountStateStatus;
