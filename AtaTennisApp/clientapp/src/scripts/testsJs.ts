@@ -9,9 +9,16 @@ const enum AccountStateStatus {
 	none
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class TestClass {
 	private status: AccountStateStatus = null;
 	public testFunc(): void {
 		this.status = AccountStateStatus.none;
 	}
+
+	// public clearAuthHeader(): void {
+	// 	window.onunload = function(e: any) {
+	// 		console.log(e);
+	// 	};
+	// }
 }

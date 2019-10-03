@@ -13,7 +13,7 @@
 		<d-row>
 			<d-col>
 				<!-- Main Navbar -->
-				<main-navbar />
+				<main-navbar v-if="isMainNavbar" />
 			</d-col>
 		</d-row>
 		<d-row>
@@ -37,15 +37,19 @@
 <script lang="ts">
 import mainNavbar from "./main-navbar.vue";
 import { Component, Vue } from "vue-property-decorator";
+import { Authorization } from "../../common/authorization";
 
 @Component({
 	components: { mainNavbar }
 })
 export default class AppLayout extends Vue {
-	data() {
-		return {
-			center: "flex-start"
-		};
+	isAdmin: boolean;
+	mounted() {
+		this.isAdmin = Authorization.getUser() != null;
+	}
+
+	get isMainNavbar() {
+		return this.$route.name != "Admin";
 	}
 }
 </script>

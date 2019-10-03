@@ -8,7 +8,6 @@ import "shards-ui/dist/css/shards.css";
 
 // core
 import App from "./App.vue";
-import { router } from "./router";
 
 // layouts
 import Layout from "./components/layout/AppLayout.vue";
@@ -20,11 +19,15 @@ import Spinner from "vue-spinkit";
 import LoadingButton from "./components/elements/loading-button.vue";
 
 // plugins
+import { router } from "./router";
 import { i18n } from "./plugins/i18n";
 import { store } from "./store/indexx";
 
 // tests
 import "./scripts/testsJs.ts";
+
+// css
+import "./styles/global.scss";
 
 Vue.config.productionTip = false;
 

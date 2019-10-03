@@ -68,7 +68,14 @@ export const i18n: VueI18n = new VueI18n({
 			all: "All",
 			calendar: "Calendar",
 			login: "Login",
+			password: "Password",
+			username: "User name",
 
+			// sentences -----------------------------------------
+			usernameRequired: "Username is required",
+			passwordRequired: "Password is required",
+
+			// enums translations --------------------------------
 			tournamentType0: "Grandslam",
 			tournamentType1: "ATA",
 			tournamentType2: "Challanger",
@@ -107,7 +114,14 @@ export const i18n: VueI18n = new VueI18n({
 			all: "Všetky",
 			calendar: "Kalendár",
 			login: "Prihlásenie",
+			password: "Heslo",
+			username: "Užívateľské meno",
 
+			// sentences -----------------------------------------
+			usernameRequired: "Užívateľské meno je povinné",
+			passwordRequired: "Heslo je povinné",
+
+			// enums translations --------------------------------
 			tournamentType3: "ATA Špeciál",
 
 			surfaceType0: "Antuka",

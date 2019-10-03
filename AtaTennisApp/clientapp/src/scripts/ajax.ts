@@ -1,4 +1,4 @@
-﻿import { getAuthHeader, AuthorizationHeader } from "@/common/authorization-header";
+﻿import { AuthorizationHeader, Authorization } from "@/common/authorization";
 
 const enum ApiMethod {
 	GET = "GET",
@@ -37,7 +37,7 @@ export class AjaxProvider {
 			urlObj.search = param.toString();
 		}
 
-		let authorization: AuthorizationHeader = getAuthHeader();
+		let authorization: AuthorizationHeader = Authorization.getAuthHeader();
 		let requestInit: RequestInit = null;
 		let bodyJson: string = null;
 

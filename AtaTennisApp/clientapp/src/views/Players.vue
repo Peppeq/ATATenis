@@ -25,7 +25,7 @@ export default class PlayersView extends BaseComponentClass {
 		this.tryGetDataByArgs<PlayerResponse, PlayerArgs>({
 			apiMethod: client.get,
 			showError: true,
-			requestArgs: { Id: null, Count: null, Ranking: null }
+			requestArgs: { Id: null, Count: 10, Ranking: true }
 		}).then(result => {
 			if (result != null) {
 				this.players = result.Players;

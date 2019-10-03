@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import UserClient, { UserDTO } from "@/Api/UserController";
-import { ErrorResponse } from "@/scripts/ajax";
-import { NotificationUtils } from "@/common/notification";
+import { Authorization } from "@/common/authorization";
 
 const userClient = new UserClient();
 
@@ -24,7 +23,7 @@ async function login(username: string, password: string): Promise<UserDTO> {
 				// login successful if there's a jwt token in the response
 				if (user.Token) {
 					// store user details and jwt token in local storage to keep user logged in between page refreshes
-					localStorage.setItem("user", JSON.stringify(user));
+					Authorization.setUser(user);
 					console.log("successful authentication");
 				}
 
@@ -41,7 +40,7 @@ async function login(username: string, password: string): Promise<UserDTO> {
 
 export function logout(): void {
 	// remove user from local storage to log user out
-	localStorage.removeItem("user");
+	Authorization.removeUser();
 }
 
 async function register(user: UserDTO): Promise<void> {

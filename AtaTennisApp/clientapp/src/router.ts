@@ -2,6 +2,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import { Authorization } from "./common/authorization";
 
 Vue.use(Router);
 
@@ -65,9 +66,8 @@ router.beforeEach((to, from, next) => {
 	// redirect to admin page if not logged in and trying to access a restricted page
 	const privatePages = ["/dashboard", "/register"];
 	const authRequired = privatePages.includes(to.path);
-	const loggedIn = localStorage.getItem("user");
 
-	if (authRequired && !loggedIn) {
+	if (authRequired && !Authorization.isAdmin()) {
 		return next("/admin");
 	}
 

@@ -145,6 +145,7 @@ export default class TournamentListClass extends BaseComponentClass {
 		});
 	}
 
+	// better way to translate computed values
 	@Watch("$i18n.locale")
 	onLocaleChanged() {
 		this.setTournamentTypeOptions();

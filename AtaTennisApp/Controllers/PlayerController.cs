@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AtaTennisApp.Controllers.Base;
 using AtaTennisApp.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PlayerResponse>> Get(PlayerArgs args)
+        public async Task<ActionResult<PlayerResponse>> Get([FromQuery]PlayerArgs args)
         {
             var response = new PlayerResponse();
             if (args.Id != null)

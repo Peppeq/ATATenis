@@ -56,7 +56,7 @@ export default class TournamentClass extends BaseComponentClass {
 	}
 
 	@Watch("$route")
-	onUrlChange(to: string, from: string) {
+	onUrlChange(to: string) {
 		router.push(to);
 	}
 }

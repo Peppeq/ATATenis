@@ -6,3 +6,4 @@ src/Api/*.ts
 src/shims-tsx.d.ts
 src/shims-vue.d.ts
 src/store/modules/alert.js
+vue.config.js

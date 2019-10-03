@@ -73,5 +73,12 @@ namespace AtaTennisApp.Controllers.Base
             return retVal;
         }
 
+        protected bool AuthenticateUser()
+        {
+            var token = HttpContext.Request.Headers["Authorization"];
+
+            return false;
+        }
+
     }
 }

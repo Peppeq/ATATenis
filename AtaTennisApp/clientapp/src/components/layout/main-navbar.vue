@@ -40,6 +40,6 @@ export default class MainNavbar extends Vue {
 	}
 }
 </script>
-<style>
-@import "main-navbar.css";
+<style lang="scss" scoped>
+@import "@/styles/components/layouts/main-navbar.scss";
 </style>
