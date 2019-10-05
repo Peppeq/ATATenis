@@ -58,6 +58,7 @@ export const i18n: VueI18n = new VueI18n({
 	messages: {
 		en: {
 			tournament: "Tournament | Tournaments",
+			rank: "Rankings",
 			rankings: "Rankings",
 			player: "Player | Players",
 			error: "Error",
@@ -70,6 +71,7 @@ export const i18n: VueI18n = new VueI18n({
 			login: "Login",
 			password: "Password",
 			username: "User name",
+			point: "Point | Points",
 
 			// sentences -----------------------------------------
 			usernameRequired: "Username is required",
@@ -104,6 +106,7 @@ export const i18n: VueI18n = new VueI18n({
 		},
 		sk: {
 			tournament: "Turnaj | Turnaje",
+			rank: "Poradie",
 			rankings: "Rebríčky",
 			player: "Hráč | Hráči",
 			error: "Chyba",
@@ -116,6 +119,7 @@ export const i18n: VueI18n = new VueI18n({
 			login: "Prihlásenie",
 			password: "Heslo",
 			username: "Užívateľské meno",
+			point: "Bod | Body",
 
 			// sentences -----------------------------------------
 			usernameRequired: "Užívateľské meno je povinné",

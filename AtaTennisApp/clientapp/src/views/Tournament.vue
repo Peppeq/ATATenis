@@ -1,5 +1,5 @@
 ﻿<template>
-	<d-container>
+	<d-card class="main-card">
 		<d-row>
 			<d-col>
 				<d-card>
@@ -18,8 +18,7 @@
 				<d-card-footer>Card footer</d-card-footer>
 			</d-col>
 		</d-row>
-		<d-row />
-	</d-container>
+	</d-card>
 </template>
 
 <script lang="ts">

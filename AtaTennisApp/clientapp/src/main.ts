@@ -26,7 +26,7 @@ import { store } from "./store/indexx";
 // tests
 import "./scripts/testsJs.ts";
 
-// css
+// scss
 import "./styles/global.scss";
 
 Vue.config.productionTip = false;

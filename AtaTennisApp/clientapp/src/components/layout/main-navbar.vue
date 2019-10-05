@@ -3,8 +3,13 @@
 		<d-navbar-toggle target="nav-collapse"></d-navbar-toggle>
 		<d-navbar-brand tag="a" to="/">
 			<!-- <d-nav-item > -->
-			<h6 class="text-white my-auto mr-4 nav-link">ATA Tenis</h6>
-			<!-- </d-nav-item> -->
+			<img
+				id="main-logo"
+				class="d-inline-block align-top mr-1 nav-link"
+				style="max-width: 125px;"
+				src="../../assets/images/ata_logo.png"
+				alt="ATA Tennis"
+			/>
 		</d-navbar-brand>
 		<d-collapse id="nav-collapse" is-nav>
 			<d-navbar-nav :justified="true">

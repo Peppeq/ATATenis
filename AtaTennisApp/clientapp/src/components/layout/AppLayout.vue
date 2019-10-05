@@ -1,27 +1,9 @@
 <template>
-	<d-container fluid>
-		<!-- <d-row> -->
-		<!-- Main Sidebar -->
-		<!-- <main-sidebar :items="sidebarItems" /> -->
-		<!-- <d-col class="main-content offset-lg-2 offset-md-3 p-0" tag="main" cols="12" lg="10" md="6" sm="11"> -->
-		<!-- <div id="nav">
-                    <router-link to="/">Home</router-link> |
-                    <router-link to="/about">About</router-link> |
-                    <router-link to="/players">Players</router-link>
-    </div>-->
-
-		<d-row>
-			<d-col>
-				<!-- Main Navbar -->
+	<d-container class="main-container">
+		<d-row class="main-row">
+			<d-col class="main-col">
 				<main-navbar v-if="isMainNavbar" />
-			</d-col>
-		</d-row>
-		<d-row>
-			<d-col>
-				<!-- Content -->
-				<div class="content-wrapper">
-					<slot />
-				</div>
+				<slot />
 			</d-col>
 		</d-row>
 		<!-- Main Footer -->
@@ -36,20 +18,57 @@
 
 <script lang="ts">
 import mainNavbar from "./main-navbar.vue";
+import mainSidebar from "./main-sidebar.vue";
 import { Component, Vue } from "vue-property-decorator";
 import { Authorization } from "../../common/authorization";
 
 @Component({
-	components: { mainNavbar }
+	components: { mainNavbar, mainSidebar }
 })
 export default class AppLayout extends Vue {
-	isAdmin: boolean;
-	mounted() {
-		this.isAdmin = Authorization.getUser() != null;
+	private isAdminLogged: boolean;
+	// mounted() {
+	// 	this.isAdmin = Authorization.isAdmin();
+	// }
+	isCollapsedSidebar: boolean = true;
+
+	get isAdmin(): boolean {
+		return Authorization.isAdmin();
 	}
+
+	// set isAdmin() {
+	// 	false;
+	// }
 
 	get isMainNavbar() {
 		return this.$route.name != "Admin";
 	}
+
+	menu: {}[] = [
+		{
+			header: true,
+			title: "Main Navigation",
+			hiddenOnCollapse: true
+		},
+		{
+			href: "/dashboard",
+			title: "Dashboard",
+			icon: "fa fa-user"
+		},
+		{
+			href: "/charts",
+			title: "Charts",
+			icon: "fa fa-chart-area",
+			child: [
+				{
+					href: "/charts/sublink",
+					title: "Sub Link"
+				}
+			]
+		}
+	];
 }
 </script>
+<style lang="scss" scoped>
+@import "@/styles/components/layouts/main-sidebar.scss";
+</style>

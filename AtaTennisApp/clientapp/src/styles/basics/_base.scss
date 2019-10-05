@@ -1,43 +1,66 @@
-#app {
-	/* font-family: 'Avenir', Helvetica, Arial, sans-serif; */
-	font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$main-background: rgb(245, 246, 248);
 
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	/* text-align: center; */
-	color: #2c3e50;
-	// background-color: blueviolet;
+#app {
+  /* font-family: 'Avenir', Helvetica, Arial, sans-serif; */
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* text-align: center; */
+  color: #2c3e50;
 }
 
 #nav {
-	padding: 30px;
-	a {
-		font-weight: bold;
-		color: #2c3e50;
-		.router-link-exact-active {
-			color: #42b983;
-		}
-	}
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    .router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 
-div{
-	.notifications{
-		top: 88px !important;
-	}
+div {
+  .notifications {
+    top: 88px !important;
+  }
 }
 
 .vue-notification-template {
-	border-radius: 5px;
+  border-radius: 5px;
 }
 
 .notification-error {
-	background-color: aqua;
+  background-color: aqua;
 }
 
-.container-fluid{
-    padding: 0;
-  }
+.main-container {
+  max-width: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+}
 
-.content-wrapper{
+.main-col {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.main-row {
+  // max-width: 100%;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.main-card {
+  margin: 20px;
+  padding: 20px;
+}
+
+body {
+  background: $main-background;
+}
+
+.content-wrapper {
   /* margin-top: 68px; */
 }
