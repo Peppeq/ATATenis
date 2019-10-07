@@ -10,7 +10,9 @@
   "dependencies": {
     "@types/core-js": "^2.5.2",
     "@types/i18n": "^0.8.5",
+    "bootstrap": "^4.3.1",
     "core-js": "^2.6.5",
+    "shards-ui": "^3.0.0",
     "shards-vue": "^1.0.7",
     "vue": "^2.6.10",
     "vue-class-component": "^6.0.0",
