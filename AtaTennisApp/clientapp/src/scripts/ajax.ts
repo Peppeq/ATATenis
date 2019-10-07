@@ -64,10 +64,21 @@ export class AjaxProvider {
 				return response.json() as Promise<TResult>;
 			})
 			.catch(
-				(e): Promise<TResult> => {
+				async (e): Promise<TResult> => {
 					console.log("catch in AjaxProvider");
 					console.log(e);
-					throw e;
+					let error: ErrorResponse = null;
+					if (e instanceof Error) {
+						error = {
+							Message: e.message,
+							StatusCode: "500",
+							StatusDescription: e.name
+						};
+					} else {
+						error = await e.json();
+					}
+					console.log(error);
+					throw error;
 				}
 			);
 	}

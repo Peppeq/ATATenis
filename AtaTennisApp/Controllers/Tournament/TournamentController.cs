@@ -1,4 +1,6 @@
-﻿using AtaTennisApp.Controllers.Base;
+﻿using AtaTennisApp.BL;
+using AtaTennisApp.BL.DTO;
+using AtaTennisApp.Controllers.Base;
 using AtaTennisApp.Data;
 using AtaTennisApp.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace AtaTennisApp.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     public class TournamentController : ApiControllerBase
     {
@@ -22,39 +23,19 @@ namespace AtaTennisApp.Controllers
             _dbContext = dbContext;
         }
 
-        public class TournamentArgs
+        [HttpGet]
+        public async Task<ActionResult<List<TournamentDTO>>> Get([FromQuery]TournamentFilter args)
         {
-            public int? Id { get; set; }
-            public int? Year { get; set; }
-            public TournamentType? Type { get; set; }
+            var service = new TournamentService(_dbContext);
+            List<TournamentDTO> response = await service.GetFilteredTournaments(args);
+            return response;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Tournament>>> Get([FromQuery]TournamentArgs args)
+        [HttpGet("nearestTournament")]
+        public async Task<ActionResult<TournamentDTO>> GetNearestTournament()
         {
-            var response = default(List<Tournament>);
-            if (args.Id != null)
-            {
-                response = await _dbContext.Tournament.Where(t => t.Id == args.Id).ToListAsync();
-            }
-            else if (args.Year != null)
-            {
-                var tournamentQueryable = _dbContext.Tournament.Where(t => t.StartTime.Year == args.Year);
-
-                if (args.Type != null)
-                {
-                    tournamentQueryable = tournamentQueryable.Where(t => t.TournamentType == args.Type);
-                }
-
-                response = await tournamentQueryable.ToListAsync();
-            }
-            
-
-            //if (response == null || response.Count == 0)
-            //{
-            //    return NotFound();
-            //}
-            return response;
+            var service = new TournamentService(_dbContext);
+            return await service.GetNearestTournament();
         }
 
     }

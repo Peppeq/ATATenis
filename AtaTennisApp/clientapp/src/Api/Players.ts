@@ -1,4 +1,4 @@
-﻿import { Player } from "./TournamentController";
+﻿import { Player } from "./PlayerController";
 
 export class Players {
     async getData(): Promise<Player> {

@@ -1,4 +1,4 @@
-import { TournamentType, Tournament } from "@/Api/TournamentController";
+import { TournamentType } from "@/Api/TournamentController";
 import { i18n } from "@/plugins/i18n";
 import { TournamentCategory } from "@/Api/PlayerController";
 

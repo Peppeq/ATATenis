@@ -6,12 +6,12 @@ import { AjaxProvider } from "../scripts/ajax";
 
 
 
-export class TournamentArgs {
+export class TournamentFilter {
     Id: number = null;
     Year: number = null;
     Type: TournamentType = null;
 }
-export class Tournament {
+export class TournamentDTO {
     Id: number = null;
     Name: string = null;
     StartTime: Date = null;
@@ -23,58 +23,6 @@ export class Tournament {
     Description: string = null;
     TournamentType: TournamentType = null;
     Surface: SurfaceType = null;
-    Draw: Draw = null;
-    Match: Match[] = null;
-}
-export class Draw {
-    Id: number = null;
-    Type: DrawType = null;
-    CountOfPlayers: number = null;
-    TournamentId: number = null;
-    Round: number = null;
-    Tournament: Tournament = null;
-    DrawMatch: DrawMatch[] = null;
-}
-export class DrawMatch {
-    DrawId: number = null;
-    MatchId: number = null;
-    Draw: Draw = null;
-    Match: Match = null;
-}
-export class Match {
-    Id: number = null;
-    TournamentId: number = null;
-    Score: number = null;
-    Retired: boolean = null;
-    Tournament: Tournament = null;
-    DrawMatch: DrawMatch[] = null;
-    MatchPlayer: MatchPlayer[] = null;
-}
-export class MatchPlayer {
-    Id: number = null;
-    MatchId: number = null;
-    PlayerId: number = null;
-    Match: Match = null;
-    Player: Player = null;
-}
-export class Player {
-    Id: number = null;
-    Name: string = null;
-    Surname: string = null;
-    Age: number = null;
-    Height: number = null;
-    Residence: string = null;
-    Forehand: boolean = null;
-    Backhand: boolean = null;
-    Racquet: string = null;
-    Surface: number = null;
-    FavouritePlayer: string = null;
-    TitlesCount: number = null;
-    FinalistCount: number = null;
-    TournamentCount: number = null;
-    Member: boolean = null;
-    Points: number = null;
-    MatchPlayer: MatchPlayer[] = null;
 }
 
 
@@ -104,14 +52,14 @@ export const enum SurfaceType {
     grass = 1,
     hard = 2
 }
-export const enum DrawType {
-    playoff = 0,
-    group = 1
-}
 
 export default class TournamentClient {
 
-    get<TArgs extends TournamentArgs, TResult extends Tournament[]>(data: TArgs): Promise<TResult> {
+    get<TArgs extends TournamentFilter, TResult extends TournamentDTO[]>(data: TArgs): Promise<TResult> {
         return AjaxProvider.apiGet("Tournament", data);
+    }
+
+    getWithoutParams<TResult extends TournamentDTO>(): Promise<TResult> {
+        return AjaxProvider.apiGet("Tournament/nearestTournament", null);
     }
 }

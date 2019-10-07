@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import Component from "vue-class-component";
-import TournamentClient, { Tournament, TournamentArgs, TournamentType } from "@/Api/TournamentController";
+import TournamentClient, { TournamentDTO, TournamentFilter, TournamentType } from "@/Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import {
 	GetTournamentTypeName,
@@ -75,7 +75,7 @@ export default class TournamentListClass extends BaseComponentClass {
 	tournamentTypes: TournamentTypeObjExtended[] = [];
 	selectedTournamentType: TournamentType = null;
 
-	tournaments: Tournament[] = [];
+	tournaments: TournamentDTO[] = [];
 
 	helpers = {
 		GetTournamentTypeName,
@@ -122,7 +122,7 @@ export default class TournamentListClass extends BaseComponentClass {
 		var _this = this;
 		var tournamentClient = new TournamentClient();
 
-		this.tryGetDataByArgs<Tournament[], TournamentArgs>({
+		this.tryGetDataByArgs<TournamentDTO[], TournamentFilter>({
 			apiMethod: tournamentClient.get,
 			showError: true,
 			requestArgs: {
@@ -130,7 +130,7 @@ export default class TournamentListClass extends BaseComponentClass {
 				Year: this.year,
 				Type: this.selectedTournamentType
 			}
-		}).then((tournaments: Tournament[]) => {
+		}).then((tournaments: TournamentDTO[]) => {
 			_this.tournaments = tournaments;
 			if (this.tournaments != null && this.tournaments.length > 0) {
 				_this.tournaments = tournaments.sort((a, b) => (a.StartTime > b.StartTime ? 1 : -1));

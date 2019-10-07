@@ -1,0 +1,3 @@
+otestovat bez connection co sa stane ...
+remove config from git
+poriesit 500 pri zlej coennection
