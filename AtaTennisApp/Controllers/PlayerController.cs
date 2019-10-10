@@ -27,9 +27,7 @@ namespace AtaTennisApp.Controllers
 
         public class PlayerArgs
         {
-            public int? Id { get; set; }
-            public int? Count { get; set; }
-            public bool? Ranking { get; set; }
+            public int Id { get; set; }
         }
         public class PlayerResponse
         {
@@ -44,7 +42,7 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpGet("PlayerById")]
-        public async Task<ActionResult<PlayerDTO>> GetPlayerById(PlayerArgs id)
+        public async Task<ActionResult<PlayerDTO>> GetPlayerById(int id)
         {
             var player = await PlayerService.GetPlayerById(id);
             return player;

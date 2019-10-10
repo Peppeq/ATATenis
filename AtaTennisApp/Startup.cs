@@ -51,17 +51,27 @@ namespace AtaTennisApp
                 configuration.RootPath = "clientapp/dist";
             });
 
-            services.AddDbContext<AtaTennisContext>(options
-                => options.UseSqlServer(Configuration.GetConnectionString("AtaTennisContext")).UseLazyLoadingProxies());
-
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
-
             var appSettings = appSettingsSection.Get<AppSettings>();
+
+            var useInMemoryDB = appSettings.UseInMemoryDB;
+
+            if (useInMemoryDB)
+            {
+                services.AddDbContext<AtaTennisContext>(options => options.UseInMemoryDatabase(databaseName: "AtaTennisMockDB"));
+            }
+            else
+            {
+                services.AddDbContext<AtaTennisContext>(options
+                    => options.UseSqlServer(Configuration.GetConnectionString("AtaTennisContext")).UseLazyLoadingProxies());
+            }
+
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
-            services.AddAuthentication(authOptions => {
+            services.AddAuthentication(authOptions =>
+            {
                 authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(configOptions =>
@@ -133,7 +143,7 @@ namespace AtaTennisApp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
-                
+
                 //neviem naco je
                 //routes.MapSpaFallbackRoute(
                 //    name: "spa-fallback",

@@ -13,17 +13,17 @@ namespace AtaTennisApp.Data
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.Player.Any() && context.Tournament.Any())
+            if (context.Player.Any() && context.Tournament.Any() && context.User.Any())
             {
                 return;   // DB has been seeded
             }
 
             var players = new Player[]
             {
-                new Player{Age=33, Name = "Peter", Surname = "Sveter"},
-                new Player{Age=33, Name = "Jano", Surname = "Slany"},
-                new Player{Age=39, Name = "Miso", Surname = "Sef"},
-                new Player{Age=55, Name = "Jozo", Surname = "Suly"},
+                new Player{Age=33, Name = "Peter", Surname = "Sveter", Points = 450},
+                new Player{Age=33, Name = "Jano", Surname = "Slany", Points = 50},
+                new Player{Age=39, Name = "Miso", Surname = "Sef", Points = 220},
+                new Player{Age=55, Name = "Jozo", Surname = "Suly", Points = 185},
             };
 
             foreach (Player p in players)
@@ -110,6 +110,15 @@ namespace AtaTennisApp.Data
             {
                 context.Tournament.Add(tournament);
             }
+
+            if (context.User.Any())
+            {
+                return;
+            }
+
+            var admin = new User { Username = "admin", Password = "AXFiT5iav+brOl0kBp9nkaHpMku/Tdh9xKdrY1uecawhNSBrIQfzEzW6uw==", Email = "" };
+
+            context.User.Add(admin);
 
             context.SaveChanges();
         }

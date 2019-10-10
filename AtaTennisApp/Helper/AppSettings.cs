@@ -8,5 +8,6 @@ namespace AtaTennisApp.Helper
     public class AppSettings
     {
         public string Secret { get; set; }
+        public bool UseInMemoryDB { get; set; } = false;
     }
 }
