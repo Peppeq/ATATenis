@@ -1,6 +1,5 @@
-import { TournamentType } from "@/Api/TournamentController";
+import { TournamentType, TournamentCategory } from "@/Api/TournamentController";
 import { i18n } from "@/plugins/i18n";
-import { TournamentCategory } from "@/Api/PlayerController";
 
 export interface TournamentTypeObj {
 	value: TournamentType;

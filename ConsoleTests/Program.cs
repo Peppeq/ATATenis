@@ -27,7 +27,7 @@ namespace ConsoleTests
             Console.WriteLine(player.Age + player.Name + ' ' + player.Surname);
 
             var user = new UserDTO(){    
-                Email = "",
+                //Email = "",
                 Password = "admin",
                 Username = "admin2"
             };

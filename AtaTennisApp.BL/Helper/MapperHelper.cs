@@ -35,5 +35,17 @@ namespace AtaTennisApp.BL.Helper
             return config.CreateMapper();
         }
 
+        public static IMapper GetPlayerMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Player, PlayerDTO>()
+                    .ForSourceMember(u => u.MatchPlayer, opt => opt.DoNotValidate());
+                cfg.CreateMap<PlayerDTO, Player>();
+            });
+
+            return config.CreateMapper();
+        }
+
     }
 }

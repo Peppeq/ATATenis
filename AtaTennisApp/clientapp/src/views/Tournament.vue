@@ -9,7 +9,7 @@
 					/>
 				</d-card>
 			</d-col>
-			<d-col>
+			<d-col v-if="tournament != null">
 				<d-card-header>{{ tournament.Name }}</d-card-header>
 				<d-card-body>
 					<p>blaaa</p>
@@ -56,6 +56,9 @@ export default class TournamentClass extends BaseComponentClass {
 					_this.tournament = tournament[0];
 				}
 			});
+		} else {
+			console.log("yeah");
+			this.tournament = this.tournamentProp;
 		}
 	}
 

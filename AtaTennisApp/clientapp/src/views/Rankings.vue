@@ -12,10 +12,19 @@
 						<th scope="col" class="border-0">{{ $tc("point", 0) }}</th>
 					</tr>
 				</thead>
-				<tbody v-for="(player, index) in players" :key="player.id">
-					<tr>
+				<tbody v-if="players != null && players.length > 0">
+					<tr v-for="(player, index) in players" :key="player.id">
 						<td>{{ index + 1 }}</td>
-						<td>{{ getPlayerFullname(player) }}</td>
+						<td>
+							<router-link
+								:to="{
+									name: 'Player',
+									params: { id: player.Id, testProp: null }
+								}"
+								class="text-fiord-blue"
+								>{{ getPlayerFullname(player) }}</router-link
+							>
+						</td>
 						<td>{{ player.Points }}</td>
 					</tr>
 				</tbody>
@@ -25,28 +34,28 @@
 </template>
 
 <script lang="ts">
-import PlayerClient, { Player, PlayerResponse, PlayerArgs } from "../Api/PlayerController";
+import PlayerClient, { PlayerDTO } from "../Api/PlayerController";
 import { Component } from "vue-property-decorator";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 
 @Component
-export default class PlayersView extends BaseComponentClass {
-	players: Player[] = [];
-	async mounted() {
+export default class RankingsView extends BaseComponentClass {
+	players: PlayerDTO[] = [];
+	mounted() {
 		var client = new PlayerClient();
 		console.log(client);
 
-		this.tryGetDataByArgs<PlayerResponse, PlayerArgs>({
-			apiMethod: client.get,
+		this.tryGetDataByArgs<PlayerDTO[], null>({
+			apiMethod: client.getWithoutParams,
 			showError: true,
-			requestArgs: { Id: null, Count: 10, Ranking: true }
-		}).then(result => {
-			if (result != null) {
-				this.players = result.Players;
+			requestArgs: null
+		}).then(players => {
+			if (players != null) {
+				this.players = players;
 			}
 		});
 	}
-	getPlayerFullname(player: Player): string {
+	getPlayerFullname(player: PlayerDTO): string {
 		return player.Name + " " + player.Surname;
 	}
 }

@@ -1,23 +1,34 @@
 <template>
-	<div class="main-content-container container-fluid">
-		<d-card-header class="main-header"><h2>Welcome to ATA</h2></d-card-header>
-		<d-card-body class="main-body">
-			<d-row>
-				ATAtennis je okruh tenisových turnajov organizovaných pre amatérskych hráčov. Cieľom okruhu je
-				sprostredkovať amatérskym tenistom možnosti porovnania výkonnosti na základe rebríčkov, ktoré zahŕňajú
-				výsledky turnajov prihlásených do okruhu ATAtennis a hraných podľa týchto pravidiel.
-			</d-row>
-			<d-row>
-				<h3>Najbližší turnaj</h3>
-				<div>
-					{{ nearestTounrament != null ? nearestTounrament.Name : "" }}
-				</div>
-			</d-row>
-		</d-card-body>
-		<div>asdf</div>
+	<d-container fluid class="main-content-container px-4">
+		<div class="page-header row no-gutters py-4"><h2>Welcome to ATA</h2></div>
+		<d-row class="px-4 py-2">
+			ATAtennis je okruh tenisových turnajov organizovaných pre amatérskych hráčov. Cieľom okruhu je
+			sprostredkovať amatérskym tenistom možnosti porovnania výkonnosti na základe rebríčkov, ktoré zahŕňajú
+			výsledky turnajov prihlásených do okruhu ATAtennis a hraných podľa týchto pravidiel.
+		</d-row>
+		<d-row class="px-4 pt-4 pb-2">
+			{{ $t("nearestTournament") }}
+		</d-row>
+
+		<d-row v-if="nearestTournament != null" class="px-4 py-2">
+			<h3>
+				<router-link
+					:to="{
+						name: 'Tournament',
+						params: { id: nearestTournament.Id, tournamentProp: nearestTournament }
+					}"
+					class="text-fiord-blue"
+					>{{ nearestTournament.Name }}</router-link
+				>
+			</h3>
+		</d-row>
+		<d-row v-else class="p-4">
+			{{ $t("noTournament") }}
+		</d-row>
+
 		<img alt="Vue logo" src="../assets/logo.png" />
 		<HelloWorld msg="Welcome to ATA" />
-	</div>
+	</d-container>
 </template>
 
 <script lang="ts">
@@ -32,7 +43,7 @@ import { BaseComponentClass } from "../common/BaseComponentClass";
 	}
 })
 export default class Home extends BaseComponentClass {
-	nearestTounrament: TournamentDTO = null;
+	nearestTournament: TournamentDTO = null;
 	mounted() {
 		var client = new TournamentClient();
 		this.tryGetDataByArgs<TournamentDTO, null>({
@@ -40,7 +51,7 @@ export default class Home extends BaseComponentClass {
 			showError: true,
 			requestArgs: null
 		}).then((tournament: TournamentDTO) => {
-			this.nearestTounrament = tournament;
+			this.nearestTournament = tournament;
 		});
 	}
 }

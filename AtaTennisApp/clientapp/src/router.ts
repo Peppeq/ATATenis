@@ -12,7 +12,7 @@ export const router = new Router({
 		{
 			path: "/",
 			name: "home",
-			component: Home
+			component: () => import("./views/Home.vue")
 		},
 		{
 			path: "/about",
@@ -23,19 +23,26 @@ export const router = new Router({
 			component: () => import(/* webpackChunkName: "about" */ "./views/About.vue")
 		},
 		{
-			path: "/players",
-			name: "nameeee",
-			component: () => import("./views/Players.vue")
+			path: "/rankings",
+			name: "Rankings",
+			component: () => import("./views/Rankings.vue")
 		},
 		{
 			path: "/tournament/:id",
 			name: "Tournament",
-			component: () => import("./views/Tournament.vue")
+			component: () => import("./views/Tournament.vue"),
+			props: true
 		},
 		{
 			path: "/admin",
 			name: "Admin",
 			component: () => import("./views/user/Login.vue")
+		},
+		{
+			path: "/player/:id",
+			name: "Player",
+			component: () => import("./views/Player.vue"),
+			props: true
 		},
 		{
 			path: "/register",

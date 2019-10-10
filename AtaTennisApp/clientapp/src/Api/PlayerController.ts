@@ -6,15 +6,7 @@ import { AjaxProvider } from "../scripts/ajax";
 
 
 
-export class PlayerArgs {
-    Id: number = null;
-    Count: number = null;
-    Ranking: boolean = null;
-}
-export class PlayerResponse {
-    Players: Player[] = null;
-}
-export class Player {
+export class PlayerDTO {
     Id: number = null;
     Name: string = null;
     Surname: string = null;
@@ -31,90 +23,17 @@ export class Player {
     TournamentCount: number = null;
     Member: boolean = null;
     Points: number = null;
-    MatchPlayer: MatchPlayer[] = null;
-}
-export class MatchPlayer {
-    Id: number = null;
-    MatchId: number = null;
-    PlayerId: number = null;
-    Match: Match = null;
-    Player: Player = null;
-}
-export class Match {
-    Id: number = null;
-    TournamentId: number = null;
-    Score: number = null;
-    Retired: boolean = null;
-    Tournament: Tournament = null;
-    DrawMatch: DrawMatch[] = null;
-    MatchPlayer: MatchPlayer[] = null;
-}
-export class Tournament {
-    Id: number = null;
-    Name: string = null;
-    StartTime: Date = null;
-    EndTime: Date = null;
-    Place: string = null;
-    Category: TournamentCategory = null;
-    PlayingSystem: PlayingSystem = null;
-    BallsType: BallsType = null;
-    Description: string = null;
-    TournamentType: TournamentType = null;
-    Surface: SurfaceType = null;
-    Draw: Draw = null;
-    Match: Match[] = null;
-}
-export class Draw {
-    Id: number = null;
-    Type: DrawType = null;
-    CountOfPlayers: number = null;
-    TournamentId: number = null;
-    Round: number = null;
-    Tournament: Tournament = null;
-    DrawMatch: DrawMatch[] = null;
-}
-export class DrawMatch {
-    DrawId: number = null;
-    MatchId: number = null;
-    Draw: Draw = null;
-    Match: Match = null;
 }
 
 
-export const enum TournamentCategory {
-    singles = 0,
-    doubles = 1
-}
-export const enum PlayingSystem {
-    complete = 0,
-    prince = 1,
-    kombi = 2,
-    group = 3
-}
-export const enum BallsType {
-    slazenger = 0,
-    dunlop = 1
-}
-export const enum TournamentType {
-    grandslam = 0,
-    ata = 1,
-    challanger = 2,
-    ataSpecial = 3,
-    challangerSpecial = 4
-}
-export const enum SurfaceType {
-    clay = 0,
-    grass = 1,
-    hard = 2
-}
-export const enum DrawType {
-    playoff = 0,
-    group = 1
-}
 
 export default class PlayerClient {
 
-    get<TArgs extends PlayerArgs, TResult extends PlayerResponse>(data: TArgs): Promise<TResult> {
-        return AjaxProvider.apiGet("Player", data);
+    getWithoutParams<TResult extends PlayerDTO[]>(): Promise<TResult> {
+        return AjaxProvider.apiGet("Player/PlayersByRanking", null);
+    }
+
+    getPlayerById<TArgs extends number, TResult extends PlayerDTO>(data: TArgs): Promise<TResult> {
+        return AjaxProvider.apiGet("Player/PlayerById", data);
     }
 }

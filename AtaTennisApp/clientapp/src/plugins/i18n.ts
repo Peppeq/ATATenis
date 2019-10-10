@@ -76,6 +76,8 @@ export const i18n: VueI18n = new VueI18n({
 			// sentences -----------------------------------------
 			usernameRequired: "Username is required",
 			passwordRequired: "Password is required",
+			nearestTournament: "Nearest Tournament",
+			noTournament: "Currently no tournament :(",
 
 			// enums translations --------------------------------
 			tournamentType0: "Grandslam",
@@ -124,6 +126,8 @@ export const i18n: VueI18n = new VueI18n({
 			// sentences -----------------------------------------
 			usernameRequired: "Užívateľské meno je povinné",
 			passwordRequired: "Heslo je povinné",
+			nearestTournament: "Najbližší trunaj",
+			noTournament: "Momentálne žiaden turnaj :(",
 
 			// enums translations --------------------------------
 			tournamentType3: "ATA Špeciál",

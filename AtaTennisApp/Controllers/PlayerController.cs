@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AtaTennisApp.BL;
+using AtaTennisApp.BL.DTO;
 using AtaTennisApp.Controllers.Base;
 using AtaTennisApp.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -15,9 +17,12 @@ namespace AtaTennisApp.Controllers
     public class PlayerController : ApiControllerBase
     {
         private AtaTennisContext _dbContext;
+
+        public PlayerService PlayerService{ get; set; }
         public PlayerController(AtaTennisContext dbContext)
         {
             _dbContext = dbContext;
+            PlayerService = new PlayerService(_dbContext);
         }
 
         public class PlayerArgs
@@ -31,19 +36,18 @@ namespace AtaTennisApp.Controllers
             public List<Player> Players { get; set; }
         }
 
-        [HttpGet]
-        public async Task<ActionResult<PlayerResponse>> Get([FromQuery]PlayerArgs args)
+        [HttpGet("PlayersByRanking")]
+        public async Task<ActionResult<List<PlayerDTO>>> GetAllPlayers()
         {
-            var response = new PlayerResponse();
-            if (args.Id != null)
-            {
-                response.Players = await _dbContext.Player.Where(p => p.Id == args.Id).ToListAsync();
-            }
-            else if (args.Ranking != null && args.Ranking == true)
-            {
-                response.Players = await _dbContext.Player.OrderBy(p => p.Points).ToListAsync();
-            }
-            return response;
+            var players = await PlayerService.GetAllPlayers();
+            return players;
+        }
+
+        [HttpGet("PlayerById")]
+        public async Task<ActionResult<PlayerDTO>> GetPlayerById(PlayerArgs id)
+        {
+            var player = await PlayerService.GetPlayerById(id);
+            return player;
         }
     }
 }
