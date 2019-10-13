@@ -42,9 +42,9 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpGet("PlayerById")]
-        public async Task<ActionResult<PlayerDTO>> GetPlayerById(int id)
+        public async Task<ActionResult<PlayerDTO>> GetPlayerById([FromQuery]PlayerArgs args)
         {
-            var player = await PlayerService.GetPlayerById(id);
+            var player = await PlayerService.GetPlayerById(args.Id);
             return player;
         }
     }

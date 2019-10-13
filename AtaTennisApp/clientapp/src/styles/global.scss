@@ -1,2 +1,9 @@
 @import "basics/base.scss";
-// @import "shards_dashboard/shards-dashboards.scss";
+@import "shards_dashboard/shards-dashboards.scss";
+
+// // components
+// @import "components/layouts/main-navbar.scss";
+// @import "components/layouts/main-sidebar.scss";
+
+// plugins
+@import "plugins/notifications";

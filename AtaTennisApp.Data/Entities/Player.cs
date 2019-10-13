@@ -16,10 +16,10 @@ namespace AtaTennisApp.Data.Entities
         public int? Age { get; set; }
         public int? Height { get; set; }
         public string Residence { get; set; }
-        public bool? Forehand { get; set; }
-        public bool? Backhand { get; set; }
+        public Forehand? Forehand { get; set; }
+        public Backhand? Backhand { get; set; }
         public string Racquet { get; set; }
-        public int? Surface { get; set; }
+        public SurfaceType? Surface { get; set; }
         public string FavouritePlayer { get; set; }
         public int? TitlesCount { get; set; }
         public int? FinalistCount { get; set; }

@@ -73,6 +73,21 @@ export const i18n: VueI18n = new VueI18n({
 			username: "User name",
 			point: "Point | Points",
 
+			// player page
+			age: "Age",
+			height: "Height",
+			weight: "Weight",
+			residence: "Residence",
+			racquet: "Racquet",
+			favSurface: "Favourite surface",
+			favAtpPlayer: "Favourtie ATP player",
+			titles: "Titles",
+			finalist: "Finalist",
+			startedPlaying: "Playing tennis from",
+			startedAta: "Tourned ATA",
+			bio: "Bio",
+			title: "Titul | Tituly",
+
 			// sentences -----------------------------------------
 			usernameRequired: "Username is required",
 			passwordRequired: "Password is required",
@@ -122,6 +137,21 @@ export const i18n: VueI18n = new VueI18n({
 			password: "Heslo",
 			username: "Užívateľské meno",
 			point: "Bod | Body",
+
+			// player page
+			age: "Vek",
+			height: "Výška",
+			weight: "Váha",
+			residence: "Bydlisko",
+			racquet: "Raketa",
+			favSurface: "Obľúbený povrch",
+			favAtpPlayer: "Obľúbený ATP hráč",
+			titles: "Tituly",
+			finalist: "Finalista",
+			startedPlaying: "Tenis od",
+			startedAta: "Okruh ATA od",
+			bio: "Biografia",
+			title: "Titul | Tituly",
 
 			// sentences -----------------------------------------
 			usernameRequired: "Užívateľské meno je povinné",

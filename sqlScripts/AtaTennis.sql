@@ -2,14 +2,14 @@
 -- ******************************************************************
 
 
-SELECT * 
+SELECT *
 FROM sys.foreign_keys
 WHERE referenced_object_id = object_id('Player')
 
 
 drop table Match;
 drop table Draw;
-drop table Player; 
+drop table Player;
 
 drop table Tournament;
 
@@ -69,7 +69,7 @@ CREATE TABLE [dbo].[Draw]
 GO
 
 
-CREATE NONCLUSTERED INDEX [FK_Draw_Tournament] ON [dbo].[Draw] 
+CREATE NONCLUSTERED INDEX [FK_Draw_Tournament] ON [dbo].[Draw]
  (
   [TournamentId] ASC
  )
@@ -101,7 +101,7 @@ CREATE TABLE [dbo].[Match]
 GO
 
 
-CREATE NONCLUSTERED INDEX [fkIdx_Match_Tournament] ON [dbo].[Match] 
+CREATE NONCLUSTERED INDEX [fkIdx_Match_Tournament] ON [dbo].[Match]
  (
   [TournamentId] ASC
  )
@@ -126,7 +126,7 @@ GO
 
 CREATE TABLE [dbo].[DrawMatch]
 (
- 
+
  [DrawId]       int NOT NULL ,
  [MatchId]      int NOT NULL ,
  primary key ( [DrawId], [MatchId] ),
@@ -138,25 +138,25 @@ CREATE TABLE [dbo].[DrawMatch]
 --GO
 
 
---CREATE UNIQUE CLUSTERED INDEX [PK_DrawMatch] ON [dbo].[DrawMatch] 
+--CREATE UNIQUE CLUSTERED INDEX [PK_DrawMatch] ON [dbo].[DrawMatch]
 -- (
 --  [PK_DrawMatch] ASC
 -- )
 -- INCLUDE (
---  [DrawId], 
+--  [DrawId],
 --  [MatchId]
 -- )
 
 --GO
 
---CREATE NONCLUSTERED INDEX [fkIdx_DrawMatch_Draw] ON [dbo].[DrawMatch] 
+--CREATE NONCLUSTERED INDEX [fkIdx_DrawMatch_Draw] ON [dbo].[DrawMatch]
 -- (
 --  [DrawId] ASC
 -- )
 
 --GO
 
---CREATE NONCLUSTERED INDEX [fkIdx_DrawMatch_Match] ON [dbo].[DrawMatch] 
+--CREATE NONCLUSTERED INDEX [fkIdx_DrawMatch_Match] ON [dbo].[DrawMatch]
 -- (
 --  [MatchId] ASC
 -- )
@@ -229,14 +229,14 @@ CREATE TABLE [dbo].[MatchPlayer]
 GO
 
 
-CREATE NONCLUSTERED INDEX [fkIdx_MatchPlayer_Match] ON [dbo].[MatchPlayer] 
+CREATE NONCLUSTERED INDEX [fkIdx_MatchPlayer_Match] ON [dbo].[MatchPlayer]
  (
   [MatchId] ASC
  )
 
 GO
 
-CREATE NONCLUSTERED INDEX [fkIdx_MatchPlayer_Player] ON [dbo].[MatchPlayer] 
+CREATE NONCLUSTERED INDEX [fkIdx_MatchPlayer_Player] ON [dbo].[MatchPlayer]
  (
   [PlayerId] ASC
  )
@@ -254,7 +254,7 @@ alter table tournament alter column  EndTime datetime null
 
 
 Alter table [tournament] alter column Surface int not null;
-update Tournament set Surface = 0 
+update Tournament set Surface = 0
 select * FROM [AtaTennis].[dbo].[Tournament]
 
 delete from [AtaTennis].[dbo].[Tournament]
@@ -279,7 +279,7 @@ delete from [AtaTennis].[dbo].[Tournament]
 
 USE [AtaTennis]
 GO
-SET IDENTITY_INSERT [dbo].[Player] ON 
+SET IDENTITY_INSERT [dbo].[Player] ON
 
 GO
 INSERT [dbo].[Player] ([Id], [Name], [Surname], [Age]) VALUES (1, N'Peter', N'Sveter', 33)
@@ -294,4 +294,5 @@ SET IDENTITY_INSERT [dbo].[Player] OFF
 GO
 
 
-select * from player
+ALTER TABLE [AtaTennis].[dbo].[Player] ALTER COLUMN Forehand int;
+ALTER TABLE [AtaTennis].[dbo].[Player] ALTER COLUMN Backhand int;

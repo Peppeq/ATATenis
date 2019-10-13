@@ -20,10 +20,18 @@ namespace AtaTennisApp.Data
 
             var players = new Player[]
             {
-                new Player{Age=33, Name = "Peter", Surname = "Sveter", Points = 450},
-                new Player{Age=33, Name = "Jano", Surname = "Slany", Points = 50},
-                new Player{Age=39, Name = "Miso", Surname = "Sef", Points = 220},
-                new Player{Age=55, Name = "Jozo", Surname = "Suly", Points = 185},
+                new Player{Age=33, Name = "Peter", Surname = "Sveter", Points = 450,
+                    Backhand = Backhand.oneHanded, FavouritePlayer = "Roger", Forehand = Forehand.rightHanded,
+                    Height = 175, Racquet = "Wilson Blade", Residence = "Spisska Nova Ves" , Surface = SurfaceType.clay },
+                new Player{Age=33, Name = "Jano", Surname = "Slany", Points = 50,
+                    Backhand = Backhand.twoHanded, FavouritePlayer = "Delpo", Forehand = Forehand.rightHanded,
+                    Height = 185, Racquet = "Babolat", Residence = "Nitra" , Surface = SurfaceType.grass },
+                new Player{Age=39, Name = "Miso", Surname = "Sef", Points = 220,
+                Backhand = Backhand.twoHanded, FavouritePlayer = "Rafa", Forehand = Forehand.rightHanded,
+                    Height = 181, Racquet = "Babolat", Residence = "Blava" , Surface = SurfaceType.grass },
+                new Player{Age=55, Name = "Jozo", Surname = "Suly", Points = 185,
+                Backhand = Backhand.twoHanded, FavouritePlayer = "Delpo", Forehand = Forehand.rightHanded,
+                    Height = 185, Racquet = "Babolat", Residence = "Nitra" , Surface = SurfaceType.grass },
             };
 
             foreach (Player p in players)

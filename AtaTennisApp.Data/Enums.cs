@@ -44,4 +44,16 @@ namespace AtaTennisApp.Data
         grass = 1,
         hard = 2
     }
+
+    public enum Forehand
+    {
+        rightHanded = 0,
+        leftHanded = 1
+    }
+
+    public enum Backhand
+    {
+        oneHanded = 0,
+        twoHanded = 1
+    }
 }

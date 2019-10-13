@@ -24,6 +24,9 @@ export class PlayerDTO {
     Member: boolean = null;
     Points: number = null;
 }
+export class PlayerArgs {
+    Id: number = null;
+}
 
 
 
@@ -33,7 +36,7 @@ export default class PlayerClient {
         return AjaxProvider.apiGet("Player/PlayersByRanking", null);
     }
 
-    getPlayerById<TArgs extends number, TResult extends PlayerDTO>(data: TArgs): Promise<TResult> {
+    getPlayerById<TArgs extends PlayerArgs, TResult extends PlayerDTO>(data: TArgs): Promise<TResult> {
         return AjaxProvider.apiGet("Player/PlayerById", data);
     }
 }
