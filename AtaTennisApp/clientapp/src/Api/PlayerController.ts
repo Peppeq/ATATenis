@@ -13,10 +13,10 @@ export class PlayerDTO {
     Age: number = null;
     Height: number = null;
     Residence: string = null;
-    Forehand: boolean = null;
-    Backhand: boolean = null;
+    Forehand: Forehand = null;
+    Backhand: Backhand = null;
     Racquet: string = null;
-    Surface: number = null;
+    Surface: SurfaceType = null;
     FavouritePlayer: string = null;
     TitlesCount: number = null;
     FinalistCount: number = null;
@@ -29,6 +29,19 @@ export class PlayerArgs {
 }
 
 
+export const enum Forehand {
+    rightHanded = 0,
+    leftHanded = 1
+}
+export const enum Backhand {
+    oneHanded = 0,
+    twoHanded = 1
+}
+export const enum SurfaceType {
+    clay = 0,
+    grass = 1,
+    hard = 2
+}
 
 export default class PlayerClient {
 

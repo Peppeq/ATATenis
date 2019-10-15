@@ -2,7 +2,7 @@
 	<div>
 		<div class="container">
 			<d-row class="login-row justify-content-center align-items-center">
-				<d-card>
+				<d-card class="login-card">
 					<d-card-body>
 						<h2>{{ $t("login") }}</h2>
 						<form @submit.prevent="handleSubmit">

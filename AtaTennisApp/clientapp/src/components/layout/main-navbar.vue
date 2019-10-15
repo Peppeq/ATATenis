@@ -15,7 +15,7 @@
 			<d-navbar-nav :justified="true">
 				<d-nav-item to="/tournamentList">{{ $tc("tournament", 0) }}</d-nav-item>
 				<d-nav-item to="/rankings">{{ $t("rankings") }}</d-nav-item>
-				<!-- <d-nav-item to="/player">{{ $tc("player", 1) }}</d-nav-item> -->
+				<d-nav-item to="/dashboard">Dashboard</d-nav-item>
 			</d-navbar-nav>
 		</d-collapse>
 		<d-form-select

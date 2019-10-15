@@ -57,154 +57,11 @@
 					</d-list-group>
 				</d-card>
 			</d-col>
-			<d-col v-if="isBio" id="player-details" lg="8">
-				<d-card v-if="player != null">
-					<d-list-group flush>
+			<d-col v-if="isBio && player != null" id="player-details" lg="8">
+				<d-card
+					><d-list-group flush>
 						<d-list-group-item>
-							<d-form>
-								<d-form-row>
-									<!-- Age -->
-									<d-col md="6" class="form-group">
-										<label for="age">{{ $t("age") }}</label>
-										<d-form-input
-											id="age"
-											:readonly="true"
-											:value="player.Age"
-											class="player-input"
-										/>
-									</d-col>
-
-									<!-- residence -->
-									<d-col md="6" class="form-group">
-										<label for="residence">{{ $t("residence") }}</label>
-										<!-- <d-form-input id="residence" :readonly="true" :value="player.Residence" /> -->
-										<d-form-input
-											id="residence"
-											:readonly="true"
-											:value="player.Residence"
-											class="player-input"
-										/>
-									</d-col>
-								</d-form-row>
-
-								<d-form-row>
-									<!-- Height -->
-									<d-col md="6" class="form-group">
-										<label for="height">{{ $t("height") }}</label>
-										<d-form-input
-											id="height"
-											:readonly="true"
-											:value="player.Height"
-											class="player-input"
-										/>
-									</d-col>
-
-									<!-- Weight -->
-									<d-col md="6" class="form-group">
-										<label for="weight">{{ $t("weight") }}</label>
-										<d-form-input
-											id="weight"
-											:readonly="true"
-											:value="player.Weight"
-											class="player-input"
-										/>
-									</d-col>
-								</d-form-row>
-
-								<d-form-row>
-									<!-- Forehand -->
-									<d-col md="6" class="form-group">
-										<label for="forehand">Forehand</label>
-										<d-form-input
-											id="forehand"
-											:readonly="true"
-											:value="player.Forehand"
-											class="player-input"
-										/>
-									</d-col>
-
-									<!-- Backhand -->
-									<d-col md="6" class="form-group">
-										<label for="Backhand">Backhand</label>
-										<d-form-input
-											id="Backhand"
-											:readonly="true"
-											:value="player.Backhand"
-											class="player-input"
-										/>
-									</d-col>
-								</d-form-row>
-
-								<d-form-row>
-									<!-- Favourite Surface -->
-									<d-col md="6" class="form-group">
-										<label for="favSurface">{{ $t("favSurface") }}</label>
-										<d-form-input
-											id="favSurface"
-											:readonly="true"
-											:value="player.Surface"
-											class="player-input"
-										/>
-									</d-col>
-
-									<!-- Favourite Atp Player -->
-									<d-col md="6" class="form-group">
-										<label for="favAtpPlayer">{{ $t("favAtpPlayer") }}</label>
-										<d-form-input
-											id="favAtpPlayer"
-											:readonly="true"
-											:value="player.FavouritePlayer"
-											class="player-input"
-										/>
-									</d-col>
-								</d-form-row>
-								<d-form-row>
-									<!-- Titels -->
-									<d-col md="6" class="form-group">
-										<label for="titles">{{ $tc("title", 2) }}</label>
-										<d-form-input
-											id="titles"
-											:readonly="true"
-											:value="player.TitlesCount"
-											class="player-input"
-										/>
-									</d-col>
-
-									<!-- Finalist -->
-									<d-col md="6" class="form-group">
-										<label for="finalist">{{ $t("finalist") }}</label>
-										<d-form-input
-											id="finalist"
-											:readonly="true"
-											:value="player.FinalistCount"
-											class="player-input"
-										/>
-									</d-col>
-								</d-form-row>
-								<d-form-row>
-									<!-- tournaments -->
-									<d-col md="6" class="form-group">
-										<label for="tournaments">{{ $tc("tournament", 2) }}</label>
-										<d-form-input
-											id="tournaments"
-											:readonly="true"
-											:value="player.TournamentCount"
-											class="player-input"
-										/>
-									</d-col>
-
-									<!-- racquet -->
-									<d-col md="6" class="form-group">
-										<label for="racquet">{{ $t("racquet") }}</label>
-										<d-form-input
-											id="racquet"
-											:readonly="true"
-											:value="player.Racquet"
-											class="player-input"
-										/>
-									</d-col>
-								</d-form-row>
-							</d-form>
+							<player-bio :player-prop="player"></player-bio>
 						</d-list-group-item>
 					</d-list-group>
 				</d-card>
@@ -265,8 +122,11 @@
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import Component from "vue-class-component";
 import PlayerClient, { PlayerDTO, PlayerArgs } from "@/Api/PlayerController";
+import PlayerBio from "./player/player-bio.vue";
 
-@Component
+@Component({
+	components: { PlayerBio }
+})
 export default class PlayerView extends BaseComponentClass {
 	player: PlayerDTO = null;
 	playerId: number = 0;
@@ -276,7 +136,7 @@ export default class PlayerView extends BaseComponentClass {
 	isTournament: boolean = false;
 	results: [] = [];
 
-	onChangeCardType(type: number, event: Event) {
+	onChangeCardType(type: number) {
 		if (type == 0) {
 			this.isBio = true;
 			this.isTournament = false;

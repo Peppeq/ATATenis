@@ -72,8 +72,11 @@ export const i18n: VueI18n = new VueI18n({
 			password: "Password",
 			username: "User name",
 			point: "Point | Points",
+			create: "Create",
 
 			// player page
+			name: "Name",
+			surname: "Surname",
 			age: "Age",
 			height: "Height",
 			weight: "Weight",
@@ -93,6 +96,8 @@ export const i18n: VueI18n = new VueI18n({
 			passwordRequired: "Password is required",
 			nearestTournament: "Nearest Tournament",
 			noTournament: "Currently no tournament :(",
+			saveChanges: "Save changes",
+			newPlayer: "New player",
 
 			// enums translations --------------------------------
 			tournamentType0: "Grandslam",
@@ -119,7 +124,13 @@ export const i18n: VueI18n = new VueI18n({
 
 			surfaceType0: "Clay",
 			surfaceType1: "Grass",
-			surfaceType2: "Hard"
+			surfaceType2: "Hard",
+
+			forehandType0: "Right-handed",
+			forehandType1: "Left-handed",
+
+			backhandType0: "One-handed",
+			backhandType1: "Two-handed"
 		},
 		sk: {
 			tournament: "Turnaj | Turnaje",
@@ -137,8 +148,11 @@ export const i18n: VueI18n = new VueI18n({
 			password: "Heslo",
 			username: "Užívateľské meno",
 			point: "Bod | Body",
+			create: "Vytvoriť",
 
 			// player page
+			name: "Meno",
+			surname: "Priezvisko",
 			age: "Vek",
 			height: "Výška",
 			weight: "Váha",
@@ -158,7 +172,8 @@ export const i18n: VueI18n = new VueI18n({
 			passwordRequired: "Heslo je povinné",
 			nearestTournament: "Najbližší trunaj",
 			noTournament: "Momentálne žiaden turnaj :(",
-
+			saveChanges: "Uložiť zmeny",
+			newPlayer: "Nový hráč",
 			// enums translations --------------------------------
 			tournamentType3: "ATA Špeciál",
 
@@ -170,7 +185,13 @@ export const i18n: VueI18n = new VueI18n({
 			tournamentCategory1: "Štvorhra",
 
 			DrawType0: "Playoff",
-			DrawType1: "Skupiny"
+			DrawType1: "Skupiny",
+
+			forehandType0: "Pravák",
+			forehandType1: "Ľavák",
+
+			backhandType0: "Jednoručný",
+			backhandType1: "Obojručný"
 		}
 	},
 	dateTimeFormats: dateTimeFormats,
