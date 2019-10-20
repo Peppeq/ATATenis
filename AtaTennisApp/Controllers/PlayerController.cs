@@ -47,5 +47,14 @@ namespace AtaTennisApp.Controllers
             var player = await PlayerService.GetPlayerById(args.Id);
             return player;
         }
+
+        [Authorize]
+        [HttpPost("AddOrEditPlayer")]
+        public async Task<ActionResult> AddOrEditPlayer([FromBody]PlayerDTO player)
+        {
+            var updatedPlayer = await PlayerService.AddOrEditPlayer(player);
+            var uri = "api/player";
+            return Created(uri, updatedPlayer);
+        }
     }
 }

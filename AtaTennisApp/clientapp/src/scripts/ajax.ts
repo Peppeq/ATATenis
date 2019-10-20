@@ -61,12 +61,15 @@ export class AjaxProvider {
 					// throwing response in order to move all response with body error message from my API (catched by BaseComponentClass)
 					throw response;
 				}
-				return response.json() as Promise<TResult>;
+				const contentType = response.headers.get("content-type");
+				if (contentType && contentType.indexOf("application/json") !== -1) {
+					return response.json() as Promise<TResult>;
+				}
+				throw response;
 			})
 			.catch(
 				async (e): Promise<TResult> => {
-					console.log("catch in AjaxProvider");
-					console.log(e);
+					console.log("catch in AjaxProvider error: " + e);
 					let error: ErrorResponse = null;
 					if (e instanceof Error) {
 						error = {
@@ -77,7 +80,7 @@ export class AjaxProvider {
 					} else {
 						error = await e.json();
 					}
-					console.log(error);
+					console.log("AJAX catch block: " + error);
 					throw error;
 				}
 			);

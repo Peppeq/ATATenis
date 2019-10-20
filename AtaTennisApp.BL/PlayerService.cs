@@ -15,6 +15,7 @@ namespace AtaTennisApp.BL
     {
         Task<PlayerDTO> GetPlayerById(int id);
         Task<List<PlayerDTO>> GetAllPlayers();
+        Task<PlayerDTO> AddOrEditPlayer(PlayerDTO player);
     }
     public class PlayerService : IPlayerService
     {
@@ -42,6 +43,25 @@ namespace AtaTennisApp.BL
                 playersDto.Add(playerDto);
             }
             return playersDto;
+        }
+
+        public async Task<PlayerDTO> AddOrEditPlayer(PlayerDTO playerDto)
+        {
+            var player = Mapper.Map<PlayerDTO, Player>(playerDto);
+            if (player.Id == 0)
+            {
+                await _dbContext.Player.AddAsync(player);
+            }
+            else
+            {
+                var currentPlayer = _dbContext.Player.Where(p => p.Id == player.Id).FirstOrDefaultAsync();
+                _dbContext.Entry(currentPlayer).CurrentValues.SetValues(player);
+            }
+
+            await _dbContext.SaveChangesAsync();
+            var updatedPlayerDto = Mapper.Map<Player, PlayerDTO>(player);
+
+            return updatedPlayerDto;
         }
     }
 }

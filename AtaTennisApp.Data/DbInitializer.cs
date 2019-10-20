@@ -25,7 +25,7 @@ namespace AtaTennisApp.Data
                     Height = 175, Racquet = "Wilson Blade", Residence = "Spisska Nova Ves" , Surface = SurfaceType.clay },
                 new Player{Age=33, Name = "Jano", Surname = "Slany", Points = 50,
                     Backhand = Backhand.twoHanded, FavouritePlayer = "Delpo", Forehand = Forehand.rightHanded,
-                    Height = 185, Racquet = "Babolat", Residence = "Nitra" , Surface = SurfaceType.grass },
+                    Height = 185, Weight= 70, Racquet = "Babolat", Residence = "Nitra" , Surface = SurfaceType.grass },
                 new Player{Age=39, Name = "Miso", Surname = "Sef", Points = 220,
                 Backhand = Backhand.twoHanded, FavouritePlayer = "Rafa", Forehand = Forehand.rightHanded,
                     Height = 181, Racquet = "Babolat", Residence = "Blava" , Surface = SurfaceType.grass },

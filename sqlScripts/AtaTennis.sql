@@ -296,3 +296,4 @@ GO
 
 ALTER TABLE [AtaTennis].[dbo].[Player] ALTER COLUMN Forehand int;
 ALTER TABLE [AtaTennis].[dbo].[Player] ALTER COLUMN Backhand int;
+ALTER TABLE [AtaTennis].[dbo].[Player] Add Weight int null;

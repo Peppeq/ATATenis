@@ -52,4 +52,8 @@ export default class PlayerClient {
     getPlayerById<TArgs extends PlayerArgs, TResult extends PlayerDTO>(data: TArgs): Promise<TResult> {
         return AjaxProvider.apiGet("Player/PlayerById", data);
     }
+
+    addOrEditPlayer<TArgs extends PlayerDTO, TResult extends any>(data: TArgs): Promise<TResult> {
+        return AjaxProvider.apiPost("Player/AddOrEditPlayer", data);
+    }
 }

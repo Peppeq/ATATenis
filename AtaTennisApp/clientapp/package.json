@@ -21,6 +21,8 @@
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.3",
     "vue-spinkit": "^1.4.1",
+    "vuelidate": "^0.7.4",
+    "vuelidate-property-decorators": "^1.0.27",
     "vuex": "^3.1.1",
     "vuex-ts": "^6.1.0"
   },

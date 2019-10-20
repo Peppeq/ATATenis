@@ -15,6 +15,7 @@ namespace AtaTennisApp.Data.Entities
         public string Surname { get; set; }
         public int? Age { get; set; }
         public int? Height { get; set; }
+        public int? Weight { get; set; }
         public string Residence { get; set; }
         public Forehand? Forehand { get; set; }
         public Backhand? Backhand { get; set; }

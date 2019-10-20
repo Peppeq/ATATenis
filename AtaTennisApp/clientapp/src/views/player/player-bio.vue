@@ -174,7 +174,9 @@
 				/>
 			</d-col>
 		</d-form-row>
-		<d-button v-if="!isReadonly" theme="primary">{{ isCreate ? $t("create") : $t("saveChanges") }}</d-button>
+		<d-button v-if="!isReadonly" theme="primary" @click.prevent="addOrEditPlayer">{{
+			isCreate ? $t("create") : $t("saveChanges")
+		}}</d-button>
 	</d-form>
 </template>
 
@@ -182,12 +184,14 @@
 import Component from "vue-class-component";
 import Vue from "vue";
 import { Prop, Watch } from "vue-property-decorator";
-import { PlayerDTO, Backhand, Forehand } from "@/Api/PlayerController";
+import PlayerClient, { PlayerDTO, Backhand, Forehand } from "@/Api/PlayerController";
 import { PlayerHelper, SurfaceObj, ForehandObj, BackhandObj } from "../player/player-helper";
 import { SurfaceType } from "../../Api/PlayerController";
+import { BaseComponentClass } from "../../common/BaseComponentClass";
+import { NotificationUtils } from "../../common/notification";
 
 @Component
-export default class PlayerBio extends Vue {
+export default class PlayerBio extends BaseComponentClass {
 	@Prop({ default: false }) readonly isCreate!: boolean;
 	@Prop({ default: false }) readonly isEdit!: boolean;
 	@Prop({ default: null }) readonly playerProp: PlayerDTO;
@@ -214,6 +218,17 @@ export default class PlayerBio extends Vue {
 		this.surfaceTypeOptions = PlayerHelper.GetSurfaceOptions();
 		this.forehandOptions = PlayerHelper.GetForeahandOptions();
 		this.backhandOptions = PlayerHelper.GetBackhandOptions();
+	}
+
+	addOrEditPlayer() {
+		var client = new PlayerClient();
+		this.tryGetDataByArgs<null, PlayerDTO>({
+			apiMethod: client.addOrEditPlayer,
+			showError: true,
+			requestArgs: this.player
+		}).then(() => {
+			NotificationUtils.Show({ message: "Parada ulozene", title: "Player" });
+		});
 	}
 
 	mounted() {
