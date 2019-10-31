@@ -14,26 +14,37 @@ import { i18n } from "../plugins/i18n";
 interface NotificationArgs {
 	message: string;
 	title: string;
+	group?: string;
+	type?: string;
+	speed?: number;
+	duration?: number;
 }
 
 export class NotificationUtils {
-	public static Show(args: NotificationArgs): void {
-		// return '<d-alert theme=' + args.theme.toString() + ' dismissible show>' + args.message + '</d-alert>'
+	private static ShowNotification(args: NotificationArgs): void {
 		Vue.notify({
-			group: "foo",
-			title: "Important message",
-			text: args.message
+			group: args.group,
+			title: args.title,
+			type: args.type,
+			text: args.message,
+			speed: 500,
+			duration: 5000
+		});
+	}
+
+	public static ShowSuccess(args: NotificationArgs): void {
+		this.ShowNotification({
+			type: "success",
+			title: args.title,
+			message: args.message
 		});
 	}
 
 	public static ShowErrorMessage(message: string): void {
-		Vue.notify({
-			group: "error",
-			title: i18n.t("error").toString(),
+		this.ShowNotification({
 			type: "error",
-			text: message,
-			speed: 500,
-			duration: 5000
+			title: i18n.t("error").toString(),
+			message: message
 		});
 	}
 }

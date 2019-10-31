@@ -10,8 +10,9 @@ export class PlayerDTO {
     Id: number = null;
     Name: string = null;
     Surname: string = null;
-    Age: number = null;
+    BirthDate: Date = null;
     Height: number = null;
+    Weight: number = null;
     Residence: string = null;
     Forehand: Forehand = null;
     Backhand: Backhand = null;
@@ -26,6 +27,9 @@ export class PlayerDTO {
 }
 export class PlayerArgs {
     Id: number = null;
+}
+export class PlayerSearchArgs {
+    SearchName: string = null;
 }
 
 
@@ -55,5 +59,9 @@ export default class PlayerClient {
 
     addOrEditPlayer<TArgs extends PlayerDTO, TResult extends any>(data: TArgs): Promise<TResult> {
         return AjaxProvider.apiPost("Player/AddOrEditPlayer", data);
+    }
+
+    playerBySearch<TArgs extends PlayerSearchArgs, TResult extends PlayerDTO[]>(data: TArgs): Promise<TResult> {
+        return AjaxProvider.apiGet("Player/PlayerBySearch", data);
     }
 }

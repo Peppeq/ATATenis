@@ -26,6 +26,8 @@ export abstract class BaseComponentClass extends Vue {
 				}
 				if (error.StatusCode == "500") {
 					this.showError(i18n.t("errorMessageGeneral").toString());
+				} else if (e.status == "400") {
+					this.showError(e.title);
 				} else {
 					this.showError(error.StatusDescription + " " + error.Message);
 				}

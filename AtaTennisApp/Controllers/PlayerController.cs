@@ -29,6 +29,11 @@ namespace AtaTennisApp.Controllers
         {
             public int Id { get; set; }
         }
+
+        public class PlayerSearchArgs
+        {
+            public string SearchName { get; set; }
+        }
         public class PlayerResponse
         {
             public List<Player> Players { get; set; }
@@ -53,8 +58,19 @@ namespace AtaTennisApp.Controllers
         public async Task<ActionResult> AddOrEditPlayer([FromBody]PlayerDTO player)
         {
             var updatedPlayer = await PlayerService.AddOrEditPlayer(player);
+            if (player.Id > 0)
+            {
+                return NoContent();
+            }
             var uri = "api/player";
             return Created(uri, updatedPlayer);
+        }
+
+        [HttpGet("PlayerBySearch")]
+        public async Task<ActionResult<List<PlayerDTO>>> PlayerBySearch([FromQuery]PlayerSearchArgs args)
+        {
+            var players = await PlayerService.GetPlayersByNameSurname(args.SearchName);
+            return players;
         }
     }
 }

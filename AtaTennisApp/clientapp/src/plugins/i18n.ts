@@ -130,7 +130,12 @@ export const i18n: VueI18n = new VueI18n({
 			forehandType1: "Left-handed",
 
 			backhandType0: "One-handed",
-			backhandType1: "Two-handed"
+			backhandType1: "Two-handed",
+
+			// validations messages --------------------------------
+			validations: {
+				required: "{_field_} is required"
+			}
 		},
 		sk: {
 			tournament: "Turnaj | Turnaje",
@@ -191,7 +196,12 @@ export const i18n: VueI18n = new VueI18n({
 			forehandType1: "Ľavák",
 
 			backhandType0: "Jednoručný",
-			backhandType1: "Obojručný"
+			backhandType1: "Obojručný",
+
+			// validations messages --------------------------------
+			validations: {
+				required: "{_field_} je povinné"
+			}
 		}
 	},
 	dateTimeFormats: dateTimeFormats,

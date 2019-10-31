@@ -15,6 +15,7 @@ namespace AtaTennisApp.BL
     {
         Task<PlayerDTO> GetPlayerById(int id);
         Task<List<PlayerDTO>> GetAllPlayers();
+        Task<List<PlayerDTO>> GetPlayersByNameSurname(string searchName);
         Task<PlayerDTO> AddOrEditPlayer(PlayerDTO player);
     }
     public class PlayerService : IPlayerService
@@ -36,7 +37,7 @@ namespace AtaTennisApp.BL
         public async Task<List<PlayerDTO>> GetAllPlayers()
         {
             var playersDto = new List<PlayerDTO>();
-            var players = await _dbContext.Player.OrderBy(p => p.Points).ToListAsync();
+            var players = await _dbContext.Player.OrderByDescending(p => p.Points).ToListAsync();
             foreach (var player in players)
             {
                 var playerDto = Mapper.Map<Player, PlayerDTO>(player);
@@ -54,7 +55,7 @@ namespace AtaTennisApp.BL
             }
             else
             {
-                var currentPlayer = _dbContext.Player.Where(p => p.Id == player.Id).FirstOrDefaultAsync();
+                var currentPlayer = await _dbContext.Player.Where(p => p.Id == player.Id).FirstOrDefaultAsync();
                 _dbContext.Entry(currentPlayer).CurrentValues.SetValues(player);
             }
 
@@ -62,6 +63,20 @@ namespace AtaTennisApp.BL
             var updatedPlayerDto = Mapper.Map<Player, PlayerDTO>(player);
 
             return updatedPlayerDto;
+        }
+
+        public async Task<List<PlayerDTO>> GetPlayersByNameSurname(string searchName)
+        {
+            var playersDto = new List<PlayerDTO>();
+            var searchSubstring = searchName.ToLower();
+            var players = await _dbContext.Player.Where(p => p.Surname.ToLower().Contains(searchSubstring) 
+                || p.Name.ToLower().Contains(searchSubstring)).Take(5).ToListAsync();
+            foreach (var player in players)
+            {
+                var playerDto = Mapper.Map<Player, PlayerDTO>(player);
+                playersDto.Add(playerDto);
+            }
+            return playersDto;
         }
     }
 }

@@ -297,3 +297,9 @@ GO
 ALTER TABLE [AtaTennis].[dbo].[Player] ALTER COLUMN Forehand int;
 ALTER TABLE [AtaTennis].[dbo].[Player] ALTER COLUMN Backhand int;
 ALTER TABLE [AtaTennis].[dbo].[Player] Add Weight int null;
+
+  ALTER TABLE [AtaTennis].[dbo].[Player] ALTER COLUMN Backhand int;
+
+EXEC sp_rename 'Player.Age', 'BirthDate', 'COLUMN';
+  ALTER TABLE Player drop column BirthDate
+ALTER Table player add BirthDate date;

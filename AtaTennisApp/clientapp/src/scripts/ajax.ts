@@ -64,12 +64,14 @@ export class AjaxProvider {
 				const contentType = response.headers.get("content-type");
 				if (contentType && contentType.indexOf("application/json") !== -1) {
 					return response.json() as Promise<TResult>;
+				} else {
+					return null;
 				}
-				throw response;
 			})
 			.catch(
 				async (e): Promise<TResult> => {
 					console.log("catch in AjaxProvider error: " + e);
+					console.log(e);
 					let error: ErrorResponse = null;
 					if (e instanceof Error) {
 						error = {

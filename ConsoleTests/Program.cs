@@ -24,7 +24,7 @@ namespace ConsoleTests
             var player = context.Player.FirstOrDefault();
             //player.Wait();
             //Console.WriteLine(player.Result.Age + player.Result.Name + ' ' + player.Result.Surname);
-            Console.WriteLine(player.Age + player.Name + ' ' + player.Surname);
+            Console.WriteLine(player.BirthDate + player.Name + ' ' + player.Surname);
 
             var user = new UserDTO(){    
                 //Email = "",

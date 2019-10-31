@@ -26,8 +26,8 @@
 			{{ $t("noTournament") }}
 		</d-row>
 
-		<img alt="Vue logo" src="../assets/logo.png" />
-		<HelloWorld msg="Welcome to ATA" />
+		<img alt="nearestTournament" src="../assets/clay.jpg" style="width: 100%" />
+		<!-- <HelloWorld msg="Welcome to ATA" /> -->
 	</d-container>
 </template>
 
