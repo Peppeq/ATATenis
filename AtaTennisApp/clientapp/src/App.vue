@@ -23,10 +23,10 @@ import Vue from "vue";
 
 export default class App extends Vue {
 	created() {
-		let fontawesome = document.createElement("script");
-		fontawesome.setAttribute("src", "https://kit.fontawesome.com/a8081aacd9.js");
-		fontawesome.setAttribute("crossorigin", "anonymous");
-		document.head.appendChild(fontawesome);
+		// let fontawesome = document.createElement("script");
+		// fontawesome.setAttribute("src", "https://kit.fontawesome.com/a8081aacd9.js");
+		// fontawesome.setAttribute("crossorigin", "anonymous");
+		// document.head.appendChild(fontawesome);
 	}
 
 	// @Ref() provider!: InstanceType<typeof ValidationProvider>;

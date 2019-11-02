@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
 import { Authorization } from "./common/authorization";
 
 Vue.use(Router);
 
 export const router = new Router({
 	mode: "history",
+	linkActiveClass: "active",
 	routes: [
 		{
 			path: "/",
@@ -50,9 +50,21 @@ export const router = new Router({
 			component: () => import("./views/user/Register.vue")
 		},
 		{
-			path: "/dashboard",
-			name: "Dashboard",
-			component: () => import("./views/Dashboard.vue")
+			path: "/dashboard/playerManagement",
+			name: "PlayerManagement",
+			component: () => import("./views/dashboard/player-management.vue")
+			// children: [
+			// 	{
+			// 		path: "/dashboard/tournamentManagement",
+			// 		name: "TournamentManagement",
+			// 		component: () => import("./views/dashboard/tournament-management.vue")
+			// 	}
+			// ]
+		},
+		{
+			path: "/dashboard/tournamentManagement",
+			name: "TournamentManagement",
+			component: () => import("./views/dashboard/tournament-management.vue")
 		},
 		{
 			path: "/tournamentList",
@@ -71,8 +83,9 @@ export const router = new Router({
 
 router.beforeEach((to, from, next) => {
 	// redirect to admin page if not logged in and trying to access a restricted page
-	const privatePages = ["/dashboard", "/register"];
-	const authRequired = privatePages.includes(to.path);
+	const privatePages = ["dashboard", "register"];
+	var pathLevels = to.path.split("/");
+	const authRequired = privatePages.includes(pathLevels[1]);
 
 	if (authRequired && !Authorization.isAdmin()) {
 		return next("/admin");

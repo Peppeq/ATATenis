@@ -17,6 +17,8 @@ import Notifications from "vue-notification";
 // @ts-ignore
 import Spinner from "vue-spinkit";
 import LoadingButton from "./components/elements/loading-button.vue";
+// @ts-ignore
+import EventHub from "vue-event-hub";
 
 // plugins
 import { router } from "./router";
@@ -42,6 +44,7 @@ Vue.component("ValidationObserver", ValidationObserver);
 
 Vue.use(ShardsVue);
 Vue.use(Notifications);
+Vue.use(EventHub);
 
 new Vue({
 	router,

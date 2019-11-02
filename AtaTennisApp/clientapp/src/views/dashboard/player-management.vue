@@ -1,10 +1,10 @@
 <template>
 	<d-container fluid class="main-content-container px-4">
 		<d-row class="px-4 py-2">
-			<h3>Dashboard</h3>
+			<h4>Edit Player</h4>
 		</d-row>
 		<d-row class="p-4">
-			<d-input-group class="ml-3" seamless>
+			<d-input-group class="mb-3" seamless>
 				<!-- <d-input-group-text slot="prepend">
 					<i class="material-icons">search</i>
 					<i class="fas fa-search"></i>
@@ -48,15 +48,15 @@
 </template>
 
 <script lang="ts">
-import { BaseComponentClass } from "../common/BaseComponentClass";
+import { BaseComponentClass } from "../../common/BaseComponentClass";
 import Component from "vue-class-component";
-import PlayerAddModal from "./player/player-add-modal.vue";
-import PlayerClient, { PlayerDTO, PlayerSearchArgs } from "../Api/PlayerController";
+import PlayerAddModal from "../player/player-add-modal.vue";
+import PlayerClient, { PlayerDTO, PlayerSearchArgs } from "../../Api/PlayerController";
 
 @Component({
 	components: { PlayerAddModal }
 })
-export default class Dashboard extends BaseComponentClass {
+export default class PlayerManagement extends BaseComponentClass {
 	showAddPlayerModal: boolean = false;
 	searchName: string = null;
 	searchedPlayers: PlayerDTO[] = [];

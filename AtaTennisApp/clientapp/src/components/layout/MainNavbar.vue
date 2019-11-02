@@ -15,7 +15,7 @@
 			<d-navbar-nav :justified="true">
 				<d-nav-item to="/tournamentList">{{ $tc("tournament", 0) }}</d-nav-item>
 				<d-nav-item to="/rankings">{{ $t("rankings") }}</d-nav-item>
-				<d-nav-item to="/dashboard">Dashboard</d-nav-item>
+				<d-nav-item to="/dashboard/playerManagement">Dashboard</d-nav-item>
 			</d-navbar-nav>
 		</d-collapse>
 		<d-form-select
@@ -45,5 +45,5 @@ export default class MainNavbar extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-@import "@/styles/components/layouts/main-navbar.scss";
+@import "@/styles/components/layouts/my-main-navbar.scss";
 </style>
