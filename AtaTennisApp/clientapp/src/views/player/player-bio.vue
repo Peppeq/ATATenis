@@ -5,9 +5,24 @@
 				<!-- Name -->
 				<d-col md="6" class="form-group">
 					<label for="name">{{ $t("name") }}</label>
-					<ValidationProvider ref="playerName" v-slot="{ errors }" rules="required" :name="$t('name')">
-						<d-form-input id="name" v-model="player.Name" :state="isPlayerNameValid()" />
-						<span id="error" class="form-group error" :v-if="isPlayerNameInvalid()">{{ errors[0] }}</span>
+					<ValidationProvider
+						ref="playerName"
+						v-slot="{ errors, changed, validated, valid, invalid }"
+						rules="required"
+						:name="$t('name')"
+					>
+						<d-form-input
+							id="name"
+							v-model="player.Name"
+							:state="isPlayerNameValid(changed, validated, valid)"
+						/>
+						<span
+							id="error"
+							class="error"
+							:class="{ 'form-group': errors != null && errors.length > 0 }"
+							:v-if="changed && invalid"
+							>{{ errors[0] }}</span
+						>
 					</ValidationProvider>
 				</d-col>
 
@@ -16,14 +31,22 @@
 					<label for="surname">{{ $t("surname") }}</label>
 					<ValidationProvider
 						ref="playerSurname"
-						v-slot="{ errors, dirty, touched, valid }"
+						v-slot="{ errors, changed, validated, valid, invalid }"
 						rules="required"
 						:name="$t('surname')"
 					>
-						<d-form-input id="surname" v-model="player.Surname" :state="isPlayerSurnameValid()" />
-						<span id="error" class="form-group error" :v-if="isPlayerSurnameInvalid()">{{
-							errors[0]
-						}}</span>
+						<d-form-input
+							id="surname"
+							v-model="player.Surname"
+							:state="isPlayerSurnameValid(changed, validated, valid)"
+						/>
+						<span
+							id="error"
+							class="error"
+							:class="{ 'form-group': errors != null && errors.length > 0 }"
+							:v-if="changed && invalid"
+							>{{ errors[0] }}</span
+						>
 					</ValidationProvider>
 				</d-col>
 			</d-form-row>
@@ -36,7 +59,7 @@
 						v-if="isReadonly"
 						id="Birthdate"
 						:readonly="isReadonly"
-						:value="getBirthdateText(player.BirthDate)"
+						:value="dateHelper.getDateByLocale(player.BirthDate, $i18n.locale)"
 					/>
 					<d-datepicker v-if="!isReadonly" v-model="player.BirthDate" typeable />
 					<!-- <d-form-input
@@ -98,13 +121,13 @@
 						v-if="isReadonly"
 						id="forehand"
 						:readonly="isReadonly"
-						:value="getForehandText(player.Forehand)"
+						:value="playerHelper.GetForehandText(player.Forehand)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="forehand"
 						v-model="player.Forehand"
-						:options="forehandOptions"
+						:options="playerHelper.GetForeahandOptions()"
 						:value="player.Forehand"
 					/>
 				</d-col>
@@ -116,13 +139,13 @@
 						v-if="isReadonly"
 						id="Backhand"
 						:readonly="isReadonly"
-						:value="getBackhandText(player.Backhand)"
+						:value="playerHelper.GetBackhandText(player.Backhand)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="Backhand"
 						v-model="player.Backhand"
-						:options="backhandOptions"
+						:options="playerHelper.GetBackhandOptions()"
 						:value="player.Backhand"
 					/>
 				</d-col>
@@ -135,14 +158,14 @@
 					<d-form-input
 						v-if="isReadonly"
 						:readonly="isReadonly"
-						:value="getSurfaceTypeText(player.Surface)"
+						:value="playerHelper.GetSurfaceTypeText(player.Surface)"
 						:class="{ 'player-input': isReadonly }"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="favSurface"
 						v-model="player.Surface"
-						:options="surfaceTypeOptions"
+						:options="playerHelper.GetSurfaceOptions()"
 						:value="player.Surface"
 					/>
 				</d-col>
@@ -210,14 +233,12 @@
 
 <script lang="ts">
 import Component from "vue-class-component";
-import { Prop, Watch, Ref } from "vue-property-decorator";
-import PlayerClient, { PlayerDTO, Backhand, Forehand } from "@/Api/PlayerController";
-import { PlayerHelper, SurfaceObj, ForehandObj, BackhandObj } from "../player/player-helper";
-import { SurfaceType } from "../../Api/PlayerController";
+import { Prop, Ref } from "vue-property-decorator";
+import PlayerClient, { PlayerDTO } from "@/Api/PlayerController";
+import { PlayerHelper } from "../player/player-helper";
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import { NotificationUtils } from "../../common/notification";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import { DateHelper } from "../../common/DateHelper";
 
 @Component
 export default class PlayerBio extends BaseComponentClass {
@@ -229,52 +250,9 @@ export default class PlayerBio extends BaseComponentClass {
 
 	player: PlayerDTO = null;
 	isReadonly: boolean = true;
-	surfaceTypeOptions: SurfaceObj[] = [];
-	forehandOptions: ForehandObj[] = [];
-	backhandOptions: BackhandObj[] = [];
 	playerSurnameAfterRender: InstanceType<typeof ValidationProvider> = null;
 	isEdit: boolean = false;
-
-	getPlayerDate(date: Date) {
-		return DateHelper.sqlToJsDate(date);
-	}
-
-	getBirthdateText(date: Date): string {
-		if (date != null) {
-			console.log(date);
-
-			return DateHelper.getDateByLocale(date, this.$i18n.locale);
-		} else {
-			return "";
-		}
-	}
-
-	getDateFormat(): string {
-		if (this.$i18n.locale == "sk") {
-			return "dd.MMM.yyyy";
-		} else {
-			return "MMM.dd.yyyy";
-		}
-	}
-
-	getSurfaceTypeText(value: SurfaceType): string {
-		return value != null ? PlayerHelper.GetSurfaceTypeText(value) : "";
-	}
-
-	getForehandText(value: Forehand): string {
-		return value != null ? PlayerHelper.GetForehandText(value) : "";
-	}
-
-	getBackhandText(value: Backhand): string {
-		return value != null ? PlayerHelper.GetBackhandText(value) : "";
-	}
-
-	@Watch("$i18n.locale")
-	onLocaleChanged() {
-		this.surfaceTypeOptions = PlayerHelper.GetSurfaceOptions();
-		this.forehandOptions = PlayerHelper.GetForeahandOptions();
-		this.backhandOptions = PlayerHelper.GetBackhandOptions();
-	}
+	playerHelper = PlayerHelper;
 
 	async addOrEditPlayer() {
 		if (await this.playerForm.validate()) {
@@ -297,63 +275,25 @@ export default class PlayerBio extends BaseComponentClass {
 		}
 	}
 
-	@Ref() playerName!: InstanceType<typeof ValidationProvider>;
-	@Ref() playerSurname!: InstanceType<typeof ValidationProvider>;
 	@Ref() playerForm!: InstanceType<typeof ValidationObserver>;
 
-	@Watch("playerName")
-	isPlayerNameInvalid() {
-		if (this.playerName != null) return this.playerName.flags.changed && this.playerName.flags.invalid;
-	}
-
-	@Watch("playerName")
-	isPlayerNameValid() {
-		if (this.playerName != null) {
-			if (this.isEdit) {
-				if (this.playerName.flags.changed) {
-					return this.playerName.flags.valid;
-				} else {
-					return null;
-				}
-			} else {
-				if (this.playerName.flags.changed || this.playerName.flags.validated) {
-					return this.playerName.flags.valid;
-				} else {
-					return null;
-				}
-			}
+	isPlayerNameValid(changed: boolean, validated: boolean, valid: boolean) {
+		if (this.isEdit) {
+			return changed ? validated : null;
+		} else {
+			return changed || validated ? valid : null;
 		}
 	}
 
-	// this computed property is not working because this.playerSurname.flags is not reactive must be implemented as watcher
-	@Watch("playerSurname")
-	isPlayerSurnameInvalid() {
-		if (this.playerSurname != null) return this.playerSurname.flags.changed && this.playerSurname.flags.invalid;
-	}
-
-	@Watch("playerSurname")
-	isPlayerSurnameValid() {
-		if (this.playerSurname != null) {
-			if (this.isEdit) {
-				if (this.playerSurname.flags.changed) {
-					return this.playerSurname.flags.valid;
-				} else {
-					return null;
-				}
-			} else {
-				if (this.playerSurname.flags.changed || this.playerSurname.flags.validated) {
-					return this.playerSurname.flags.valid;
-				} else {
-					return null;
-				}
-			}
+	isPlayerSurnameValid(changed: boolean, validated: boolean, valid: boolean) {
+		if (this.isEdit) {
+			return changed ? valid : null;
+		} else {
+			return changed || validated ? valid : null;
 		}
 	}
 
 	mounted() {
-		this.surfaceTypeOptions = PlayerHelper.GetSurfaceOptions();
-		this.forehandOptions = PlayerHelper.GetForeahandOptions();
-		this.backhandOptions = PlayerHelper.GetBackhandOptions();
 		this.player = new PlayerDTO();
 		if (this.playerProp != null) {
 			this.player = { ...this.playerProp };

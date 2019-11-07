@@ -1,9 +1,38 @@
 ﻿<template>
-	<d-card class="main-card">
+	<d-container v-if="tournament != null" fluid class="main-content-container px-4">
+		<d-card class="mt-4">
+			<d-row>
+				<d-col id="player-details" class="m-auto no-padding-right" lg="4">
+					<!-- <d-card><d-list-group flush>
+						<d-list-group-item>
+							blaa
+						</d-list-group-item>
+					</d-list-group> </d-card> -->
+					<div class="text-center text-nowrap">
+						<h4>{{ getStarttimeText(tournament.StartTime) }}</h4>
+						<h2>{{ tournament.Name }}</h2>
+						<h4>{{ tournament.Place }}</h4>
+					</div>
+				</d-col>
+
+				<d-col lg-8 class="no-padding-left">
+					<div class="tournament-image"></div>
+				</d-col>
+			</d-row>
+		</d-card>
+		<d-card class="mt-4">
+			<d-list-group flush>
+				<d-list-group-item>
+					<tournament-details :tournament-prop="tournament" />
+				</d-list-group-item>
+			</d-list-group>
+		</d-card>
+	</d-container>
+	<!-- <d-card class="main-card">
 		<d-row>
 			<d-col>
 				<d-card>
-					<!--<img src="http://localhost/wwwclientapp/src/assets/images/300x200.gif">-->
+					<img src="http://localhost/wwwclientapp/src/assets/images/300x200.gif">
 					<d-card-img
 						src="http://images.sportspromedia.com/images/made/images/uploads/news/tennis_grass_court_generic_630_354_80_s_c1.jpg"
 					/>
@@ -18,7 +47,7 @@
 				<d-card-footer>Card footer</d-card-footer>
 			</d-col>
 		</d-row>
-	</d-card>
+	</d-card> -->
 </template>
 
 <script lang="ts">
@@ -27,15 +56,23 @@ import TournamentClient, { TournamentDTO, TournamentFilter } from "../Api/Tourna
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import { Watch, Prop } from "vue-property-decorator";
 import { router } from "@/router";
+import { DateHelper } from "@/common/DateHelper";
+import TournamentDetails from "./tournament/TournamentDetails.vue";
 
-@Component
+@Component({
+	components: { TournamentDetails }
+})
 export default class TournamentClass extends BaseComponentClass {
 	tournament?: TournamentDTO = null;
 	tournamentId: number = 0;
 
 	@Prop() tournamentProp?: TournamentDTO;
 
-	async mounted() {
+	getStarttimeText(date: Date): string {
+		return date != null ? DateHelper.getDateByLocale(date, this.$i18n.locale) : "";
+	}
+
+	mounted() {
 		var _this = this;
 		console.log("tour was mounted");
 		var tournamentClient = new TournamentClient();
@@ -51,10 +88,8 @@ export default class TournamentClass extends BaseComponentClass {
 					Year: 0,
 					Type: null
 				}
-			}).then((tournament: TournamentDTO[]) => {
-				if (tournament != null && tournament.length > 0) {
-					_this.tournament = tournament[0];
-				}
+			}).then(response => {
+				if (response.ok) _this.tournament = response.data[0];
 			});
 		} else {
 			console.log("yeah");
@@ -68,3 +103,20 @@ export default class TournamentClass extends BaseComponentClass {
 	}
 }
 </script>
+<style lang="scss" scoped>
+.tournament-image {
+	width: 100%;
+	height: 400px;
+	background-image: url("http://images.sportspromedia.com/images/made/images/uploads/news/tennis_grass_court_generic_630_354_80_s_c1.jpg");
+	background-size: cover;
+	border: 1px solid black;
+}
+@media (min-width: 992px) {
+	.no-padding-left {
+		padding-left: 0px;
+	}
+	.no-padding-right {
+		padding-right: 0px;
+	}
+}
+</style>

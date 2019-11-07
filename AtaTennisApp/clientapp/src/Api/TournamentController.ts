@@ -20,9 +20,12 @@ export class TournamentDTO {
     Category: TournamentCategory = null;
     PlayingSystem: PlayingSystem = null;
     BallsType: BallsType = null;
-    Description: string = null;
     TournamentType: TournamentType = null;
     Surface: SurfaceType = null;
+    Description: string = null;
+}
+export class TournamentByNameArgs {
+    Name: string = null;
 }
 
 
@@ -59,7 +62,15 @@ export default class TournamentClient {
         return AjaxProvider.apiGet("Tournament", data);
     }
 
+    getTournamentByName<TArgs extends TournamentByNameArgs, TResult extends TournamentDTO[]>(data: TArgs): Promise<TResult> {
+        return AjaxProvider.apiGet("Tournament/getTournamentByName", data);
+    }
+
     getWithoutParams<TResult extends TournamentDTO>(): Promise<TResult> {
         return AjaxProvider.apiGet("Tournament/nearestTournament", null);
+    }
+
+    addOrEditTournament<TArgs extends TournamentDTO, TResult extends TournamentDTO>(data: TArgs): Promise<TResult> {
+        return AjaxProvider.apiPost("Tournament/AddOrEditTournament", data);
     }
 }

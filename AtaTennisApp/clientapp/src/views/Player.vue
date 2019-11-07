@@ -155,9 +155,9 @@ export default class PlayerView extends BaseComponentClass {
 			apiMethod: client.getPlayerById,
 			showError: true,
 			requestArgs: { Id: this.playerId }
-		}).then(player => {
-			if (player != null) {
-				this.player = player;
+		}).then(response => {
+			if (response.ok != null) {
+				this.player = response.data;
 			}
 		});
 	}

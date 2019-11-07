@@ -70,8 +70,8 @@ export default class PlayerManagement extends BaseComponentClass {
 				apiMethod: client.playerBySearch,
 				showError: true,
 				requestArgs: { SearchName: this.searchName }
-			}).then(players => {
-				this.searchedPlayers = players;
+			}).then(resp => {
+				if (resp.ok) this.searchedPlayers = resp.data;
 			});
 		} else {
 			this.searchName = "";

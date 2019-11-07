@@ -25,13 +25,17 @@ export class DateHelper {
 	}
 
 	public static getDateByLocale(date: Date, locale: string): string {
-		var options = { year: "numeric", month: "long", day: "numeric" };
-		try {
-			var parsedDate = DateHelper.sqlToJsDate(date);
-			console.log(parsedDate.toLocaleDateString(locale, options));
-		} catch (e) {
-			console.log(e);
+		if (date != null) {
+			var options = { year: "numeric", month: "long", day: "numeric" };
+			try {
+				var parsedDate = DateHelper.sqlToJsDate(date);
+				console.log(parsedDate.toLocaleDateString(locale, options));
+			} catch (e) {
+				console.log(e);
+			}
+			return parsedDate.toLocaleDateString(locale, options);
+		} else {
+			return "";
 		}
-		return parsedDate.toLocaleDateString(locale, options);
 	}
 }

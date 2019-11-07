@@ -27,15 +27,13 @@ const actions = {
 		userService.login(userDto.Username, userDto.Password).then(
 			user => {
 				commit("loginSuccess", user);
-				router.push("/dashboard");
+				router.push("/dashboard/playerManagement");
 			}
-		).catch(error => {
-			console.log(error.json().then((e: ErrorResponse) => {
-				console.log(e)
-				commit("loginFailure");
-				dispatch("alertModule/error", e.Message, { root: true });
-				NotificationUtils.ShowErrorMessage(e.Message);
-			}));
+		).catch((error: ErrorResponse) => {
+			console.log(error)
+			commit("loginFailure");
+			dispatch("alertModule/error", error.Message, { root: true });
+			NotificationUtils.ShowErrorMessage(error.Message);
 		});
 	}
 	// logout({ commit }) {

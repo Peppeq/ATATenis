@@ -50,8 +50,8 @@ export default class Home extends BaseComponentClass {
 			apiMethod: client.getWithoutParams,
 			showError: true,
 			requestArgs: null
-		}).then((tournament: TournamentDTO) => {
-			this.nearestTournament = tournament;
+		}).then(resp => {
+			if (resp.ok) this.nearestTournament = resp.data;
 		});
 	}
 }

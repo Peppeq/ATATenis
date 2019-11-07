@@ -1,5 +1,5 @@
 <template>
-	<d-navbar toggleable="md" type="dark" theme="primary" :sticky="true">
+	<d-navbar toggleable="md" type="dark" :sticky="true">
 		<d-navbar-toggle target="nav-collapse"></d-navbar-toggle>
 		<d-navbar-brand tag="a" to="/">
 			<!-- <d-nav-item > -->
@@ -18,30 +18,19 @@
 				<d-nav-item to="/dashboard/playerManagement">Dashboard</d-nav-item>
 			</d-navbar-nav>
 		</d-collapse>
-		<d-form-select
-			v-model="selectedLanguage"
-			:options="languages"
-			class="language-select float-right"
-			@change="onChangeLang($event)"
-		/>
+		<language-select />
 	</d-navbar>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import languageSelect from "../LanguageSelect.vue";
 
-@Component
+@Component({
+	components: { languageSelect }
+})
 export default class MainNavbar extends Vue {
 	navbarIsJustified: boolean = true;
-	languages: string[] = ["EN", "SK"];
-	selectedLanguage: string = null;
-
-	mounted() {
-		this.selectedLanguage = this.languages[0];
-	}
-	onChangeLang(language: string): void {
-		this.$i18n.locale = language.toLowerCase();
-	}
 }
 </script>
 <style lang="scss" scoped>

@@ -73,6 +73,7 @@ export const i18n: VueI18n = new VueI18n({
 			username: "User name",
 			point: "Point | Points",
 			create: "Create",
+			place: "Place",
 
 			// player page
 			name: "Name",
@@ -90,6 +91,8 @@ export const i18n: VueI18n = new VueI18n({
 			startedAta: "Tourned ATA",
 			bio: "Bio",
 			title: "Titul | Tituly",
+			start: "Start",
+			end: "End",
 
 			// sentences -----------------------------------------
 			usernameRequired: "Username is required",
@@ -98,6 +101,7 @@ export const i18n: VueI18n = new VueI18n({
 			noTournament: "Currently no tournament :(",
 			saveChanges: "Save changes",
 			newPlayer: "New player",
+			newTournament: "New tournament",
 
 			// enums translations --------------------------------
 			tournamentType0: "Grandslam",
@@ -114,10 +118,10 @@ export const i18n: VueI18n = new VueI18n({
 			playingSystem2: "Kombi",
 			playingSystem3: "Group",
 
-			BallsType0: "Slazenger",
-			BallsType1: "Dunlop All Court",
-			BallsType2: "Wilson US Open",
-			BallsType3: "Wilson Australian Open",
+			ballsType0: "Slazenger",
+			ballsType1: "Dunlop All Court",
+			ballsType2: "Wilson US Open",
+			ballsType3: "Wilson Australian Open",
 
 			DrawType0: "Playoff",
 			DrawType1: "Group",
@@ -154,6 +158,9 @@ export const i18n: VueI18n = new VueI18n({
 			username: "Užívateľské meno",
 			point: "Bod | Body",
 			create: "Vytvoriť",
+			place: "Miesto",
+			start: "Začiatok",
+			end: "Koniec",
 
 			// player page
 			name: "Meno",
@@ -179,6 +186,7 @@ export const i18n: VueI18n = new VueI18n({
 			noTournament: "Momentálne žiaden turnaj :(",
 			saveChanges: "Uložiť zmeny",
 			newPlayer: "Nový hráč",
+			newTournament: "Nový turnaj",
 			// enums translations --------------------------------
 			tournamentType3: "ATA Špeciál",
 

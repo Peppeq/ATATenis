@@ -1,10 +1,4 @@
-.language-select{
-    width: 60px;
-    margin: 0px !important;
-    padding: 0 0 0 5px !important;
-    height: 30px !important;
-    border-radius: 5px;
-}
+
 
 .nav-item{
 	&:hover{
@@ -15,5 +9,9 @@
 	&:hover{
 		cursor: pointer !important;
 	}
+}
+
+.navbar-dark{
+	background-color: #032b57 !important
 }
 // premenovat subor a zmenit referenciu

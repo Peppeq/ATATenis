@@ -1,4 +1,4 @@
-import { TournamentType, TournamentCategory } from "@/Api/TournamentController";
+import { TournamentType, TournamentCategory, SurfaceType, PlayingSystem, BallsType } from "@/Api/TournamentController";
 import { i18n } from "@/plugins/i18n";
 
 export interface TournamentTypeObj {
@@ -11,7 +11,17 @@ export interface TournamentCategoryObj {
 	text: string;
 }
 
-export class TournamentHelperClass {
+export interface PlayingSystemObj {
+	value: PlayingSystem;
+	text: string;
+}
+
+export interface BallsTypeObj {
+	value: BallsType;
+	text: string;
+}
+
+export class TournamentHelper {
 	public static GetTournamentTypes(): TournamentTypeObj[] {
 		return [
 			{
@@ -33,11 +43,11 @@ export class TournamentHelperClass {
 			{
 				value: TournamentType.challangerSpecial,
 				text: i18n.t("tournamentType" + TournamentType.challangerSpecial).toString()
+			},
+			{
+				value: null,
+				text: i18n.t("all").toString()
 			}
-			// {
-			// 	value: TournamentType.all,
-			// 	text: i18n.t("allValues").toString()
-			// },
 		];
 	}
 
@@ -53,16 +63,58 @@ export class TournamentHelperClass {
 			}
 		];
 	}
-}
 
-export function GetTournamentTypeName(id: number): string {
-	return i18n.t("tournamentType" + id).toString();
-}
+	public static GetPlayingSystems(): PlayingSystemObj[] {
+		return [
+			{
+				value: PlayingSystem.complete,
+				text: i18n.t("playingSystem" + PlayingSystem.complete).toString()
+			},
+			{
+				value: PlayingSystem.prince,
+				text: i18n.t("playingSystem" + PlayingSystem.prince).toString()
+			},
+			{
+				value: PlayingSystem.kombi,
+				text: i18n.t("playingSystem" + PlayingSystem.kombi).toString()
+			},
+			{
+				value: PlayingSystem.group,
+				text: i18n.t("playingSystem" + PlayingSystem.group).toString()
+			}
+		];
+	}
 
-export function GetTournamentCategoryName(id: number): string {
-	return i18n.t("tournamentCategory" + id).toString();
-}
+	public static GetBallsTypes(): BallsTypeObj[] {
+		return [
+			{
+				value: BallsType.dunlop,
+				text: "Dunlop"
+			},
+			{
+				value: BallsType.slazenger,
+				text: "Slazenger"
+			}
+		];
+	}
 
-export function GetTournamentSurfaceName(id: number): string {
-	return i18n.t("surfaceType" + id).toString();
+	public static GetBallsTypeName(id?: BallsType): string {
+		return id != null ? i18n.t("ballsType" + id).toString() : "";
+	}
+
+	public static GetPlayingSystemName(id?: PlayingSystem): string {
+		return id != null ? i18n.t("playingSystem" + id).toString() : "";
+	}
+
+	public static GetTournamentTypeName(id?: TournamentType): string {
+		return id != null ? i18n.t("tournamentType" + id).toString() : "";
+	}
+
+	public static GetTournamentCategoryName(id?: TournamentCategory): string {
+		return id != null ? i18n.t("tournamentCategory" + id).toString() : "";
+	}
+
+	public static GetTournamentSurfaceName(id?: SurfaceType): string {
+		return id != null ? i18n.t("surfaceType" + id).toString() : "";
+	}
 }

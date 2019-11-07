@@ -1,0 +1,15 @@
+%language-select-shared{
+	width: 60px;
+    margin: 0px !important;
+    padding: 0 0 0 5px !important;
+    height: 30px !important;
+	border-radius: 5px;
+}
+
+.language-select{
+    @extend %language-select-shared;
+	&-admin{
+		@extend %language-select-shared;
+		margin: auto 0.5rem auto !important;
+	}
+}

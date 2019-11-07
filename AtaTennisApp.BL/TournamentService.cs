@@ -23,6 +23,8 @@ namespace AtaTennisApp.BL
     {
         Task<TournamentDTO> GetNearestTournament();
         Task<List<TournamentDTO>> GetFilteredTournaments(TournamentFilter filter);
+        Task<TournamentDTO> AddOrEditTournament(TournamentDTO tournamentDTO);
+        Task<List<TournamentDTO>> GetTournamentsByName(string name);
     }
     public class TournamentService : ITournamentService
     {
@@ -69,6 +71,21 @@ namespace AtaTennisApp.BL
             return list;
         }
 
+        public async Task<List<TournamentDTO>> GetTournamentsByName(string name)
+        {
+            var list = new List<TournamentDTO>();
+            var tournamentList = await _dbContext.Tournament.Where(t => t.Name.ToLower()
+                .Contains(name.ToLower())).Take(5).ToListAsync();
+
+            foreach (var tournament in tournamentList)
+            {
+                var tournamentDto = Mapper.Map<Tournament, TournamentDTO>(tournament);
+                list.Add(tournamentDto);
+            }
+
+            return list;
+        }
+
         public async Task<TournamentDTO> GetNearestTournament()
         {
             var tournament = await _dbContext.Tournament.Where(t => t.StartTime > DateTime.Now)
@@ -76,6 +93,25 @@ namespace AtaTennisApp.BL
 
             var tournamentDto = Mapper.Map<Tournament, TournamentDTO>(tournament);
             return tournamentDto;
+        }
+
+        public async Task<TournamentDTO> AddOrEditTournament(TournamentDTO tournamentDTO)
+        {
+            var tournament = Mapper.Map<TournamentDTO, Tournament>(tournamentDTO);
+            if (tournamentDTO.Id > 0)
+            {
+                var currentTournament = await _dbContext.Tournament.Where(t => t.Id == tournamentDTO.Id).FirstOrDefaultAsync();
+                _dbContext.Entry(currentTournament).CurrentValues.SetValues(tournament);
+            }
+            else
+            {
+                await _dbContext.Tournament.AddAsync(tournament);
+            }
+
+            await _dbContext.SaveChangesAsync();
+            var updatedTournamentDto = Mapper.Map<Tournament, TournamentDTO>(tournament);
+
+            return updatedTournamentDto;
         }
     }
 }

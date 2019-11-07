@@ -49,9 +49,9 @@ export default class RankingsView extends BaseComponentClass {
 			apiMethod: client.getWithoutParams,
 			showError: true,
 			requestArgs: null
-		}).then(players => {
-			if (players != null) {
-				this.players = players;
+		}).then(resp => {
+			if (resp.ok) {
+				this.players = resp.data;
 			}
 		});
 	}

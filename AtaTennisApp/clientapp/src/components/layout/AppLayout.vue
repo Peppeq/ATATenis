@@ -4,7 +4,7 @@
 			<main-sidebar v-if="isDashboard && isAdmin" />
 			<main
 				v-if="isDashboard && isAdmin"
-				class="main-content offset-lg-2 offset-md-3 p-0 col-sm-12 col-md-9 col-lg-10"
+				class="main-content admin-container offset-lg-2 offset-md-3 p-0 col-sm-12 col-md-9 col-lg-10"
 			>
 				<admin-navbar />
 				<slot v-if="isDashboard" />
@@ -14,13 +14,8 @@
 				<slot v-if="!isDashboard" />
 			</d-col>
 		</d-row>
-		<!-- Main Footer -->
-		<!-- <main-footer /> -->
-		<!-- </d-col>
-            <d-col cols="12" md="4" sm="1">
-                <slot/>
-    </d-col>-->
-		<!-- </d-row> -->
+
+		<div class="push mt-4" />
 	</d-container>
 </template>
 
@@ -84,4 +79,22 @@ export default class AppLayout extends Vue {
 	];
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+%container-shared {
+	min-height: 100%;
+	height: auto !important;
+}
+
+.push {
+	height: 3.75rem;
+}
+.main-container {
+	margin: 0 auto -5.25rem;
+	@extend %container-shared;
+}
+
+.admin-container {
+	margin-bottom: -5.25rem;
+	@extend %container-shared;
+}
+</style>

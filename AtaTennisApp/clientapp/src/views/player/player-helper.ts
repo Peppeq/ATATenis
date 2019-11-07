@@ -60,15 +60,15 @@ export class PlayerHelper {
 		];
 	}
 
-	public static GetSurfaceTypeText(value: SurfaceType): string {
-		return i18n.t("surfaceType" + value).toString();
+	public static GetSurfaceTypeText(value?: SurfaceType): string {
+		return value != null ? i18n.t("surfaceType" + value).toString() : "";
 	}
 
 	public static GetForehandText(value: Forehand): string {
-		return i18n.t("forehandType" + value).toString();
+		return value != null ? i18n.t("forehandType" + value).toString() : "";
 	}
 
 	public static GetBackhandText(value: Backhand): string {
-		return i18n.t("backhandType" + value).toString();
+		return value != null ? i18n.t("backhandType" + value).toString() : "";
 	}
 }

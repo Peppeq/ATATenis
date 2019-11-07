@@ -10,7 +10,7 @@
 					<label>{{ $t("type") }}</label>
 					<d-form-select
 						v-model="selectedTournamentType"
-						:options="tournamentTypes"
+						:options="tournamentHelper.GetTournamentTypes()"
 						class="tournament-type-select"
 						@change="onChangeTournamentType($event)"
 					/>
@@ -34,9 +34,9 @@
 									{{ getDate(tournament.StartTime) }}
 									{{ tournament.Name }}
 									{{ tournament.Place }}
-									{{ helpers.GetTournamentCategoryName(tournament.Category) }}
-									{{ helpers.GetTournamentTypeName(tournament.TournamentType) }}
-									{{ helpers.GetTournamentSurfaceName(tournament.Surface) }}
+									{{ tournamentHelper.GetTournamentCategoryName(tournament.Category) }}
+									{{ tournamentHelper.GetTournamentTypeName(tournament.TournamentType) }}
+									{{ tournamentHelper.GetTournamentSurfaceName(tournament.Surface) }}
 								</a>
 							</p>
 						</d-card-body>
@@ -54,34 +54,16 @@
 import Component from "vue-class-component";
 import TournamentClient, { TournamentDTO, TournamentFilter, TournamentType } from "@/Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
-import {
-	GetTournamentTypeName,
-	GetTournamentCategoryName,
-	GetTournamentSurfaceName,
-	TournamentHelperClass
-} from "../views/tournament/tournamentHelper";
+import { TournamentHelper } from "../views/tournament/tournamentHelper";
 import { i18n } from "../plugins/i18n";
-import { Watch } from "vue-property-decorator";
-
-interface TournamentTypeObjExtended {
-	value: number;
-	text: string;
-}
 
 @Component
 export default class TournamentListClass extends BaseComponentClass {
 	year: number = new Date().getFullYear();
 	years: number[] = [];
-	tournamentTypes: TournamentTypeObjExtended[] = [];
 	selectedTournamentType: TournamentType = null;
-
 	tournaments: TournamentDTO[] = [];
-
-	helpers = {
-		GetTournamentTypeName,
-		GetTournamentCategoryName,
-		GetTournamentSurfaceName
-	};
+	tournamentHelper = TournamentHelper;
 
 	getDate(date: Date): string {
 		var dateConverted = new Date(date);
@@ -110,14 +92,6 @@ export default class TournamentListClass extends BaseComponentClass {
 		this.getTournaments();
 	}
 
-	setTournamentTypeOptions() {
-		this.tournamentTypes = TournamentHelperClass.GetTournamentTypes();
-		this.tournamentTypes.push({
-			value: null,
-			text: i18n.t("all").toString()
-		});
-	}
-
 	getTournaments() {
 		var _this = this;
 		var tournamentClient = new TournamentClient();
@@ -130,24 +104,19 @@ export default class TournamentListClass extends BaseComponentClass {
 				Year: this.year,
 				Type: this.selectedTournamentType
 			}
-		}).then((tournaments: TournamentDTO[]) => {
-			_this.tournaments = tournaments;
-			if (this.tournaments != null && this.tournaments.length > 0) {
-				_this.tournaments = tournaments.sort((a, b) => (a.StartTime > b.StartTime ? 1 : -1));
+		}).then(resp => {
+			if (resp.ok) {
+				_this.tournaments = resp.data;
+				// if (this.tournaments != null && this.tournaments.length > 0) {
+				// 	_this.tournaments = tournaments.sort((a, b) => (a.StartTime > b.StartTime ? 1 : -1));
+				// }
 			}
 		});
 	}
 
-	// better way to translate computed values
-	@Watch("$i18n.locale")
-	onLocaleChanged() {
-		this.setTournamentTypeOptions();
-	}
-
 	mounted() {
 		this.getYears();
-		this.setTournamentTypeOptions();
-		this.selectedTournamentType = this.tournamentTypes[5].value;
+		this.selectedTournamentType = TournamentHelper.GetTournamentTypes()[5].value;
 		this.getTournaments();
 	}
 }

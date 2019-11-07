@@ -18,9 +18,17 @@ namespace AtaTennisApp.Controllers
     public class TournamentController : ApiControllerBase
     {
         private AtaTennisContext _dbContext;
+        private TournamentService TournamentService { get; set; }
+
+        public class TournamentByNameArgs
+        {
+            public string Name { get; set; }
+        }
+
         public TournamentController(AtaTennisContext dbContext)
         {
             _dbContext = dbContext;
+            TournamentService = new TournamentService(dbContext);
         }
 
         [HttpGet]
@@ -31,6 +39,13 @@ namespace AtaTennisApp.Controllers
             return response;
         }
 
+        [HttpGet("getTournamentByName")]
+        public async Task<ActionResult<List<TournamentDTO>>> GetTournamentByName([FromQuery]TournamentByNameArgs args)
+        {
+            List<TournamentDTO> response = await TournamentService.GetTournamentsByName(args.Name);
+            return response;
+        }
+
         [HttpGet("nearestTournament")]
         public async Task<ActionResult<TournamentDTO>> GetNearestTournament()
         {
@@ -38,5 +53,17 @@ namespace AtaTennisApp.Controllers
             return await service.GetNearestTournament();
         }
 
+        [Authorize]
+        [HttpPost("AddOrEditTournament")]
+        public async Task<ActionResult<TournamentDTO>> AddOrEditTournament([FromBody] TournamentDTO tournamentDto)
+        {
+            var updatedTournament = await TournamentService.AddOrEditTournament(tournamentDto);
+            if (tournamentDto.Id > 0)
+            {
+                return NoContent();
+            }
+            var uri = "api/tournament";
+            return Created(uri, updatedTournament);
+        }
     }
 }

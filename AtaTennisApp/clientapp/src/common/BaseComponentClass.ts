@@ -3,6 +3,7 @@ import { NotificationUtils } from "./notification";
 import { i18n } from "@/plugins/i18n";
 import { ErrorResponse } from "@/scripts/ajax";
 import { logout } from "@/views/user/helper/user-service";
+import { DateHelper } from "./DateHelper";
 
 interface TryGetApiArgs<TResult, TArgs> {
 	apiMethod: (args: TArgs) => Promise<TResult>;
@@ -10,12 +11,20 @@ interface TryGetApiArgs<TResult, TArgs> {
 	requestArgs: TArgs;
 }
 
+interface ApiResult<TResult> {
+	data: TResult;
+	ok: boolean;
+}
+
 export abstract class BaseComponentClass extends Vue {
-	public async tryGetDataByArgs<TResult, TArgs>(args: TryGetApiArgs<TResult, TArgs>): Promise<TResult> {
-		let response: TResult = null;
+	public dateHelper = DateHelper;
+
+	public async tryGetDataByArgs<TResult, TArgs>(args: TryGetApiArgs<TResult, TArgs>): Promise<ApiResult<TResult>> {
+		let response: ApiResult<TResult> = { data: null, ok: false };
 		console.log(args);
 		try {
-			response = await args.apiMethod(args.requestArgs);
+			response.data = await args.apiMethod(args.requestArgs);
+			response.ok = true;
 		} catch (e) {
 			let error: ErrorResponse = e;
 			if (args.showError) {

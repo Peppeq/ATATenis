@@ -17,81 +17,81 @@
 					v-model="searchName"
 					class="navbar-search form-control"
 					type="text"
-					@keyup="searchPlayerByNameSurname"
+					@keyup="searchTournamentByName"
 				/>
 			</d-input-group>
-			<d-list-group v-if="searchedPlayers != null">
+			<d-list-group v-if="searchedTournaments != null">
 				<div
-					v-for="player in searchedPlayers"
-					:key="player.id"
+					v-for="tournament in searchedTournaments"
+					:key="tournament.id"
 					class="list-group-item"
-					@click="addOrEditPlayer(player)"
+					@click="addOrEditTournament(tournament)"
 				>
-					{{ player.Name + " " + player.Surname }}
+					{{ tournament.Name + " " + tournament.StartTime }}
 				</div>
 			</d-list-group>
 			<d-list-group v-else>
-				No players founded
+				No tournaments founded
 			</d-list-group>
 		</d-row>
 
 		<d-row class="p-4">
-			<d-button @click="addOrEditPlayer(null)">Add player</d-button>
+			<d-button @click="addOrEditTournament(null)">Add tournament</d-button>
 		</d-row>
-		<player-add-modal
-			:show-modal="showAddPlayerModal"
-			:hide-modal="hideAddPlayerModal"
-			:player="player"
-			:modify-player="modifySearchedPlayer"
-		></player-add-modal>
+		<tournament-modal
+			:show-modal="showTournamentModal"
+			:hide-modal="hideTournamentModal"
+			:tournament="tournament"
+			:modify-tournament="modifySearchedTournament"
+		></tournament-modal>
 	</d-container>
 </template>
 
 <script lang="ts">
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import Component from "vue-class-component";
-import PlayerAddModal from "../player/player-add-modal.vue";
-import PlayerClient, { PlayerDTO, PlayerSearchArgs } from "../../Api/PlayerController";
+import TournamentModal from "../tournament/TournamentModal.vue";
+import TournamentClient, { TournamentDTO, TournamentByNameArgs } from "@/Api/TournamentController";
 
 @Component({
-	components: { PlayerAddModal }
+	components: { TournamentModal }
 })
-export default class PlayerManagement extends BaseComponentClass {
-	showAddPlayerModal: boolean = false;
+export default class TournamentManagement extends BaseComponentClass {
+	showTournamentModal: boolean = false;
 	searchName: string = null;
-	searchedPlayers: PlayerDTO[] = [];
-	player: PlayerDTO = null;
+	searchedTournaments: TournamentDTO[] = [];
+	tournament: TournamentDTO = null;
 
-	searchPlayerByNameSurname() {
-		if (this.searchName != null && this.searchName != "") {
+	searchTournamentByName() {
+		if (this.searchName != null) {
 			console.log("event triggered " + this.searchName);
-			var client = new PlayerClient();
-			this.tryGetDataByArgs<PlayerDTO[], PlayerSearchArgs>({
-				apiMethod: client.playerBySearch,
+			var client = new TournamentClient();
+			this.tryGetDataByArgs<TournamentDTO[], TournamentByNameArgs>({
+				apiMethod: client.getTournamentByName,
 				showError: true,
-				requestArgs: { SearchName: this.searchName }
-			}).then(players => {
-				this.searchedPlayers = players;
+				requestArgs: { Name: this.searchName }
+			}).then(response => {
+				if (response.ok) this.searchedTournaments = response.data;
 			});
 		} else {
 			this.searchName = "";
-			this.searchedPlayers = null;
+			this.searchedTournaments = null;
 		}
 	}
 
-	hideAddPlayerModal() {
-		this.showAddPlayerModal = false;
+	hideTournamentModal() {
+		this.showTournamentModal = false;
 	}
 
-	addOrEditPlayer(player: PlayerDTO) {
+	addOrEditTournament(tournament: TournamentDTO) {
 		console.log("add or edit player called");
-		this.player = player;
-		this.showAddPlayerModal = true;
+		this.tournament = tournament;
+		this.showTournamentModal = true;
 	}
 
-	modifySearchedPlayer(player: PlayerDTO): void {
-		var index = this.searchedPlayers.findIndex(p => p.Id == player.Id);
-		this.searchedPlayers[index] = player;
+	modifySearchedTournament(tournament: TournamentDTO): void {
+		var index = this.searchedTournaments.findIndex(p => p.Id == tournament.Id);
+		this.searchedTournaments[index] = tournament;
 	}
 }
 </script>

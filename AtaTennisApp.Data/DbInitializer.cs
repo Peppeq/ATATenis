@@ -92,7 +92,7 @@ namespace AtaTennisApp.Data
                     PlayingSystem = PlayingSystem.prince,
                     TournamentType = TournamentType.ata,
                     StartTime = new DateTime(2019,8,2),
-                    EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 31),
+                    EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 3),
                     Surface = SurfaceType.clay
                 },
                 new Tournament{
