@@ -30,7 +30,6 @@
 				<d-col md="6" class="form-group">
 					<label for="place">{{ $t("place") }}</label>
 					<ValidationProvider
-						ref="tournamentPlace"
 						v-slot="{ errors, changed, validated, valid, invalid }"
 						rules="required"
 						:name="$t('place')"
@@ -60,7 +59,31 @@
 						:readonly="isReadonly"
 						:value="dateHelper.getDateByLocale(tournament.StartTime, $i18n.locale)"
 					/>
-					<d-datepicker v-if="!isReadonly" v-model="tournament.StartTime" typeable />
+					<ValidationProvider
+						v-slot="{ errors, changed, validated, valid, invalid }"
+						rules="required"
+						:name="$t('start')"
+					>
+						<d-input-group style="width: 100%">
+							<d-input-group-text slot="append">
+								<i class="material-icons">calendar_today</i>
+							</d-input-group-text>
+							<d-datepicker
+								v-if="!isReadonly"
+								v-model="tournament.StartTime"
+								class="tournament-date"
+								:input-class="[{ 'is-invalid': validated && invalid }, 'form-control']"
+								typeable
+							/>
+						</d-input-group>
+						<span
+							id="error"
+							class="error"
+							:class="{ 'form-group': errors != null && errors.length > 0 }"
+							:v-if="changed && invalid"
+							>{{ errors[0] }}</span
+						>
+					</ValidationProvider>
 				</d-col>
 
 				<!-- EndTime -->
@@ -72,7 +95,31 @@
 						:readonly="isReadonly"
 						:value="dateHelper.getDateByLocale(tournament.EndTime, $i18n.locale)"
 					/>
-					<d-datepicker v-if="!isReadonly" v-model="tournament.EndTime" typeable />
+					<ValidationProvider
+						v-slot="{ errors, changed, validated, valid, invalid }"
+						rules="required"
+						:name="$t('end')"
+					>
+						<d-input-group style="width: 100%">
+							<d-input-group-text slot="append">
+								<i class="material-icons">calendar_today</i>
+							</d-input-group-text>
+							<d-datepicker
+								v-if="!isReadonly"
+								v-model="tournament.EndTime"
+								class="tournament-date"
+								:input-class="[{ 'is-invalid': validated && invalid }, 'form-control']"
+								typeable
+							/>
+						</d-input-group>
+						<span
+							id="error"
+							class="error"
+							:class="{ 'form-group': errors != null && errors.length > 0 }"
+							:v-if="changed && invalid"
+							>{{ errors[0] }}</span
+						>
+					</ValidationProvider>
 				</d-col>
 			</d-form-row>
 			<d-form-row>
@@ -201,7 +248,12 @@ import { BaseComponentClass } from "../../common/BaseComponentClass";
 import { NotificationUtils } from "../../common/notification";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { DateHelper } from "../../common/DateHelper";
-import TournamentClient, { TournamentDTO } from "../../Api/TournamentController";
+import TournamentClient, {
+	TournamentDTO,
+	TournamentCategory,
+	TournamentType,
+	PlayingSystem
+} from "../../Api/TournamentController";
 import { TournamentHelper, TournamentCategoryObj } from "./tournamentHelper";
 import { PlayerHelper } from "../player/player-helper";
 
@@ -215,6 +267,7 @@ export default class TournamentDetails extends BaseComponentClass {
 	tournament: TournamentDTO = null;
 	isReadonly: boolean = true;
 	isEdit: boolean = false;
+	calendarIcon = '<i class="material-icons">calendar_today</i>';
 
 	tournamentHelper = TournamentHelper;
 	playerHelper = PlayerHelper;
@@ -279,11 +332,14 @@ export default class TournamentDetails extends BaseComponentClass {
 
 	mounted() {
 		this.tournament = new TournamentDTO();
-		console.log(this.tournamentProp);
 		if (this.tournamentProp != null) {
 			this.tournament = { ...this.tournamentProp };
 		} else {
 			this.tournament.Id = 0;
+			// resolve issue why ts file is compiled in isolation and therefore not available const enums
+			this.tournament.Category = 0; //TournamentCategory.singles;
+			this.tournament.TournamentType = 1; //TournamentType.ata;
+			this.tournament.PlayingSystem = 1; // PlayingSystem.prince;
 		}
 		this.isReadonly = !this.isCreateOrEdit;
 		this.isEdit = this.isCreateOrEdit && this.tournamentProp != null;

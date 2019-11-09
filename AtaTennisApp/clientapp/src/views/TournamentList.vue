@@ -116,7 +116,7 @@ export default class TournamentListClass extends BaseComponentClass {
 
 	mounted() {
 		this.getYears();
-		this.selectedTournamentType = TournamentHelper.GetTournamentTypes()[5].value;
+		this.selectedTournamentType = TournamentHelper.GetTournamentTypesWithAll()[5].value;
 		this.getTournaments();
 	}
 }
