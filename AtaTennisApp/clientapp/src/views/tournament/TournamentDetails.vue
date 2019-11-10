@@ -290,7 +290,7 @@ export default class TournamentDetails extends BaseComponentClass {
 		}
 	}
 
-	async addOrEditTournament() {
+	async addOrEditTournament(): Promise<void> {
 		if (await this.tournamentForm.validate()) {
 			const client = new TournamentClient();
 			this.tryGetDataByArgs<null, TournamentDTO>({
@@ -314,7 +314,7 @@ export default class TournamentDetails extends BaseComponentClass {
 
 	@Ref() tournamentForm!: InstanceType<typeof ValidationObserver>;
 
-	isTournamentNameValid(changed: boolean, validated: boolean, valid: boolean) {
+	isTournamentNameValid(changed: boolean, validated: boolean, valid: boolean): boolean {
 		if (this.isEdit) {
 			return changed ? valid : null;
 		} else {
@@ -322,7 +322,7 @@ export default class TournamentDetails extends BaseComponentClass {
 		}
 	}
 
-	isTournamentPlaceValid(changed: boolean, validated: boolean, valid: boolean) {
+	isTournamentPlaceValid(changed: boolean, validated: boolean, valid: boolean): boolean {
 		if (this.isEdit) {
 			return changed ? valid : null;
 		} else {
@@ -330,16 +330,15 @@ export default class TournamentDetails extends BaseComponentClass {
 		}
 	}
 
-	mounted() {
+	mounted(): void {
 		this.tournament = new TournamentDTO();
 		if (this.tournamentProp != null) {
 			this.tournament = { ...this.tournamentProp };
 		} else {
 			this.tournament.Id = 0;
-			// resolve issue why ts file is compiled in isolation and therefore not available const enums
-			this.tournament.Category = 0; //TournamentCategory.singles;
-			this.tournament.TournamentType = 1; //TournamentType.ata;
-			this.tournament.PlayingSystem = 1; // PlayingSystem.prince;
+			this.tournament.Category = TournamentCategory.singles;
+			this.tournament.TournamentType = TournamentType.ata;
+			this.tournament.PlayingSystem = PlayingSystem.prince;
 		}
 		this.isReadonly = !this.isCreateOrEdit;
 		this.isEdit = this.isCreateOrEdit && this.tournamentProp != null;

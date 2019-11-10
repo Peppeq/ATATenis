@@ -10,7 +10,7 @@
 					<label>{{ $t("type") }}</label>
 					<d-form-select
 						v-model="selectedTournamentType"
-						:options="tournamentHelper.GetTournamentTypes()"
+						:options="tournamentHelper.GetTournamentTypesWithAll()"
 						class="tournament-type-select"
 						@change="onChangeTournamentType($event)"
 					/>
