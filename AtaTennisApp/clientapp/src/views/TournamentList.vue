@@ -66,13 +66,13 @@ export default class TournamentListClass extends BaseComponentClass {
 	tournamentHelper = TournamentHelper;
 
 	getDate(date: Date): string {
-		var dateConverted = new Date(date);
-		var options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+		const dateConverted = new Date(date);
+		const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
 		return dateConverted.toLocaleString("sk-SK", options);
 	}
 
 	getMonthName(date: Date): string {
-		var dateConverted = new Date(date);
+		const dateConverted = new Date(date);
 		return dateConverted.toLocaleString(i18n.locale.toString(), { month: "long" });
 	}
 
@@ -93,8 +93,7 @@ export default class TournamentListClass extends BaseComponentClass {
 	}
 
 	getTournaments() {
-		var _this = this;
-		var tournamentClient = new TournamentClient();
+		const tournamentClient = new TournamentClient();
 
 		this.tryGetDataByArgs<TournamentDTO[], TournamentFilter>({
 			apiMethod: tournamentClient.get,
@@ -106,7 +105,7 @@ export default class TournamentListClass extends BaseComponentClass {
 			}
 		}).then(resp => {
 			if (resp.ok) {
-				_this.tournaments = resp.data;
+				this.tournaments = resp.data;
 				// if (this.tournaments != null && this.tournaments.length > 0) {
 				// 	_this.tournaments = tournaments.sort((a, b) => (a.StartTime > b.StartTime ? 1 : -1));
 				// }

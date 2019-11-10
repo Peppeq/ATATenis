@@ -51,8 +51,8 @@ export default {
 		},
 		siChuj() {
 			this.showAlert = false;
-		},
-		onNavClicked() {}
+		}
+		// onNavClicked() {}
 	}
 };
 </script>

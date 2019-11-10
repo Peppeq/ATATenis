@@ -1,5 +1,5 @@
 <template>
-	<ValidationObserver ref="playerForm" v-slot="{ invalid }">
+	<ValidationObserver ref="playerForm">
 		<d-form v-if="player != null">
 			<d-form-row v-if="!isReadonly">
 				<!-- Name -->
@@ -249,14 +249,14 @@ export default class PlayerBio extends BaseComponentClass {
 	@Prop({ default: null }) modifyPlayer: (player: PlayerDTO) => void;
 
 	player: PlayerDTO = null;
-	isReadonly: boolean = true;
+	isReadonly = true;
 	playerSurnameAfterRender: InstanceType<typeof ValidationProvider> = null;
-	isEdit: boolean = false;
+	isEdit = false;
 	playerHelper = PlayerHelper;
 
 	async addOrEditPlayer() {
 		if (await this.playerForm.validate()) {
-			var client = new PlayerClient();
+			const client = new PlayerClient();
 			this.tryGetDataByArgs<null, PlayerDTO>({
 				apiMethod: client.addOrEditPlayer,
 				showError: true,

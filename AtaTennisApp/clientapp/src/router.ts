@@ -84,7 +84,7 @@ export const router = new Router({
 router.beforeEach((to, from, next) => {
 	// redirect to admin page if not logged in and trying to access a restricted page
 	const privatePages = ["dashboard", "register"];
-	var pathLevels = to.path.split("/");
+	const pathLevels = to.path.split("/");
 	const authRequired = privatePages.includes(pathLevels[1]);
 
 	if (authRequired && !Authorization.isAdmin()) {

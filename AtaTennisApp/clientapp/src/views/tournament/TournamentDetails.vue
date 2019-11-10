@@ -1,5 +1,5 @@
 <template>
-	<ValidationObserver ref="tournamentForm" v-slot="{ invalid }">
+	<ValidationObserver ref="tournamentForm">
 		<d-form v-if="tournament != null">
 			<d-form-row v-if="!isReadonly">
 				<!-- Name -->
@@ -265,8 +265,8 @@ export default class TournamentDetails extends BaseComponentClass {
 	@Prop({ default: null }) readonly modifyTournament: (tournament: TournamentDTO) => void;
 
 	tournament: TournamentDTO = null;
-	isReadonly: boolean = true;
-	isEdit: boolean = false;
+	isReadonly = true;
+	isEdit = false;
 	calendarIcon = '<i class="material-icons">calendar_today</i>';
 
 	tournamentHelper = TournamentHelper;
@@ -292,7 +292,7 @@ export default class TournamentDetails extends BaseComponentClass {
 
 	async addOrEditTournament() {
 		if (await this.tournamentForm.validate()) {
-			var client = new TournamentClient();
+			const client = new TournamentClient();
 			this.tryGetDataByArgs<null, TournamentDTO>({
 				apiMethod: client.addOrEditTournament,
 				showError: true,

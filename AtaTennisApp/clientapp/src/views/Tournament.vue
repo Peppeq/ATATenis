@@ -64,7 +64,7 @@ import TournamentDetails from "./tournament/TournamentDetails.vue";
 })
 export default class TournamentClass extends BaseComponentClass {
 	tournament?: TournamentDTO = null;
-	tournamentId: number = 0;
+	tournamentId = 0;
 
 	@Prop() tournamentProp?: TournamentDTO;
 
@@ -73,9 +73,9 @@ export default class TournamentClass extends BaseComponentClass {
 	}
 
 	mounted() {
-		var _this = this;
+		// const _this = this;
 		console.log("tour was mounted");
-		var tournamentClient = new TournamentClient();
+		const tournamentClient = new TournamentClient();
 		//natiahnut data z bekendu ...
 
 		if (this.tournamentProp == null) {
@@ -89,7 +89,7 @@ export default class TournamentClass extends BaseComponentClass {
 					Type: null
 				}
 			}).then(response => {
-				if (response.ok) _this.tournament = response.data[0];
+				if (response.ok) this.tournament = response.data[0];
 			});
 		} else {
 			console.log("yeah");

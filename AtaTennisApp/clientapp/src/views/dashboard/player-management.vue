@@ -57,7 +57,7 @@ import PlayerClient, { PlayerDTO, PlayerSearchArgs } from "../../Api/PlayerContr
 	components: { PlayerAddModal }
 })
 export default class PlayerManagement extends BaseComponentClass {
-	showAddPlayerModal: boolean = false;
+	showAddPlayerModal = false;
 	searchName: string = null;
 	searchedPlayers: PlayerDTO[] = [];
 	player: PlayerDTO = null;
@@ -65,7 +65,7 @@ export default class PlayerManagement extends BaseComponentClass {
 	searchPlayerByNameSurname() {
 		if (this.searchName != null && this.searchName != "") {
 			console.log("event triggered " + this.searchName);
-			var client = new PlayerClient();
+			const client = new PlayerClient();
 			this.tryGetDataByArgs<PlayerDTO[], PlayerSearchArgs>({
 				apiMethod: client.playerBySearch,
 				showError: true,
@@ -90,7 +90,7 @@ export default class PlayerManagement extends BaseComponentClass {
 	}
 
 	modifySearchedPlayer(player: PlayerDTO): void {
-		var index = this.searchedPlayers.findIndex(p => p.Id == player.Id);
+		const index = this.searchedPlayers.findIndex(p => p.Id == player.Id);
 		this.searchedPlayers[index] = player;
 	}
 }

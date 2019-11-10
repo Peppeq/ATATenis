@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import Vue from "vue";
 // @ts-ignore
 import ShardsVue from "shards-vue";

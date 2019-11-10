@@ -50,12 +50,12 @@ import { AccountStateStatus } from "../../store/modules/account";
 
 @Component
 export default class LoginViewClass extends BaseComponentClass {
-	submitted: boolean = false;
+	submitted = false;
 	username: string = null;
 	password: string = null;
 	status: AccountStateStatus = { loggedIn: false, loggingIn: false, registering: false };
-	isBtnDisabled: boolean = false;
-	showLoading: boolean = false;
+	isBtnDisabled = false;
+	showLoading = false;
 
 	computed() {
 		this.status = this.$store.state.AccountState.AccountStateStatus;

@@ -7,7 +7,7 @@ export interface AuthorizationHeader {
 export class Authorization {
 	public static getAuthHeader(): AuthorizationHeader {
 		// return authorization header with jwt token
-		let user: UserDTO = JSON.parse(sessionStorage.getItem("user"));
+		const user: UserDTO = JSON.parse(sessionStorage.getItem("user"));
 		if (user && user.Token) {
 			return { Authorization: "Bearer " + user.Token };
 		} else {

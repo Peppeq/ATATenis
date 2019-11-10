@@ -48,7 +48,7 @@ export class TournamentHelper {
 	}
 
 	public static GetTournamentTypesWithAll(): TournamentTypeObj[] {
-		var types = this.GetTournamentTypes();
+		const types = this.GetTournamentTypes();
 		types.push({
 			value: null,
 			text: i18n.t("all").toString()

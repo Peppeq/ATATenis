@@ -21,7 +21,7 @@
 		],
 		"indent": "off",
 		"@typescript-eslint/indent": ["error", "tab"],
-		"printWidth": 100,
+		"printWidth": 0,
 		"no-console": "off",
 		"no-debugger": "off",
 		"prettier/prettier": [
@@ -40,7 +40,7 @@
 		  "rules": {
 			"no-unused-expressions": "off",
 			"indent":"off",
-			"prettier/prettier": ""
+			"prettier/prettier": "off"
 		  }
 		}
 	  ]

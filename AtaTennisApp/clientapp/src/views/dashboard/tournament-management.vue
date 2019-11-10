@@ -57,7 +57,7 @@ import TournamentClient, { TournamentDTO, TournamentByNameArgs } from "@/Api/Tou
 	components: { TournamentModal }
 })
 export default class TournamentManagement extends BaseComponentClass {
-	showTournamentModal: boolean = false;
+	showTournamentModal = false;
 	searchName: string = null;
 	searchedTournaments: TournamentDTO[] = [];
 	tournament: TournamentDTO = null;
@@ -65,7 +65,7 @@ export default class TournamentManagement extends BaseComponentClass {
 	searchTournamentByName() {
 		if (this.searchName != null) {
 			console.log("event triggered " + this.searchName);
-			var client = new TournamentClient();
+			const client = new TournamentClient();
 			this.tryGetDataByArgs<TournamentDTO[], TournamentByNameArgs>({
 				apiMethod: client.getTournamentByName,
 				showError: true,
@@ -90,7 +90,7 @@ export default class TournamentManagement extends BaseComponentClass {
 	}
 
 	modifySearchedTournament(tournament: TournamentDTO): void {
-		var index = this.searchedTournaments.findIndex(p => p.Id == tournament.Id);
+		const index = this.searchedTournaments.findIndex(p => p.Id == tournament.Id);
 		this.searchedTournaments[index] = tournament;
 	}
 }

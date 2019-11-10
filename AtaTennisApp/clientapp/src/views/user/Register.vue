@@ -13,7 +13,7 @@ import Component from "vue-class-component";
 
 @Component
 export default class Register extends BaseComponentClass {
-	jee: string = "jejee";
+	jee = "jejee";
 }
 </script>
 

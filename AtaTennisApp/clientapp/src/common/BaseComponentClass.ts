@@ -20,13 +20,13 @@ export abstract class BaseComponentClass extends Vue {
 	public dateHelper = DateHelper;
 
 	public async tryGetDataByArgs<TResult, TArgs>(args: TryGetApiArgs<TResult, TArgs>): Promise<ApiResult<TResult>> {
-		let response: ApiResult<TResult> = { data: null, ok: false };
+		const response: ApiResult<TResult> = { data: null, ok: false };
 		console.log(args);
 		try {
 			response.data = await args.apiMethod(args.requestArgs);
 			response.ok = true;
 		} catch (e) {
-			let error: ErrorResponse = e;
+			const error: ErrorResponse = e;
 			if (args.showError) {
 				if (error.StatusCode == "401") {
 					// auto logout if 401 response returned from api

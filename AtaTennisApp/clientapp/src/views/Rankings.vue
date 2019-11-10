@@ -42,7 +42,7 @@ import { BaseComponentClass } from "../common/BaseComponentClass";
 export default class RankingsView extends BaseComponentClass {
 	players: PlayerDTO[] = [];
 	mounted() {
-		var client = new PlayerClient();
+		const client = new PlayerClient();
 		console.log(client);
 
 		this.tryGetDataByArgs<PlayerDTO[], null>({

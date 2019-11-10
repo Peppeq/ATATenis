@@ -15,21 +15,22 @@ export interface ErrorResponse {
 export class AjaxProvider {
 	private static getApiUrl(methodName: string): string {
 		// var url = window.location.href;
-		var url = "http://localhost:55000";
-		var apiUrl: string = url + "/api/" + methodName;
+		const url = "http://localhost:55000";
+		const apiUrl: string = url + "/api/" + methodName;
 		return apiUrl;
 	}
 
 	private static apiCall<TResult, TArgs>(apiPath: string, data: TArgs, apiMethod: ApiMethod): Promise<TResult> {
-		var apiUrl: string = this.getApiUrl(apiPath);
+		const apiUrl: string = this.getApiUrl(apiPath);
 		console.log("api path called: " + apiUrl);
 
-		var urlObj: URL = new URL(apiUrl);
+		const urlObj: URL = new URL(apiUrl);
 		if (data != null) {
-			var param: URLSearchParams = new URLSearchParams();
+			const param: URLSearchParams = new URLSearchParams();
 			Object.keys(data).forEach((key: string): void => {
+				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore
-				var argKey: string = data[key];
+				const argKey: string = data[key];
 				if (argKey != null) {
 					param.append(key, argKey);
 				}
@@ -37,7 +38,7 @@ export class AjaxProvider {
 			urlObj.search = param.toString();
 		}
 
-		let authorization: AuthorizationHeader = Authorization.getAuthHeader();
+		const authorization: AuthorizationHeader = Authorization.getAuthHeader();
 		let requestInit: RequestInit = null;
 		let bodyJson: string = null;
 

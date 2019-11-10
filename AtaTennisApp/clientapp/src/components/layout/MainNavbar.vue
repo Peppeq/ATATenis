@@ -30,7 +30,7 @@ import languageSelect from "../LanguageSelect.vue";
 	components: { languageSelect }
 })
 export default class MainNavbar extends Vue {
-	navbarIsJustified: boolean = true;
+	navbarIsJustified = true;
 }
 </script>
 <style lang="scss" scoped>

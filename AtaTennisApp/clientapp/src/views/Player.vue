@@ -129,11 +129,11 @@ import PlayerBio from "./player/player-bio.vue";
 })
 export default class PlayerView extends BaseComponentClass {
 	player: PlayerDTO = null;
-	playerId: number = 0;
-	history: number = 2019;
+	playerId = 0;
+	history = 2019;
 	yearsPlayed: number[] = [2019, 2017];
-	isBio: boolean = true;
-	isTournament: boolean = false;
+	isBio = true;
+	isTournament = false;
 	results: [] = [];
 
 	onChangeCardType(type: number) {
@@ -150,7 +150,7 @@ export default class PlayerView extends BaseComponentClass {
 		console.log("mounted");
 		this.playerId = parseInt(this.$route.params.id, 10);
 
-		var client = new PlayerClient();
+		const client = new PlayerClient();
 		this.tryGetDataByArgs<PlayerDTO, PlayerArgs>({
 			apiMethod: client.getPlayerById,
 			showError: true,

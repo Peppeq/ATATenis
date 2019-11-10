@@ -36,7 +36,7 @@ export default class AppLayout extends Vue {
 	// mounted() {
 	// 	this.isAdmin = Authorization.isAdmin();
 	// }
-	isCollapsedSidebar: boolean = true;
+	isCollapsedSidebar = true;
 
 	get isAdmin(): boolean {
 		return Authorization.isAdmin();

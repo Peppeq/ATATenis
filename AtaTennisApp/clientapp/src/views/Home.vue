@@ -45,7 +45,7 @@ import { BaseComponentClass } from "../common/BaseComponentClass";
 export default class Home extends BaseComponentClass {
 	nearestTournament: TournamentDTO = null;
 	mounted() {
-		var client = new TournamentClient();
+		const client = new TournamentClient();
 		this.tryGetDataByArgs<TournamentDTO, null>({
 			apiMethod: client.getWithoutParams,
 			showError: true,
