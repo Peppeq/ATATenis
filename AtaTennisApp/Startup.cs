@@ -4,10 +4,10 @@ using AtaTennisApp.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System.Text;
@@ -29,6 +29,7 @@ namespace AtaTennisApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRouting();
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -39,10 +40,13 @@ namespace AtaTennisApp
                 });
             });
 
-            services.AddMvc()
-                .AddJsonOptions(options => options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.None)
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers()
+                .AddNewtonsoftJson(options => options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.None)
+                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()); ;
+
+            //services.AddMvc(options => options.EnableEndpointRouting = false)
+            //    .AddNewtonsoftJson(options => options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.None)
+            //    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 
             // In production, the Vue files will be served from this directory
@@ -106,7 +110,7 @@ namespace AtaTennisApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Handles non-success status codes with empty body
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
@@ -122,7 +126,6 @@ namespace AtaTennisApp
             }
 
 
-            app.UseCors(MyAllowSpecificOrigins);
 
 
             //neviem naco je ked aj tak mam https
@@ -131,6 +134,8 @@ namespace AtaTennisApp
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
             //var cookiePolicyOptions = new CookiePolicyOptions
             //{
             //    MinimumSameSitePolicy = SameSiteMode.Strict,
@@ -138,17 +143,24 @@ namespace AtaTennisApp
             //app.UseCookiePolicy(cookiePolicyOptions);
 
             app.UseAuthentication();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+            //app.UseAuthorization();
 
-                //neviem naco je
-                //routes.MapSpaFallbackRoute(
-                //    name: "spa-fallback",
-                //    defaults: new { controller = "Home", action = "Index" });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller}/{action=Index}/{id?}");
+
+            //    //neviem naco je
+            //    //routes.MapSpaFallbackRoute(
+            //    //    name: "spa-fallback",
+            //    //    defaults: new { controller = "Home", action = "Index" });
+            //});
 
             //app.UseSpa(spa =>
             //{

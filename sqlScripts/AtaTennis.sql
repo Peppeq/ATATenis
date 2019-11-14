@@ -303,3 +303,15 @@ ALTER TABLE [AtaTennis].[dbo].[Player] Add Weight int null;
 EXEC sp_rename 'Player.Age', 'BirthDate', 'COLUMN';
   ALTER TABLE Player drop column BirthDate
 ALTER Table player add BirthDate date;
+
+
+CREATE TABLE [dbo].[EntryFee]
+(
+
+ [Id]       int NOT NULL ,
+ [TournamentId]      int NOT NULL ,
+ primary key ( [Id]),
+
+ CONSTRAINT [FK_DrawMatch_Draw] FOREIGN KEY ([DrawId])  REFERENCES [dbo].[Draw]([Id]),
+ CONSTRAINT [FK_DrawMatch_Match] FOREIGN KEY ([MatchId])  REFERENCES [dbo].[Match]([Id])
+);
