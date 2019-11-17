@@ -1,4 +1,5 @@
 using AtaTennisApp.BL.UserService;
+using AtaTennisApp.Common;
 using AtaTennisApp.Data.Entities;
 using AtaTennisApp.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System.Text;
@@ -106,6 +108,7 @@ namespace AtaTennisApp
                 };
             });
 
+            services.AddLogging();
             services.AddScoped<IUserService, UserService>();
         }
 
@@ -120,13 +123,11 @@ namespace AtaTennisApp
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.ConfigureCustomExceptionMiddleware(app.ApplicationServices.GetRequiredService<ILogger<Startup>>());
+                //app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();
             }
-
-
-
 
             //neviem naco je ked aj tak mam https
 
@@ -143,7 +144,7 @@ namespace AtaTennisApp
             //app.UseCookiePolicy(cookiePolicyOptions);
 
             app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

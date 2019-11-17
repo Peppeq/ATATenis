@@ -42,7 +42,8 @@ namespace AtaTennisApp.BL
 
             if (filter.Id != null)
             {
-
+                // for testing purpose
+                //throw new Exception("I throw tournament exception");
                 var tournamentList = await _dbContext.Tournament.Where(t => t.Id == filter.Id).ToListAsync();
                 foreach (var tournament in tournamentList)
                 {

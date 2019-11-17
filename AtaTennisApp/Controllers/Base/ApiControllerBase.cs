@@ -28,6 +28,11 @@ namespace AtaTennisApp.Controllers.Base
         {
             Message = message;
         }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 
     public class InternalServerError : ApiError
