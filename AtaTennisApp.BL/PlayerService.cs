@@ -30,14 +30,14 @@ namespace AtaTennisApp.BL
 
         public async Task<PlayerDTO> GetPlayerById(int id)
         {
-            var player = await _dbContext.Player.Where(p => p.Id == id).FirstOrDefaultAsync();
+            var player = await _dbContext.Players.Where(p => p.Id == id).FirstOrDefaultAsync();
             return Mapper.Map<Player, PlayerDTO>(player);
         }
 
         public async Task<List<PlayerDTO>> GetAllPlayers()
         {
             var playersDto = new List<PlayerDTO>();
-            var players = await _dbContext.Player.OrderByDescending(p => p.Points).ToListAsync();
+            var players = await _dbContext.Players.OrderByDescending(p => p.Points).ToListAsync();
             foreach (var player in players)
             {
                 var playerDto = Mapper.Map<Player, PlayerDTO>(player);
@@ -51,11 +51,11 @@ namespace AtaTennisApp.BL
             var player = Mapper.Map<PlayerDTO, Player>(playerDto);
             if (player.Id == 0)
             {
-                await _dbContext.Player.AddAsync(player);
+                await _dbContext.Players.AddAsync(player);
             }
             else
             {
-                var currentPlayer = await _dbContext.Player.Where(p => p.Id == player.Id).FirstOrDefaultAsync();
+                var currentPlayer = await _dbContext.Players.Where(p => p.Id == player.Id).FirstOrDefaultAsync();
                 _dbContext.Entry(currentPlayer).CurrentValues.SetValues(player);
             }
 
@@ -69,7 +69,7 @@ namespace AtaTennisApp.BL
         {
             var playersDto = new List<PlayerDTO>();
             var searchSubstring = searchName.ToLower();
-            var players = await _dbContext.Player.Where(p => p.Surname.ToLower().Contains(searchSubstring) 
+            var players = await _dbContext.Players.Where(p => p.Surname.ToLower().Contains(searchSubstring) 
                 || p.Name.ToLower().Contains(searchSubstring)).Take(5).ToListAsync();
             foreach (var player in players)
             {

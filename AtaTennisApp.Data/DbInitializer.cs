@@ -13,7 +13,7 @@ namespace AtaTennisApp.Data
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.Player.Any() && context.Tournament.Any() && context.User.Any())
+            if (context.Players.Any() && context.Tournaments.Any() && context.Users.Any())
             {
                 return;   // DB has been seeded
             }
@@ -36,10 +36,10 @@ namespace AtaTennisApp.Data
 
             foreach (Player p in players)
             {
-                context.Player.Add(p);
+                context.Players.Add(p);
             }
 
-            if (context.Tournament.Any())
+            if (context.Tournaments.Any())
             {
                 return;
             }
@@ -50,11 +50,7 @@ namespace AtaTennisApp.Data
                     Category = TournamentCategory.singles,
                     BallsType = BallsType.slazenger,
                     Description = "wimbledon summer challange dufajme za pekneho letneho pocasia...",
-                    Draw = new Draw{
-                        CountOfPlayers = 16,
-                        Round = 1,
-                        Type = DrawType.playoff
-                    },
+                    DrawType = DrawType.playoff,
                     Name = "Wimbledon Challange",
                     Place = "Kopčany",
                     PlayingSystem = PlayingSystem.prince,
@@ -66,11 +62,7 @@ namespace AtaTennisApp.Data
                     Category = TournamentCategory.singles,
                     BallsType = BallsType.dunlop,
                     Description = "Areal nitrianskeho futbaloveho stadiona",
-                    Draw = new Draw{
-                        CountOfPlayers = 19,
-                        Round = 1,
-                        Type = DrawType.playoff
-                    },
+                    DrawType = DrawType.playoff,
                     Name = "Temprim CUP",
                     Place = "Nitra",
                     PlayingSystem = PlayingSystem.prince,
@@ -82,11 +74,7 @@ namespace AtaTennisApp.Data
                     Category = TournamentCategory.singles,
                     BallsType = BallsType.slazenger,
                     Description = "wimbledon summer challange dufajme za pekneho letneho pocasia...",
-                    Draw = new Draw{
-                        CountOfPlayers = 16,
-                        Round = 1,
-                        Type = DrawType.playoff
-                    },
+                    DrawType = DrawType.playoff,
                     Name = "Senica OPEN",
                     Place = "Senica",
                     PlayingSystem = PlayingSystem.prince,
@@ -99,11 +87,7 @@ namespace AtaTennisApp.Data
                     Category = TournamentCategory.singles,
                     BallsType = BallsType.dunlop,
                     Description = "wimbledon summer challange dufajme za pekneho letneho pocasia...",
-                    Draw = new Draw{
-                        CountOfPlayers = 16,
-                        Round = 1,
-                        Type = DrawType.playoff
-                    },
+                    DrawType = DrawType.playoff,
                     Name = "Summer Cup Open",
                     Place = "Břeclav",
                     PlayingSystem = PlayingSystem.prince,
@@ -116,17 +100,17 @@ namespace AtaTennisApp.Data
 
             foreach (var tournament in tournaments)
             {
-                context.Tournament.Add(tournament);
+                context.Tournaments.Add(tournament);
             }
 
-            if (context.User.Any())
+            if (context.Users.Any())
             {
                 return;
             }
 
             var admin = new User { Username = "admin", Password = "AXFiT5iav+brOl0kBp9nkaHpMku/Tdh9xKdrY1uecawhNSBrIQfzEzW6uw==", Email = "" };
 
-            context.User.Add(admin);
+            context.Users.Add(admin);
 
             context.SaveChanges();
         }

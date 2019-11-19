@@ -15,13 +15,13 @@ namespace AtaTennisApp.Data.Entities
         {
         }
 
-        public virtual DbSet<Draw> Draw { get; set; }
-        public virtual DbSet<DrawMatch> DrawMatch { get; set; }
-        public virtual DbSet<Match> Match { get; set; }
-        public virtual DbSet<MatchPlayer> MatchPlayer { get; set; }
-        public virtual DbSet<Player> Player { get; set; }
-        public virtual DbSet<Tournament> Tournament { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Match> Matches { get; set; }
+        public virtual DbSet<MatchEntry> MatchEntries { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<Tournament> Tournaments { get; set; }
+        public virtual DbSet<TournamentEntry> TournamentEntries { get; set; }
+        public virtual DbSet<Score> Scores { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,70 +34,32 @@ namespace AtaTennisApp.Data.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+            modelBuilder.HasAnnotation("ProductVersion", "3.0.1");
 
-            modelBuilder.Entity<Draw>(entity =>
+            //This will singularize all table names
+            foreach (IMutableEntityType entityType in modelBuilder.Model.GetEntityTypes())
             {
-                entity.HasIndex(e => e.TournamentId)
-                    .HasName("FK_Draw_Tournament")
-                    .IsUnique();
-
-                entity.HasOne(d => d.Tournament)
-                    .WithOne(p => p.Draw)
-                    .HasForeignKey<Draw>(d => d.TournamentId)
-                    .HasConstraintName("FK_Draw_Tournament");
-            });
-
-            modelBuilder.Entity<DrawMatch>(entity =>
-            {
-                entity.HasKey(e => new { e.DrawId, e.MatchId })
-                    .HasName("PK__DrawMatc__0696BFAF7276884F");
-
-                entity.HasIndex(e => e.MatchId);
-
-                entity.HasOne(d => d.Draw)
-                    .WithMany(p => p.DrawMatch)
-                    .HasForeignKey(d => d.DrawId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DrawMatch_Draw");
-
-                entity.HasOne(d => d.Match)
-                    .WithMany(p => p.DrawMatch)
-                    .HasForeignKey(d => d.MatchId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DrawMatch_Match");
-            });
+                entityType.SetTableName(entityType.DisplayName());
+            }
 
             modelBuilder.Entity<Match>(entity =>
             {
-                entity.HasIndex(e => e.TournamentId)
-                    .HasName("fkIdx_Match_Tournament");
+                //entity.HasIndex(e => e.Id)
+                //    .HasName("PK_Match");
+                entity.Property(e => e.Id).UseIdentityColumn();
+                //entity.HasIndex(e => e.Id).IsClustered();
 
-                entity.HasOne(d => d.Tournament)
-                    .WithMany(p => p.Match)
-                    .HasForeignKey(d => d.TournamentId)
-                    .HasConstraintName("FK_Match_Tournament");
+                entity.HasMany(e => e.MatchEntries)
+                    .WithOne(me => me.Match);
             });
 
-            modelBuilder.Entity<MatchPlayer>(entity =>
+            modelBuilder.Entity<MatchEntry>(entity =>
             {
-                entity.HasIndex(e => e.MatchId)
-                    .HasName("fkIdx_MatchPlayer_Match");
-
-                entity.HasIndex(e => e.PlayerId)
-                    .HasName("fkIdx_MatchPlayer_Player");
-
                 entity.HasOne(d => d.Match)
-                    .WithMany(p => p.MatchPlayer)
+                    .WithMany(p => p.MatchEntries)
                     .HasForeignKey(d => d.MatchId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MatchPlayer_Match");
-
-                entity.HasOne(d => d.Player)
-                    .WithMany(p => p.MatchPlayer)
-                    .HasForeignKey(d => d.PlayerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MatchPlayer_Player");
+                    .HasConstraintName("FK_MatchEntry_Match");
             });
 
             modelBuilder.Entity<Player>(entity =>
@@ -115,6 +77,16 @@ namespace AtaTennisApp.Data.Entities
                 entity.Property(e => e.Surname)
                     .IsRequired()
                     .HasMaxLength(50);
+                entity.Property(e => e.BirthDate).HasColumnType("Date");
+            });
+
+            modelBuilder.Entity<Score>(entity =>
+            {
+                entity.HasOne(e => e.MatchEntry)
+                    .WithMany(p => p.Scores)
+                    .HasForeignKey(d => d.MatchEntryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Score_MatchEntry");
             });
 
             modelBuilder.Entity<Tournament>(entity =>
@@ -126,6 +98,27 @@ namespace AtaTennisApp.Data.Entities
                 entity.Property(e => e.Place)
                     .IsRequired()
                     .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<TournamentEntry>(entity =>
+            {
+                //entity.HasKey(e => new { e.Id })
+                //    .HasName("PK_TournamentEntry");
+
+                entity.Property(e => e.Id).UseIdentityColumn();
+                //entity.HasIndex(e => e.Id).IsClustered();
+
+                entity.HasOne(e => e.Player)
+                    .WithMany(p => p.TournamentEntries)
+                    .HasForeignKey(d => d.PlayerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TournamentEntry_Player");
+
+                entity.HasOne(e => e.Tournament)
+                    .WithMany(t => t.TournamentEntries)
+                    .HasForeignKey(e => e.TournamentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TournamentEntry_Tournament");
             });
 
             modelBuilder.Entity<User>(entity =>

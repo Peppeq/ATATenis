@@ -7,7 +7,9 @@ namespace AtaTennisApp.Data.Entities
     {
         public Player()
         {
-            MatchPlayer = new HashSet<MatchPlayer>();
+            TournamentEntries = new HashSet<TournamentEntry>();
+            MatchEntries = new HashSet<MatchEntry>();
+            Matches = new HashSet<Match>();
         }
 
         public int Id { get; set; }
@@ -22,12 +24,11 @@ namespace AtaTennisApp.Data.Entities
         public string Racquet { get; set; }
         public SurfaceType? Surface { get; set; }
         public string FavouritePlayer { get; set; }
-        public int? TitlesCount { get; set; }
-        public int? FinalistCount { get; set; }
-        public int? TournamentCount { get; set; }
-        public bool? Member { get; set; }
-        public int Points { get; set; }
+        public bool Member { get; set; } = false;
+        public int Points { get; set; } = 0;
 
-        public virtual ICollection<MatchPlayer> MatchPlayer { get; set; }
+        public virtual ICollection<TournamentEntry> TournamentEntries { get; set; }
+        public virtual ICollection<MatchEntry> MatchEntries { get; set; }
+        public virtual ICollection<Match> Matches { get; set; }
     }
 }

@@ -27,8 +27,7 @@ namespace AtaTennisApp.BL.Helper
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Tournament, TournamentDTO>()
-                    .ForSourceMember(u => u.Draw, opt => opt.DoNotValidate())
-                    .ForSourceMember(u => u.Match, opt => opt.DoNotValidate());
+                    .ForSourceMember(u => u.TournamentEntries, opt => opt.DoNotValidate());
                 cfg.CreateMap<TournamentDTO, Tournament>();
             });
 
@@ -40,7 +39,7 @@ namespace AtaTennisApp.BL.Helper
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Player, PlayerDTO>()
-                    .ForSourceMember(u => u.MatchPlayer, opt => opt.DoNotValidate());
+                    .ForSourceMember(u => u.TournamentEntries, opt => opt.DoNotValidate());
                 cfg.CreateMap<PlayerDTO, Player>();
             });
 

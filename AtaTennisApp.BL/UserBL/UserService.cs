@@ -36,7 +36,7 @@ namespace AtaTennisApp.BL.UserService
             if (string.IsNullOrWhiteSpace(userDto.Password))
                 throw new AppException("Password is required");
 
-            if (dbContext.User.Any(u => u.Username == userDto.Username))
+            if (dbContext.Users.Any(u => u.Username == userDto.Username))
                 throw new AppException("Username \"" + userDto.Username + "\" is already taken");
 
             var passwordHasher = new PasswordHasher();
@@ -47,7 +47,7 @@ namespace AtaTennisApp.BL.UserService
             var mapper = MapperHelper.GetUserMapper();
             var userModel = mapper.Map<UserDTO, User>(userDto);
 
-            await dbContext.User.AddAsync(userModel);
+            await dbContext.Users.AddAsync(userModel);
             await dbContext.SaveChangesAsync();
 
             return userModel;
@@ -58,7 +58,7 @@ namespace AtaTennisApp.BL.UserService
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = await dbContext.User.SingleOrDefaultAsync(u => u.Username == username);
+            var user = await dbContext.Users.SingleOrDefaultAsync(u => u.Username == username);
 
             if (user == null)
                 return null;
@@ -75,17 +75,17 @@ namespace AtaTennisApp.BL.UserService
 
         public IEnumerable<User> GetAll()
         {
-            return dbContext.User;
+            return dbContext.Users;
         }
 
         public async Task<User> GetByIdAsync(int id)
         {
-            return await dbContext.User.FindAsync(id);
+            return await dbContext.Users.FindAsync(id);
         }
 
         public async Task UpdateAsync(User userParam, string password = null)
         {
-            var user = await dbContext.User.FindAsync(userParam.Id);
+            var user = await dbContext.Users.FindAsync(userParam.Id);
 
             if(user == null)
                 throw new AppException("User not found");
@@ -93,7 +93,7 @@ namespace AtaTennisApp.BL.UserService
             if (userParam.Username != user.Username)
             {
                 // username has changed so check if the new username is already taken
-                if (dbContext.User.Any(x => x.Username == userParam.Username))
+                if (dbContext.Users.Any(x => x.Username == userParam.Username))
                     throw new AppException("Username " + userParam.Username + " is already taken");
             }
 
@@ -111,17 +111,17 @@ namespace AtaTennisApp.BL.UserService
                 user.Password = hash;
             }
 
-            dbContext.User.Update(user);
+            dbContext.Users.Update(user);
             dbContext.SaveChanges();
 
         }
 
         public async Task DeleteAsync(int id)
         {
-            var user = await dbContext.User.FindAsync(id);
+            var user = await dbContext.Users.FindAsync(id);
             if (user != null)
             {
-                dbContext.User.Remove(user);
+                dbContext.Users.Remove(user);
                 await dbContext.SaveChangesAsync();
             }
         }

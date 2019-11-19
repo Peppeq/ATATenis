@@ -44,7 +44,7 @@ namespace AtaTennisApp.BL
             {
                 // for testing purpose
                 //throw new Exception("I throw tournament exception");
-                var tournamentList = await _dbContext.Tournament.Where(t => t.Id == filter.Id).ToListAsync();
+                var tournamentList = await _dbContext.Tournaments.Where(t => t.Id == filter.Id).ToListAsync();
                 foreach (var tournament in tournamentList)
                 {
                     var tournamentDto = Mapper.Map<Tournament, TournamentDTO>(tournament);
@@ -53,7 +53,7 @@ namespace AtaTennisApp.BL
             }
             else if (filter.Year != null)
             {
-                var tournamentQueryable = _dbContext.Tournament.Where(t => t.StartTime.Year == filter.Year);
+                var tournamentQueryable = _dbContext.Tournaments.Where(t => t.StartTime.Year == filter.Year);
 
                 if (filter.Type != null)
                 {
@@ -75,7 +75,7 @@ namespace AtaTennisApp.BL
         public async Task<List<TournamentDTO>> GetTournamentsByName(string name)
         {
             var list = new List<TournamentDTO>();
-            var tournamentList = await _dbContext.Tournament.Where(t => t.Name.ToLower()
+            var tournamentList = await _dbContext.Tournaments.Where(t => t.Name.ToLower()
                 .Contains(name.ToLower())).Take(5).ToListAsync();
 
             foreach (var tournament in tournamentList)
@@ -89,7 +89,7 @@ namespace AtaTennisApp.BL
 
         public async Task<TournamentDTO> GetNearestTournament()
         {
-            var tournament = await _dbContext.Tournament.Where(t => t.StartTime > DateTime.Now)
+            var tournament = await _dbContext.Tournaments.Where(t => t.StartTime > DateTime.Now)
                 .OrderBy(t=> t.StartTime).FirstOrDefaultAsync();
 
             var tournamentDto = Mapper.Map<Tournament, TournamentDTO>(tournament);
@@ -101,12 +101,12 @@ namespace AtaTennisApp.BL
             var tournament = Mapper.Map<TournamentDTO, Tournament>(tournamentDTO);
             if (tournamentDTO.Id > 0)
             {
-                var currentTournament = await _dbContext.Tournament.Where(t => t.Id == tournamentDTO.Id).FirstOrDefaultAsync();
+                var currentTournament = await _dbContext.Tournaments.Where(t => t.Id == tournamentDTO.Id).FirstOrDefaultAsync();
                 _dbContext.Entry(currentTournament).CurrentValues.SetValues(tournament);
             }
             else
             {
-                await _dbContext.Tournament.AddAsync(tournament);
+                await _dbContext.Tournaments.AddAsync(tournament);
             }
 
             await _dbContext.SaveChangesAsync();

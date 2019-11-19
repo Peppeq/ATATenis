@@ -21,18 +21,18 @@ namespace ConsoleTests
             var context = new AtaTennisContext();
             DbInitializer.Initialize(context);
 
-            var player = context.Player.FirstOrDefault();
+            var player = context.Players.FirstOrDefault();
             //player.Wait();
             //Console.WriteLine(player.Result.Age + player.Result.Name + ' ' + player.Result.Surname);
             Console.WriteLine(player.BirthDate + player.Name + ' ' + player.Surname);
 
-            var user = new UserDTO(){    
-                //Email = "",
-                Password = "admin",
-                Username = "admin2"
-            };
-            var userService = new UserService(context);
-            Task.WaitAll(userService.CreateAsync(user));
+            //var user = new UserDTO(){    
+            //    //Email = "",
+            //    Password = "admin",
+            //    Username = "admin2"
+            //};
+            //var userService = new UserService(context);
+            //Task.WaitAll(userService.CreateAsync(user));
 
             Console.ReadLine();
 
