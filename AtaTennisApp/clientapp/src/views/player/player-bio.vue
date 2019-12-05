@@ -254,7 +254,7 @@ export default class PlayerBio extends BaseComponentClass {
 	isEdit = false;
 	playerHelper = PlayerHelper;
 
-	async addOrEditPlayer() {
+	async addOrEditPlayer(): Promise<void> {
 		if (await this.playerForm.validate()) {
 			const client = new PlayerClient();
 			this.tryGetDataByArgs<null, PlayerDTO>({
@@ -277,7 +277,7 @@ export default class PlayerBio extends BaseComponentClass {
 
 	@Ref() playerForm!: InstanceType<typeof ValidationObserver>;
 
-	isPlayerNameValid(changed: boolean, validated: boolean, valid: boolean) {
+	isPlayerNameValid(changed: boolean, validated: boolean, valid: boolean): boolean {
 		if (this.isEdit) {
 			return changed ? validated : null;
 		} else {
@@ -285,7 +285,7 @@ export default class PlayerBio extends BaseComponentClass {
 		}
 	}
 
-	isPlayerSurnameValid(changed: boolean, validated: boolean, valid: boolean) {
+	isPlayerSurnameValid(changed: boolean, validated: boolean, valid: boolean): boolean {
 		if (this.isEdit) {
 			return changed ? valid : null;
 		} else {
@@ -293,7 +293,7 @@ export default class PlayerBio extends BaseComponentClass {
 		}
 	}
 
-	mounted() {
+	mounted(): void {
 		this.player = new PlayerDTO();
 		if (this.playerProp != null) {
 			this.player = { ...this.playerProp };

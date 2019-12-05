@@ -246,7 +246,7 @@ import Component from "vue-class-component";
 import { Prop, Watch, Ref } from "vue-property-decorator";
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import { NotificationUtils } from "../../common/notification";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { ValidationObserver } from "vee-validate";
 import { DateHelper } from "../../common/DateHelper";
 import TournamentClient, {
 	TournamentDTO,
@@ -254,7 +254,7 @@ import TournamentClient, {
 	TournamentType,
 	PlayingSystem
 } from "../../Api/TournamentController";
-import { TournamentHelper, TournamentCategoryObj } from "./tournamentHelper";
+import { TournamentHelper } from "./tournamentHelper";
 import { PlayerHelper } from "../player/player-helper";
 
 @Component
@@ -265,6 +265,11 @@ export default class TournamentDetails extends BaseComponentClass {
 	@Prop({ default: null }) readonly modifyTournament: (tournament: TournamentDTO) => void;
 
 	tournament: TournamentDTO = null;
+	@Watch("tournamentProp")
+	onTournamentPropChange(tournamentProp: TournamentDTO): void {
+		this.tournament = tournamentProp;
+	}
+
 	isReadonly = true;
 	isEdit = false;
 	calendarIcon = '<i class="material-icons">calendar_today</i>';
@@ -299,14 +304,15 @@ export default class TournamentDetails extends BaseComponentClass {
 				requestArgs: this.tournament
 			}).then(resp => {
 				if (resp.ok) {
-					if (this.modifyTournament != null) {
-						this.modifyTournament(this.tournament);
-						this.hideModal();
-						NotificationUtils.ShowSuccess({
-							message: "Parada ulozene",
-							title: "Tournament"
-						});
-					}
+					NotificationUtils.ShowSuccess({
+						message: "Parada ulozene",
+						title: "Tournament"
+					});
+					this.tournamentForm.reset();
+					// if (this.modifyTournament != null) {
+					// 	this.modifyTournament(this.tournament);
+					// 	this.hideModal();
+					// }
 				}
 			});
 		}
@@ -330,7 +336,7 @@ export default class TournamentDetails extends BaseComponentClass {
 		}
 	}
 
-	mounted(): void {
+	created(): void {
 		this.tournament = new TournamentDTO();
 		if (this.tournamentProp != null) {
 			this.tournament = { ...this.tournamentProp };

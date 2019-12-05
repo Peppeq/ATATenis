@@ -9,7 +9,7 @@ namespace AtaTennisApp.Data.Entities
         {
             TournamentEntries = new HashSet<TournamentEntry>();
             MatchEntries = new HashSet<MatchEntry>();
-            Matches = new HashSet<Match>();
+            //Matches = new HashSet<Match>();
         }
 
         public int Id { get; set; }
@@ -29,6 +29,6 @@ namespace AtaTennisApp.Data.Entities
 
         public virtual ICollection<TournamentEntry> TournamentEntries { get; set; }
         public virtual ICollection<MatchEntry> MatchEntries { get; set; }
-        public virtual ICollection<Match> Matches { get; set; }
+        //public virtual ICollection<Match> Matches { get; set; }
     }
 }

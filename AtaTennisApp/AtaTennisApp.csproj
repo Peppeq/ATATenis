@@ -52,6 +52,9 @@
     <None Update="clientapp\src\Api\TournamentControllerFetch.ts">
       <CustomToolNamespace>Controllers\TournamentController.cs</CustomToolNamespace>
     </None>
+    <None Update="clientapp\src\Api\TournamentEntryController.ts">
+      <CustomToolNamespace>Controllers\TournamentEntryController.cs</CustomToolNamespace>
+    </None>
     <None Update="clientapp\src\Api\TournamentListController.ts">
       <CustomToolNamespace>Controllers\Tournament\TournamentListController.cs</CustomToolNamespace>
     </None>

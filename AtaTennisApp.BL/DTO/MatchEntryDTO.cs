@@ -1,9 +1,11 @@
-﻿using System;
+﻿using AtaTennisApp.Data.Entities;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace AtaTennisApp.Data.Entities
+namespace AtaTennisApp.BL.DTO
 {
-    public partial class MatchEntry
+    public class MatchEntryDTO
     {
         public int Id { get; set; }
         public int MatchId { get; set; }
@@ -12,7 +14,7 @@ namespace AtaTennisApp.Data.Entities
 
         public virtual List<Score> Scores { get; set; }
 
-        public virtual Match Match { get; set; }
-        public virtual Player Player { get; set; }
+        public virtual MatchDTO Match { get; set; }
+        public virtual PlayerDTO Player { get; set; }
     }
 }

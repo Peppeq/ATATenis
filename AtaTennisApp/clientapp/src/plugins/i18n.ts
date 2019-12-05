@@ -74,6 +74,8 @@ export const i18n: VueI18n = new VueI18n({
 			point: "Point | Points",
 			create: "Create",
 			place: "Place",
+			draw: "Draw",
+			detail: "Detail | Details",
 
 			// player page
 			name: "Name",
@@ -161,6 +163,8 @@ export const i18n: VueI18n = new VueI18n({
 			place: "Miesto",
 			start: "Začiatok",
 			end: "Koniec",
+			draw: "Pavúk",
+			detail: "Detail | Detaily",
 
 			// player page
 			name: "Meno",

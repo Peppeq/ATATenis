@@ -56,4 +56,11 @@ namespace AtaTennisApp.Data
         oneHanded = 0,
         twoHanded = 1
     }
+
+    public enum DrawSize
+    {
+        draw16 = 16,
+        draw32 = 32,
+        draw64 = 64
+    }
 }

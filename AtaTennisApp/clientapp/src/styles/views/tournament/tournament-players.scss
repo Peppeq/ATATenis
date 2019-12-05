@@ -1,0 +1,25 @@
+.remove-player {
+  margin-right: 20%;
+  float: right;
+  cursor: pointer;
+}
+
+ol,
+ul {
+  column-count: 3;
+  column-gap: 20px;
+}
+
+@media (max-width: 960px) {
+  ol,
+  ul {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 540px) {
+  ol,
+  ul {
+    column-count: 1;
+  }
+}

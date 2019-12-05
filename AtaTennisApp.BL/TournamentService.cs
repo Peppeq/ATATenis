@@ -3,6 +3,7 @@ using AtaTennisApp.BL.Helper;
 using AtaTennisApp.Data;
 using AtaTennisApp.Data.Entities;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace AtaTennisApp.BL
         Task<List<TournamentDTO>> GetFilteredTournaments(TournamentFilter filter);
         Task<TournamentDTO> AddOrEditTournament(TournamentDTO tournamentDTO);
         Task<List<TournamentDTO>> GetTournamentsByName(string name);
+        Task<List<SearchedTournamentDTO>> GetSearchedTournamentsByName(string name);
+        Task<TournamentPlayersDTO> GetTournamentPlayers(int tournamentId);
     }
     public class TournamentService : ITournamentService
     {
@@ -87,6 +90,18 @@ namespace AtaTennisApp.BL
             return list;
         }
 
+        public async Task<List<SearchedTournamentDTO>> GetSearchedTournamentsByName(string name)
+        {
+            var tournamentList = await _dbContext.Tournaments.Where(t => t.Name.ToLower()
+                .Contains(name.ToLower())).Take(5).Select(t => new SearchedTournamentDTO() { 
+                Name = t.Name,
+                TournamentId = t.Id,
+                StartTime = t.StartTime
+                }).ToListAsync();
+
+            return tournamentList;
+        }
+
         public async Task<TournamentDTO> GetNearestTournament()
         {
             var tournament = await _dbContext.Tournaments.Where(t => t.StartTime > DateTime.Now)
@@ -113,6 +128,15 @@ namespace AtaTennisApp.BL
             var updatedTournamentDto = Mapper.Map<Tournament, TournamentDTO>(tournament);
 
             return updatedTournamentDto;
+        }
+
+        public async Task<TournamentPlayersDTO> GetTournamentPlayers(int tournamentId)
+        {
+            var tournamentPlayers = await _dbContext.Tournaments.Where(t => t.Id == tournamentId)
+                .ProjectTo<TournamentPlayersDTO>(MapperHelper.Configuration)
+                .FirstOrDefaultAsync();
+
+            return tournamentPlayers;
         }
     }
 }

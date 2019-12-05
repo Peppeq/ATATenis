@@ -24,8 +24,26 @@ export class TournamentDTO {
     Surface: SurfaceType = null;
     Description: string = null;
 }
-export class TournamentByNameArgs {
+export class SearchedTournamentByNameArgs {
     Name: string = null;
+}
+export class SearchedTournamentDTO {
+    TournamentId: number = null;
+    Name: string = null;
+    StartTime: Date = null;
+}
+export class TournamentPlayersArgs {
+    TournamentId: number = null;
+}
+export class TournamentPlayersDTO {
+    Tournament: TournamentDTO = null;
+    Players: PlayerDrawDTO[] = null;
+}
+export class PlayerDrawDTO {
+    TournamentEntryId: number = null;
+    PlayerId: number = null;
+    Name: string = null;
+    Surname: string = null;
 }
 
 
@@ -62,8 +80,12 @@ export default class TournamentClient {
         return AjaxProvider.apiGet("Tournament", data);
     }
 
-    getTournamentByName<TArgs extends TournamentByNameArgs, TResult extends TournamentDTO[]>(data: TArgs): Promise<TResult> {
-        return AjaxProvider.apiGet("Tournament/getTournamentByName", data);
+    getSearchedTournamentsByName<TArgs extends SearchedTournamentByNameArgs, TResult extends SearchedTournamentDTO[]>(data: TArgs): Promise<TResult> {
+        return AjaxProvider.apiGet("Tournament/GetSearchedTournamentsByName", data);
+    }
+
+    getTournamentPlayers<TArgs extends TournamentPlayersArgs, TResult extends TournamentPlayersDTO>(data: TArgs): Promise<TResult> {
+        return AjaxProvider.apiGet("Tournament/GetTournamentPlayers", data);
     }
 
     getWithoutParams<TResult extends TournamentDTO>(): Promise<TResult> {

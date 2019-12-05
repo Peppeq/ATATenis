@@ -62,7 +62,7 @@ export default class PlayerManagement extends BaseComponentClass {
 	searchedPlayers: PlayerDTO[] = [];
 	player: PlayerDTO = null;
 
-	searchPlayerByNameSurname() {
+	searchPlayerByNameSurname(): void {
 		if (this.searchName != null && this.searchName != "") {
 			console.log("event triggered " + this.searchName);
 			const client = new PlayerClient();
@@ -79,12 +79,11 @@ export default class PlayerManagement extends BaseComponentClass {
 		}
 	}
 
-	hideAddPlayerModal() {
+	hideAddPlayerModal(): void {
 		this.showAddPlayerModal = false;
 	}
 
-	addOrEditPlayer(player: PlayerDTO) {
-		console.log("add or edit player called");
+	addOrEditPlayer(player: PlayerDTO): void {
 		this.player = player;
 		this.showAddPlayerModal = true;
 	}

@@ -10,3 +10,7 @@ Console =>
 
 dotnet ef dbcontext scaffold "Server=PCPQ\SQLEXPRESS;Database=AtaTennis;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer --context-dir Data --output-dir Entities --force
 
+Model first to DB
+Package manager console (PowerShell) =>
+Add-Migration <migration name>
+Update-Database

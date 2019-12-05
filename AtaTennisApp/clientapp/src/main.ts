@@ -26,6 +26,8 @@ import { router } from "./router";
 import { i18n } from "./plugins/i18n";
 import { store } from "./store/indexx";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+// @ts-ignore
+import VueVisible from "vue-visible";
 
 // tests
 import "./scripts/testsJs.ts";
@@ -46,6 +48,7 @@ Vue.component("ValidationObserver", ValidationObserver);
 Vue.use(ShardsVue);
 Vue.use(Notifications);
 Vue.use(EventHub);
+Vue.use(VueVisible);
 
 new Vue({
 	router,

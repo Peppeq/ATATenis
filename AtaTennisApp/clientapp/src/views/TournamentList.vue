@@ -82,17 +82,17 @@ export default class TournamentListClass extends BaseComponentClass {
 		}
 	}
 
-	onChangeYear(year: number) {
+	onChangeYear(year: number): void {
 		this.year = year;
 		this.getTournaments();
 	}
 
-	onChangeTournamentType(tournamentType: TournamentType) {
+	onChangeTournamentType(tournamentType: TournamentType): void {
 		this.selectedTournamentType = tournamentType;
 		this.getTournaments();
 	}
 
-	getTournaments() {
+	getTournaments(): void {
 		const tournamentClient = new TournamentClient();
 
 		this.tryGetDataByArgs<TournamentDTO[], TournamentFilter>({
@@ -113,7 +113,7 @@ export default class TournamentListClass extends BaseComponentClass {
 		});
 	}
 
-	mounted() {
+	mounted(): void {
 		this.getYears();
 		this.selectedTournamentType = TournamentHelper.GetTournamentTypesWithAll()[5].value;
 		this.getTournaments();

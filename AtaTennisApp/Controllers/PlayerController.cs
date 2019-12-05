@@ -34,10 +34,6 @@ namespace AtaTennisApp.Controllers
         {
             public string SearchName { get; set; }
         }
-        public class PlayerResponse
-        {
-            public List<Player> Players { get; set; }
-        }
 
         [HttpGet("PlayersByRanking")]
         public async Task<ActionResult<List<PlayerDTO>>> GetAllPlayers()

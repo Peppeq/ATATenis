@@ -1,0 +1,291 @@
+@mixin drawJoiningLine($height, $width) {
+  position: absolute;
+  content: "";
+  top: 50%;
+  width: $width;
+  height: $height;
+}
+
+.round-header {
+  width: calc(100 / 6 * 1%);
+  vertical-align: top;
+  .like-h3 {
+    text-align: center;
+    font-weight: 800;
+    color: #242424;
+    opacity: 0.72;
+    font-size: 1.41em;
+    padding-bottom: 25px;
+  }
+}
+
+.draw-qualification-container {
+  .draw-container {
+    display: inline-block;
+    width: 100/6 * 5 * 1%;
+  }
+}
+
+.qualification {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.grid-qualification-matches {
+  display: grid;
+  grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+}
+.qualification-match-3 {
+  grid-row-start: 3;
+  ::before {
+    @include drawJoiningLine(0, 21px);
+  }
+}
+.qualification-match-4 {
+  grid-row-start: 4;
+}
+
+.qualification-match-6 {
+  grid-row-start: 6;
+}
+
+.qualification-32 {
+  width: 100/6 * 1%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.draw-32 {
+  width: 80%;
+  display: inline-block;
+}
+
+.draw-32-qualification {
+  width: 100%;
+  display: inline-block;
+}
+
+// .draw-matches-16 {
+//   width: 80%;
+// }
+
+.matches-container .matches {
+  width: calc(25%);
+  vertical-align: top;
+  // margin-right: 40px;
+  .like-h3 {
+    text-align: center;
+    font-weight: 800;
+    color: #242424;
+    opacity: 0.72;
+    font-size: 1.41em;
+    padding-bottom: 25px;
+  }
+}
+
+.matches-container .qualification {
+  width: 100%;
+}
+
+.opponents {
+  list-style: none;
+}
+
+.matches-container .draw-matches-16 .opponents {
+  position: relative;
+  li {
+    position: relative;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  li::after {
+    @include drawJoiningLine(0, 21px);
+    right: -20px;
+    margin-top: 0px;
+    border-top: 1px solid #e1e1e1;
+  }
+  li:first-child:before {
+    @include drawJoiningLine(91px, 0);
+    right: -20px;
+    margin-top: 0px;
+    border-left: 1px solid #e1e1e1;
+  }
+}
+
+.matches-container .draw-matches-16 .qualification .opponents li::after {
+  @include drawJoiningLine(0, 41px);
+  right: -40px;
+  margin-top: 0px;
+  border-top: 1px solid #e1e1e1;
+}
+
+.matches-container .matches.round2 {
+  .opponents {
+    // margin-bottom: 84px;
+    // margin-top: 43px;
+    li {
+      margin-top: 0px;
+      margin-bottom: 105px;
+    }
+    li:first-child {
+      margin-top: 43px;
+      margin-bottom: 105px;
+    }
+    li:last-child {
+      margin-top: 43px;
+      //   margin-bottom: 0px;
+    }
+  }
+  .opponents:last-child {
+    li:last-child {
+      // margin-top: 43px;
+      margin-bottom: 0px;
+    }
+  }
+
+  li:first-child:before {
+    @include drawJoiningLine(186px, 0);
+    right: -20px;
+    margin-top: 0px;
+    border-left: 1px solid #e1e1e1;
+  }
+  li::before {
+    height: 326px;
+  }
+  table::before {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: -20px;
+    width: 21px;
+    height: 0;
+    border-top: 1px solid #e1e1e1;
+  }
+}
+
+.matches-container .matches.round3 .opponents {
+  margin-bottom: 152px;
+}
+
+.matches-container .matches.round3 li {
+  margin-top: 292px;
+}
+
+.matches-container .matches.round3 li:first-child {
+  margin-top: 139px;
+}
+
+.matches-container .matches.round3 li::before {
+  height: 526px;
+}
+
+.matches-container .matches.round3 li table::before {
+  @include drawJoiningLine(0, 21px);
+  left: -20px;
+  border-top: 1px solid #e1e1e1;
+}
+
+.matches-container .matches.round3 .opponents li:first-child:before {
+  @include drawJoiningLine(374px, 0);
+  right: -20px;
+  margin-top: 0px;
+  border-left: 1px solid #e1e1e1;
+}
+
+.matches-container .matches.round4,
+.matches-container .matches.round4final {
+  .opponents {
+    margin-bottom: 252px;
+  }
+  li {
+    margin-top: 352px;
+  }
+}
+
+.matches-container .matches.round4 li:first-child,
+.matches-container .matches.round4final li:first-child {
+  margin-top: 329px;
+}
+
+.matches-container .matches.round4 li::before,
+.matches-container .matches.round4final li::before {
+  height: 526px;
+}
+
+.matches-container .matches.round4 li table::before,
+.matches-container .matches.round4final li table::before {
+  @include drawJoiningLine(0, 21px);
+  left: -20px;
+  border-top: 1px solid #e1e1e1;
+}
+
+.matches-container .draw-matches-16:first-child .round4 .opponents li:first-child:before {
+  @include drawJoiningLine(748px, 0);
+  right: -20px;
+  margin-top: 0px;
+  border-left: 1px solid #e1e1e1;
+}
+
+.matches-container .draw-matches-16 .round4 .opponents li::before,
+.matches-container .draw-matches-16 .qualification .opponents li::before,
+.matches-container .matches.round4final .opponents li:first-child:before,
+.matches-container .matches.round4final .opponents li::after {
+  width: 0;
+  height: 0;
+}
+
+// .matches-container .matches.round5::before {
+//   @include drawJoiningLine(374px, 0);
+//   right: -20px;
+//   margin-top: -1px;
+//   border-left: 1px solid #e1e1e1;
+// }
+
+.draw-final {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+  .round5 {
+    width: 100%;
+  }
+  .opponents {
+    position: relative;
+    li {
+      margin-top: 695px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+  }
+}
+
+.matches-container .matches.round5 li table::before {
+  @include drawJoiningLine(0, 21px);
+  left: -20px;
+  border-top: 1px solid #e1e1e1;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table,
+td,
+th {
+  border: 1px solid #e1e1e1;
+  padding: 8px;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.show-only-on-large-size {
+  display: inline-block;
+}
+
+@media (max-width: 1200px) {
+  table,
+  td,
+  th {
+    padding: 3px;
+  }
+}

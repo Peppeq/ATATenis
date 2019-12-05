@@ -38,7 +38,8 @@ namespace AtaTennisApp
                 builder =>
                 {
                     builder.WithOrigins("http://localhost:8080", "http://localhost:8081")
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
                 });
             });
 

@@ -20,7 +20,7 @@ namespace AtaTennisApp.Controllers
         private AtaTennisContext _dbContext;
         private TournamentService TournamentService { get; set; }
 
-        public class TournamentByNameArgs
+        public class SearchedTournamentByNameArgs
         {
             public string Name { get; set; }
         }
@@ -31,6 +31,11 @@ namespace AtaTennisApp.Controllers
             TournamentService = new TournamentService(dbContext);
         }
 
+        public class TournamentPlayersArgs
+        {
+            public int TournamentId { get; set; }
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<TournamentDTO>>> Get([FromQuery]TournamentFilter args)
         {
@@ -39,10 +44,21 @@ namespace AtaTennisApp.Controllers
             return response;
         }
 
-        [HttpGet("getTournamentByName")]
-        public async Task<ActionResult<List<TournamentDTO>>> GetTournamentByName([FromQuery]TournamentByNameArgs args)
+        [HttpGet("GetSearchedTournamentsByName")]
+        public async Task<ActionResult<List<SearchedTournamentDTO>>> GetSearchedTournamentsByName([FromQuery]SearchedTournamentByNameArgs args)
         {
-            List<TournamentDTO> response = await TournamentService.GetTournamentsByName(args.Name);
+            List<SearchedTournamentDTO> response = await TournamentService.GetSearchedTournamentsByName(args.Name);
+            return response;
+        }
+
+        [HttpGet("GetTournamentPlayers")]
+        public async Task<ActionResult<TournamentPlayersDTO>> GetTournamentPlayers([FromQuery]TournamentPlayersArgs args)
+        {
+            var response = await TournamentService.GetTournamentPlayers(args.TournamentId);
+            if (response == null)
+            {
+                return NotFound();
+            }
             return response;
         }
 

@@ -46,7 +46,7 @@ export default class AppLayout extends Vue {
 	// 	false;
 	// }
 
-	get isMainNavbar() {
+	get isMainNavbar(): boolean {
 		return this.$route.name != "Admin";
 	}
 

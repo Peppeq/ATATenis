@@ -13,7 +13,7 @@ namespace AtaTennisApp.Data
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.Players.Any() && context.Tournaments.Any() && context.Users.Any())
+            if (context.Players.Any() && context.Tournaments.Any() && context.Users.Any() && context.TournamentEntries.Any())
             {
                 return;   // DB has been seeded
             }
@@ -111,6 +111,30 @@ namespace AtaTennisApp.Data
             var admin = new User { Username = "admin", Password = "AXFiT5iav+brOl0kBp9nkaHpMku/Tdh9xKdrY1uecawhNSBrIQfzEzW6uw==", Email = "" };
 
             context.Users.Add(admin);
+
+            var tournamentEntries = new TournamentEntry[]
+            {
+                new TournamentEntry
+                {
+                    PlayerId = 1,
+                    TournamentId = 1
+                },
+                new TournamentEntry
+                {
+                    PlayerId = 2,
+                    TournamentId = 1
+                },
+                new TournamentEntry
+                {
+                    PlayerId = 4,
+                    TournamentId = 1
+                }
+            };
+
+            foreach (var tournamentEntry in tournamentEntries)
+            {
+                context.TournamentEntries.Add(tournamentEntry);
+            }
 
             context.SaveChanges();
         }

@@ -50,7 +50,8 @@ namespace AtaTennisApp.Data.Entities
                 //entity.HasIndex(e => e.Id).IsClustered();
 
                 entity.HasMany(e => e.MatchEntries)
-                    .WithOne(me => me.Match);
+                    .WithOne(me => me.Match)
+                    .HasForeignKey(me => me.MatchId);
             });
 
             modelBuilder.Entity<MatchEntry>(entity =>
@@ -60,6 +61,10 @@ namespace AtaTennisApp.Data.Entities
                     .HasForeignKey(d => d.MatchId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MatchEntry_Match");
+
+                entity.HasOne(me => me.Player)
+                    .WithMany(p => p.MatchEntries)
+                    .HasForeignKey(me => me.PlayerId);
             });
 
             modelBuilder.Entity<Player>(entity =>
@@ -78,6 +83,10 @@ namespace AtaTennisApp.Data.Entities
                     .IsRequired()
                     .HasMaxLength(50);
                 entity.Property(e => e.BirthDate).HasColumnType("Date");
+
+                entity.HasMany(p => p.MatchEntries)
+                    .WithOne(me => me.Player)
+                    .HasForeignKey(me => me.PlayerId);
             });
 
             modelBuilder.Entity<Score>(entity =>
@@ -98,6 +107,10 @@ namespace AtaTennisApp.Data.Entities
                 entity.Property(e => e.Place)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.HasMany(e => e.TournamentEntries)
+                    .WithOne(te => te.Tournament)
+                    .HasForeignKey(te => te.TournamentId);
             });
 
             modelBuilder.Entity<TournamentEntry>(entity =>

@@ -233,3 +233,4 @@ _Pvt_Extensions
 
 .vs
 AtaTennisApp/appsettings.json
+AtaTennisApp/clientapp/src/Api/*Controller.*
