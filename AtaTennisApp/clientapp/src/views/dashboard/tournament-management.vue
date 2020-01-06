@@ -8,10 +8,12 @@
 				<!-- <d-input-group-text slot="prepend">
 					<i class="material-icons">search</i>
 					<i class="fas fa-search"></i>
-				</d-input-group-text> -->
+                </d-input-group-text>-->
 
 				<div class="input-group-prepend">
-					<div class="input-group-text"><i class="fas fa-search"></i></div>
+					<div class="input-group-text">
+						<i class="fas fa-search"></i>
+					</div>
 				</div>
 				<input
 					v-model="searchName"
@@ -30,9 +32,9 @@
 					{{ searchedTournament.Name + " " + searchedTournament.StartTime }}
 				</div>
 			</d-list-group>
-			<d-list-group v-else-if="searchedTournaments != null && searchedTournaments.length > 0">
-				No tournaments founded
-			</d-list-group>
+			<d-list-group v-else-if="searchedTournaments != null && searchedTournaments.length > 0"
+				>No tournaments founded</d-list-group
+			>
 		</d-row>
 		<d-card v-if="selectedTour != null" class="px-4 py-2">
 			<d-tabs card>
@@ -48,7 +50,7 @@
 					></tournament-players>
 				</d-tab>
 				<d-tab title="Draw">
-					<tournament-draw />
+					<tournament-draw :tournament-id="selectedTour.Id" />
 				</d-tab>
 			</d-tabs>
 		</d-card>
@@ -87,7 +89,12 @@ import TournamentEntryClient, {
 } from "@/Api/TournamentEntryController";
 
 @Component({
-	components: { TournamentModal, TournamentDetails, TournamentDraw, TournamentPlayers }
+	components: {
+		TournamentModal,
+		TournamentDetails,
+		TournamentDraw,
+		TournamentPlayers
+	}
 })
 export default class TournamentManagement extends BaseComponentClass {
 	showTournamentModal = false;
@@ -142,7 +149,10 @@ export default class TournamentManagement extends BaseComponentClass {
 		await this.tryGetDataByArgs<TournamentEntry, PlayerArgs>({
 			apiMethod: client.addTournamentPlayer,
 			showError: true,
-			requestArgs: { TournamentId: this.selectedTournament.Id, PlayerId: player.PlayerId }
+			requestArgs: {
+				TournamentId: this.selectedTournament.Id,
+				PlayerId: player.PlayerId
+			}
 		}).then(response => {
 			result = response.ok;
 			if (response.ok) {

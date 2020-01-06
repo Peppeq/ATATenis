@@ -11,11 +11,13 @@ namespace AtaTennisApp.Data.Entities
         }
 
         public int Id { get; set; }
-        public int Round { get; set; }
+        public int? Round { get; set; }
         // Winner = PlayerId
-        public int Winner { get; set; }
+        public int? Winner { get; set; }
+        public int TournamentId { get; set; }
         //public bool Retired { get; set; }
 
         public virtual ICollection<MatchEntry> MatchEntries { get; set; }
+        public virtual Tournament Tournament { get; set; }  
     }
 }

@@ -40,6 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="clientapp\src\Api\MatchController.ts">
+      <CustomToolNamespace>Controllers\MatchController.cs</CustomToolNamespace>
+    </None>
     <None Update="clientapp\src\Api\PlayerController.ts">
       <CustomToolNamespace>Controllers\PlayerController.cs</CustomToolNamespace>
     </None>

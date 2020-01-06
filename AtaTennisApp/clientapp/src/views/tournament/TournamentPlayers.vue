@@ -39,6 +39,7 @@ import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import TournamentEntryClient, { PlayerDrawDTO, GetSearchedPlayersArgs } from "../../Api/TournamentEntryController";
+import { NotificationUtils } from "../../common/notification";
 
 @Component
 export default class TournamentPlayers extends BaseComponentClass {
@@ -83,13 +84,18 @@ export default class TournamentPlayers extends BaseComponentClass {
 	}
 
 	addTournamentEntry(): void {
-		if (this.AddTournamentEntry != null)
-			this.AddTournamentEntry(this.selectedPlayer).then(result => {
-				if (result) {
-					this.selectedPlayer = null;
-					this.player = null;
-				}
-			});
+		if (this.AddTournamentEntry != null) {
+			if (this.assignedPlayers.some(p => p.TournamentEntryId == this.selectedPlayer.TournamentEntryId)) {
+				this.AddTournamentEntry(this.selectedPlayer).then(result => {
+					if (result) {
+						this.selectedPlayer = null;
+						this.player = null;
+					}
+				});
+			} else {
+				NotificationUtils.ShowErrorMessage("Player already added.");
+			}
+		}
 	}
 
 	removeTournamentEntry(event: MouseEvent): void {

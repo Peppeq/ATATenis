@@ -289,3 +289,19 @@ th {
     padding: 3px;
   }
 }
+
+.match-margin {
+  margin-bottom: 5%;
+}
+
+.select-draw-size {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3%;
+  label {
+    white-space: nowrap;
+    margin-right: 5%;
+    text-align: center;
+    height: 100%;
+  }
+}

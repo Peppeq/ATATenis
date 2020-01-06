@@ -1,3 +1,6 @@
 otestovat bez connection co sa stane ...
 remove config from git
 poriesit 500 pri zlej coennection
+
+1. pridat btn a funkcionalitu do tournament management - 45 min
+2.

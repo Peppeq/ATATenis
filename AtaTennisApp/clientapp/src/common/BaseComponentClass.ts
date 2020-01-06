@@ -11,7 +11,7 @@ interface TryGetApiArgs<TResult, TArgs> {
 	requestArgs: TArgs;
 }
 
-interface ApiResult<TResult> {
+export interface ApiResult<TResult> {
 	data: TResult;
 	ok: boolean;
 }

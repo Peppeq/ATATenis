@@ -24,5 +24,6 @@ namespace AtaTennisApp.Data.Entities
 
         public virtual DrawType DrawType { get; set; }
         public virtual ICollection<TournamentEntry> TournamentEntries { get; set; }
+        public virtual ICollection<Match> Matches { get; set; }
     }
 }

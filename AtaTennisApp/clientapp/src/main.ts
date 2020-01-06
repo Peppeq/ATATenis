@@ -37,6 +37,9 @@ import "./plugins/validation-rules.ts";
 import "bootstrap/dist/css/bootstrap.css";
 import "./styles/global.scss";
 
+// helpers
+import "./views/tournament/tournamentHelper.ts";
+
 Vue.config.productionTip = false;
 
 Vue.component("app-layout", Layout);

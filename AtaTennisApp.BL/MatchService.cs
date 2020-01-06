@@ -3,6 +3,7 @@ using AtaTennisApp.BL.Helper;
 using AtaTennisApp.Data;
 using AtaTennisApp.Data.Entities;
 using AutoMapper;
+using EFCore.BulkExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,13 @@ namespace AtaTennisApp.BL
     {
         Task<List<MatchDTO>> GetMatchesByTournament(int tournamentId);
         Task<List<MatchDTO>> GetMatchesByPlayer(int playerId);
-
-        Task CreateDraw(int drawCount, int tournamentId);
+        Task<List<MatchDTO>> CreateMatchesForTournament(DrawSize drawSize, int tournamentId);
     }
 
     public class MatchService : IMatchService
     {
         private AtaTennisContext _dbContext { get; set; }
-        //private IMapper Mapper { get; set; } = MapperHelper.GetTournamentMapper();
+        private IMapper Mapper { get; set; } = MapperHelper.GetMatchMapper();
 
         public MatchService(AtaTennisContext context)
         {
@@ -45,41 +45,38 @@ namespace AtaTennisApp.BL
         // pridam dalsie matche (parent match ) pre aktualne vygenerovane 
         // na frontende budem vediet podla id matchu 1 kola a parenta urcit aj order pre predkolo
         // porozmyslat ako navrhnem na FE pridavanie predkol
-        public async Task CreateDraw(int playerCount, int tournamentId)
+        public async Task<List<MatchDTO>> CreateMatchesForTournament(DrawSize drawSize, int tournamentId)
         {
-            var startingRound = 1;
-            var qualificationPlayersCount = 0;
+            var startingRound = 0;
             var matchesCount = 0;
-            var qualificationMatchesCount = 0;
 
-            var matches = new List<Match>();
-
-            if (playerCount <= (int)DrawSize.draw16)
+            switch (drawSize)
             {
-                startingRound = 4;
-                matchesCount = playerCount/2;
-            }
-            else if (playerCount <= (int)DrawSize.draw32)
-            {
-                startingRound = 3;
-                qualificationPlayersCount = playerCount - (int)DrawSize.draw16;
-            }
-            else if (playerCount <= (int)DrawSize.draw64)
-            {
-                startingRound = 2;
-                qualificationPlayersCount = playerCount - (int)DrawSize.draw32;
-            }
+                case DrawSize.draw8:
+                    startingRound = 4;
+                    matchesCount = (int)DrawSize.draw8 / 2;
+                    break;
+                case DrawSize.draw16: 
+                    startingRound = 3;
+                    matchesCount = (int)DrawSize.draw16 / 2;
+                    break;
+                case DrawSize.draw32:
+                    startingRound = 2;
+                    matchesCount = (int)DrawSize.draw32 / 2;
+                    break;
+                case DrawSize.draw64:
+                    startingRound = 1;
+                    matchesCount = (int)DrawSize.draw64 / 2;
+                    break;
+            };
 
-            matches = Enumerable.Repeat(new Match() { Round = startingRound }, matchesCount).ToList();
-
-
-            if (true)
-            {
-
-            }
-
-            _dbContext.Matches.AddRange(matches);
+            var matches = Enumerable.Repeat(new Match() { Round = startingRound, TournamentId = tournamentId }, matchesCount).ToList();
+            var bulkConfig = new BulkConfig { PreserveInsertOrder = true, SetOutputIdentity = true };
+            _dbContext.BulkInsert(matches, bulkConfig);
             await _dbContext.SaveChangesAsync();
+            var matchDTOs = Mapper.Map<List<Match>, List<MatchDTO>>(matches);
+
+            return matchDTOs;
         }
     }
 }

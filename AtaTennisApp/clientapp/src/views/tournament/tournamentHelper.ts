@@ -1,5 +1,6 @@
 import { TournamentType, TournamentCategory, SurfaceType, PlayingSystem, BallsType } from "@/Api/TournamentController";
 import { i18n } from "@/plugins/i18n";
+import { DrawSize } from "@/Api/MatchController";
 
 export interface TournamentTypeObj {
 	value: TournamentType;
@@ -18,6 +19,11 @@ export interface PlayingSystemObj {
 
 export interface BallsTypeObj {
 	value: BallsType;
+	text: string;
+}
+
+export interface DrawSizeObj {
+	value: DrawSize;
 	text: string;
 }
 
@@ -103,6 +109,27 @@ export class TournamentHelper {
 		];
 	}
 
+	public static GetTournamentDrawSizes(): DrawSizeObj[] {
+		return [
+			{
+				value: DrawSize.draw8,
+				text: "8"
+			},
+			{
+				value: DrawSize.draw16,
+				text: "16"
+			},
+			{
+				value: DrawSize.draw32,
+				text: "32"
+			},
+			{
+				value: DrawSize.draw64,
+				text: "64"
+			}
+		];
+	}
+
 	public static GetBallsTypeName(id?: BallsType): string {
 		return id != null ? i18n.t("ballsType" + id).toString() : "";
 	}
@@ -123,3 +150,9 @@ export class TournamentHelper {
 		return id != null ? i18n.t("surfaceType" + id).toString() : "";
 	}
 }
+
+// export const enum DrawSize {
+// 	"draw16" = 16,
+// 	"draw32" = 32,
+// 	"draw64" = 64
+// }

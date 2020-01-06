@@ -52,6 +52,10 @@ namespace AtaTennisApp.Data.Entities
                 entity.HasMany(e => e.MatchEntries)
                     .WithOne(me => me.Match)
                     .HasForeignKey(me => me.MatchId);
+
+                entity.HasOne(e => e.Tournament)
+                    .WithMany(t => t.Matches)
+                    .HasForeignKey(e => e.TournamentId);
             });
 
             modelBuilder.Entity<MatchEntry>(entity =>
@@ -111,6 +115,10 @@ namespace AtaTennisApp.Data.Entities
                 entity.HasMany(e => e.TournamentEntries)
                     .WithOne(te => te.Tournament)
                     .HasForeignKey(te => te.TournamentId);
+
+                entity.HasMany(e => e.Matches)
+                    .WithOne(m => m.Tournament)
+                    .HasForeignKey(m => m.TournamentId);
             });
 
             modelBuilder.Entity<TournamentEntry>(entity =>
