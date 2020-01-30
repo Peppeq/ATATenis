@@ -13,7 +13,7 @@ namespace AtaTennisApp.BL.DTO
         // porozmyslat jak pridam ParentMatchId - Qualifier bez toho aby som vedel kto vyhra
         public int? ParentMatchId { get; set; }
 
-        public virtual List<Score> Scores { get; set; }
+        public virtual List<Score> Scores { get; set; } = new List<Score>();
 
         public virtual MatchDTO Match { get; set; }
         public virtual PlayerDTO Player { get; set; }

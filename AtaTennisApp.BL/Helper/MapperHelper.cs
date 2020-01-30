@@ -13,15 +13,14 @@ namespace AtaTennisApp.BL.Helper
         public static MapperConfiguration Configuration { get; set; } = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Match, MatchDTO>()
-                .ForSourceMember(u => u.Id, opt => opt.DoNotValidate());
-            cfg.CreateMap<MatchDTO, Match>()
-                .ForMember(u => u.Id, memberOptions => memberOptions.Ignore());
+                .ForSourceMember(u => u.Id, opt => opt.DoNotValidate())
+                .ReverseMap(); // reverse mapping - there is no need to create reverse map <MatchDTO, Match>
             cfg.CreateMap<MatchEntry, MatchEntryDTO>()
-                .ForSourceMember(u => u.Id, opt => opt.DoNotValidate());
-            cfg.CreateMap<MatchEntryDTO, MatchEntry>()
-                .ForMember(u => u.Id, memberOptions => memberOptions.Ignore());
+                .ForSourceMember(u => u.Id, opt => opt.DoNotValidate())
+                .ReverseMap();
             cfg.CreateMap<Tournament, TournamentDTO>()
-                    .ForSourceMember(u => u.TournamentEntries, opt => opt.DoNotValidate());
+                .ForSourceMember(u => u.TournamentEntries, opt => opt.DoNotValidate())
+                .ReverseMap();
             cfg.CreateMap<Tournament, TournamentPlayersDTO>()
                 .ForMember(tp => tp.Tournament, opt => { opt.MapFrom(t => t); })
                 //.ForMember(tp => tp.Players, opt => { opt.Ignore(); });

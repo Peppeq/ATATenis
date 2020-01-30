@@ -64,4 +64,14 @@ namespace AtaTennisApp.Data
         draw32 = 32,
         draw64 = 64
     }
+
+    public enum TournamentRound
+    {
+        round1 = 1,
+        round2 = 2,
+        round3 = 3,
+        round4 = 4,
+        round5 = 5,
+        round6 = 6
+    }
 }

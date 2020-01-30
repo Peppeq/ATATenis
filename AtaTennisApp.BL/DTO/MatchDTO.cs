@@ -12,6 +12,6 @@ namespace AtaTennisApp.BL.DTO
         public int TournamentId { get; set; }
         //public bool Retired { get; set; }
 
-        public List<MatchEntryDTO> MatchEntries { get; set; } = new List<MatchEntryDTO>();
+        public ICollection<MatchEntryDTO> MatchEntries { get; set; } = new List<MatchEntryDTO>();
     }
 }

@@ -37,7 +37,7 @@ namespace AtaTennisApp
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:8080", "http://localhost:8081")
+                    builder.WithOrigins("http://localhost:8080", "http://localhost:8081", "http://192.168.1.2:8080")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
@@ -65,6 +65,7 @@ namespace AtaTennisApp
 
             var useInMemoryDB = appSettings.UseInMemoryDB;
 
+
             if (useInMemoryDB)
             {
                 services.AddDbContext<AtaTennisContext>(options => options.UseInMemoryDatabase(databaseName: "AtaTennisMockDB"));
@@ -72,7 +73,7 @@ namespace AtaTennisApp
             else
             {
                 services.AddDbContext<AtaTennisContext>(options
-                    => options.UseSqlServer(Configuration.GetConnectionString("AtaTennisContext")).UseLazyLoadingProxies());
+                    => options.UseSqlServer(Configuration.GetConnectionString("AtaTennisContext")));
             }
 
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);

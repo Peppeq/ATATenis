@@ -14,13 +14,10 @@ namespace AtaTennisApp.Controllers
     [Route("api/[controller]")]
     public class MatchController : ApiControllerBase
     {
-        private AtaTennisContext _dbContext;
-
         public MatchService MatchService { get; set; }
         public MatchController(AtaTennisContext dbContext)
         {
-            _dbContext = dbContext;
-            MatchService = new MatchService(_dbContext);
+            MatchService = new MatchService(dbContext);
         }
 
         public class GetMatchesArgs
@@ -36,24 +33,16 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpGet("GetMatches")]
-        public async Task<List<MatchDTO>> GetMatches(GetMatchesArgs args)
+        public async Task<ActionResult<List<MatchDTO>>> GetMatches([FromQuery]GetMatchesArgs args)
         {
             var matches = await MatchService.GetMatchesByTournament(args.TournamentId);
             return matches;
         }
 
         [HttpPost("CreateOrUpdateMatches")]
-        public async Task<ActionResult<List<MatchDTO>>> CreateOrUpdateMatches(MatchesArgs args)
+        public async Task<ActionResult<List<MatchDTO>>> CreateOrUpdateMatches([FromBody]MatchesArgs args)
         {
-            var matches = default(List<MatchDTO>);
-            if (args.Matches != null && args.Matches.Count > 0)
-            {
-                // matchService.UpdateMatches(MatchesDTO matches);
-            }
-            else
-            {
-                matches = await MatchService.CreateMatchesForTournament(args.DrawSize, args.TournamentId); ;
-            }
+            var matches = await MatchService.CreateOrUpdateMatchesForTournament(args.DrawSize, args.TournamentId, args.Matches);
             return matches;
         }
     }
