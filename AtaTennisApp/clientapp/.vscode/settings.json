@@ -6,9 +6,10 @@
     }
   },
   "vetur.format.defaultFormatter.ts": "vscode-typescript",
-  "[scss]": {
-    "editor.formatOnSave": true
-  },
+  "editor.formatOnSave": true,
+//   "[scss]": {
+//     "editor.formatOnSave": true
+//   },
 
   "workbench.editor.highlightModifiedTabs": true,
   "eslint.lintTask.enable": true,

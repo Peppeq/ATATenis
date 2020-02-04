@@ -5,7 +5,8 @@
   },
   "plugins": ["es-beautifier"],
   "extends": [
-    "plugin:vue/essential",
+		// "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+		"plugin:vue/essential",
     "plugin:es-beautifier/standard",
     "@vue/typescript"
   ],

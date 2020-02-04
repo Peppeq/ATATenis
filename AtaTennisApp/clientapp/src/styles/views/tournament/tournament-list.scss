@@ -1,21 +1,21 @@
-label{
-	margin-right: 5%;
+label {
+  margin-right: 5%;
 }
 
 .year-select {
-    width: 80px;
-    padding: 0 0 0 5px !important;
-    border-radius: 5px;
+  width: 80px;
+  padding: 0 0 0 5px !important;
+  border-radius: 5px;
 }
 
-.tournament-type-select{
-	width: 180px;
-    padding: 0 0 0 5px !important;
-    border-radius: 5px;
+.tournament-type-select {
+  width: 180px;
+  padding: 0 0 0 5px !important;
+  border-radius: 5px;
 }
 
-@media(max-width:575px){
-	.year-select {
-		width: 180px;
-	}
+@media (max-width: 575px) {
+  .year-select {
+    width: 180px;
+  }
 }

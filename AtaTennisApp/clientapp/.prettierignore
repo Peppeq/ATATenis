@@ -1,9 +1,0 @@
-/dist
-/node_modules
-src/**/*.js
-src/**/*.map
-src/Api/*.ts
-src/Api/*.js
-src/shims-tsx.d.ts
-src/shims-vue.d.ts
-src/store/modules/*.js
