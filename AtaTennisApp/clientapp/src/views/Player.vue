@@ -125,7 +125,7 @@ import PlayerClient, { PlayerDTO, PlayerArgs } from "@/Api/PlayerController";
 import PlayerBio from "./player/player-bio.vue";
 
 @Component({
-	components: { PlayerBio }
+  components: { PlayerBio }
 })
 export default class PlayerView extends BaseComponentClass {
 	player: PlayerDTO = null;
@@ -137,29 +137,29 @@ export default class PlayerView extends BaseComponentClass {
 	results: [] = [];
 
 	onChangeCardType(type: number) {
-		if (type == 0) {
-			this.isBio = true;
-			this.isTournament = false;
-		} else if (type == 1) {
-			this.isTournament = true;
-			this.isBio = false;
-		}
+	  if (type == 0) {
+	    this.isBio = true;
+	    this.isTournament = false;
+	  } else if (type == 1) {
+	    this.isTournament = true;
+	    this.isBio = false;
+	  }
 	}
 
 	mounted() {
-		console.log("mounted");
-		this.playerId = parseInt(this.$route.params.id, 10);
+	  console.log("mounted");
+	  this.playerId = parseInt(this.$route.params.id, 10);
 
-		const client = new PlayerClient();
-		this.tryGetDataByArgs<PlayerDTO, PlayerArgs>({
-			apiMethod: client.getPlayerById,
-			showError: true,
-			requestArgs: { Id: this.playerId }
-		}).then(response => {
-			if (response.ok != null) {
-				this.player = response.data;
-			}
-		});
+	  const client = new PlayerClient();
+	  this.tryGetDataByArgs<PlayerDTO, PlayerArgs>({
+	    apiMethod: client.getPlayerById,
+	    showError: true,
+	    requestArgs: { Id: this.playerId }
+	  }).then((response) => {
+	    if (response.ok != null) {
+	      this.player = response.data;
+	    }
+	  });
 	}
 }
 </script>

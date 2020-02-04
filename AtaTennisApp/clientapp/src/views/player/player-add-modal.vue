@@ -22,7 +22,7 @@ import PlayerBio from "./player-bio.vue";
 import { PlayerDTO } from "@/Api/PlayerController";
 
 @Component({
-	components: { PlayerBio }
+  components: { PlayerBio }
 })
 export default class PlayerAddModal extends Vue {
 	@Prop({ default: false }) readonly showModal!: boolean;

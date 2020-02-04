@@ -249,10 +249,10 @@ import { NotificationUtils } from "../../common/notification";
 import { ValidationObserver } from "vee-validate";
 import { DateHelper } from "../../common/DateHelper";
 import TournamentClient, {
-	TournamentDTO,
-	TournamentCategory,
-	TournamentType,
-	PlayingSystem
+  TournamentDTO,
+  TournamentCategory,
+  TournamentType,
+  PlayingSystem
 } from "../../Api/TournamentController";
 import { TournamentHelper } from "./tournamentHelper";
 import { PlayerHelper } from "../player/player-helper";
@@ -262,12 +262,14 @@ export default class TournamentDetails extends BaseComponentClass {
 	@Prop({ default: false }) readonly isCreateOrEdit!: boolean;
 	@Prop({ default: null }) readonly tournamentProp: TournamentDTO;
 	@Prop() readonly hideModal: () => void;
-	@Prop({ default: null }) readonly modifyTournament: (tournament: TournamentDTO) => void;
+	@Prop({
+	  default: null
+	}) readonly modifyTournament: (tournament: TournamentDTO) => void;
 
 	tournament: TournamentDTO = null;
 	@Watch("tournamentProp")
 	onTournamentPropChange(tournamentProp: TournamentDTO): void {
-		this.tournament = tournamentProp;
+	  this.tournament = tournamentProp;
 	}
 
 	isReadonly = true;
@@ -278,76 +280,76 @@ export default class TournamentDetails extends BaseComponentClass {
 	playerHelper = PlayerHelper;
 
 	getBirthdateText(date: Date): string {
-		if (date != null) {
-			console.log(date);
+	  if (date != null) {
+	    console.log(date);
 
-			return DateHelper.getDateByLocale(date, this.$i18n.locale);
-		} else {
-			return "";
-		}
+	    return DateHelper.getDateByLocale(date, this.$i18n.locale);
+	  } else {
+	    return "";
+	  }
 	}
 
 	getDateFormat(): string {
-		if (this.$i18n.locale == "sk") {
-			return "dd.MMM.yyyy";
-		} else {
-			return "MMM.dd.yyyy";
-		}
+	  if (this.$i18n.locale == "sk") {
+	    return "dd.MMM.yyyy";
+	  } else {
+	    return "MMM.dd.yyyy";
+	  }
 	}
 
 	async addOrEditTournament(): Promise<void> {
-		if (await this.tournamentForm.validate()) {
-			const client = new TournamentClient();
-			this.tryGetDataByArgs<null, TournamentDTO>({
-				apiMethod: client.addOrEditTournament,
-				showError: true,
-				requestArgs: this.tournament
-			}).then(resp => {
-				if (resp.ok) {
-					NotificationUtils.ShowSuccess({
-						message: "Parada ulozene",
-						title: "Tournament"
-					});
-					this.tournamentForm.reset();
-					// if (this.modifyTournament != null) {
-					// 	this.modifyTournament(this.tournament);
-					// 	this.hideModal();
-					// }
-				}
-			});
-		}
+	  if (await this.tournamentForm.validate()) {
+	    const client = new TournamentClient();
+	    this.tryGetDataByArgs<null, TournamentDTO>({
+	      apiMethod: client.addOrEditTournament,
+	      showError: true,
+	      requestArgs: this.tournament
+	    }).then((resp) => {
+	      if (resp.ok) {
+	        NotificationUtils.ShowSuccess({
+	          message: "Parada ulozene",
+	          title: "Tournament"
+	        });
+	        this.tournamentForm.reset();
+	        // if (this.modifyTournament != null) {
+	        // 	this.modifyTournament(this.tournament);
+	        // 	this.hideModal();
+	        // }
+	      }
+	    });
+	  }
 	}
 
 	@Ref() tournamentForm!: InstanceType<typeof ValidationObserver>;
 
 	isTournamentNameValid(changed: boolean, validated: boolean, valid: boolean): boolean {
-		if (this.isEdit) {
-			return changed ? valid : null;
-		} else {
-			return changed || validated ? valid : null;
-		}
+	  if (this.isEdit) {
+	    return changed ? valid : null;
+	  } else {
+	    return changed || validated ? valid : null;
+	  }
 	}
 
 	isTournamentPlaceValid(changed: boolean, validated: boolean, valid: boolean): boolean {
-		if (this.isEdit) {
-			return changed ? valid : null;
-		} else {
-			return changed || validated ? valid : null;
-		}
+	  if (this.isEdit) {
+	    return changed ? valid : null;
+	  } else {
+	    return changed || validated ? valid : null;
+	  }
 	}
 
 	created(): void {
-		this.tournament = new TournamentDTO();
-		if (this.tournamentProp != null) {
-			this.tournament = { ...this.tournamentProp };
-		} else {
-			this.tournament.Id = 0;
-			this.tournament.Category = TournamentCategory.singles;
-			this.tournament.TournamentType = TournamentType.ata;
-			this.tournament.PlayingSystem = PlayingSystem.prince;
-		}
-		this.isReadonly = !this.isCreateOrEdit;
-		this.isEdit = this.isCreateOrEdit && this.tournamentProp != null;
+	  this.tournament = new TournamentDTO();
+	  if (this.tournamentProp != null) {
+	    this.tournament = { ...this.tournamentProp };
+	  } else {
+	    this.tournament.Id = 0;
+	    this.tournament.Category = TournamentCategory.singles;
+	    this.tournament.TournamentType = TournamentType.ata;
+	    this.tournament.PlayingSystem = PlayingSystem.prince;
+	  }
+	  this.isReadonly = !this.isCreateOrEdit;
+	  this.isEdit = this.isCreateOrEdit && this.tournamentProp != null;
 	}
 }
 </script>

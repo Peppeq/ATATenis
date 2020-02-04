@@ -41,39 +41,40 @@
 
 <script>
 export default {
-	name: "MainSidebar",
-	props: {
-		/**
+  name: "MainSidebar",
+  props: {
+
+    /**
 		 * Whether to hide the logo text, or not.
 		 */
-		hideLogoText: {
-			type: Boolean,
-			default: false
-		}
-		// /**
-		//  * The menu items.
-		//  */
-		// items: {
-		// 	type: Array,
-		// 	required: true
-		// }
-	},
-	data() {
-		return {
-			sidebarVisible: false
-		};
-	},
-	created() {
-		this.$eventHub.$on("toggle-sidebar", this.handleToggleSidebar);
-	},
-	beforeDestroy() {
-		this.$eventHub.$off("toggle-sidebar");
-	},
-	methods: {
-		handleToggleSidebar() {
-			this.sidebarVisible = !this.sidebarVisible;
-		}
-	}
+    hideLogoText: {
+      type: Boolean,
+      default: false
+    }
+    // /**
+    //  * The menu items.
+    //  */
+    // items: {
+    // 	type: Array,
+    // 	required: true
+    // }
+  },
+  data() {
+    return {
+      sidebarVisible: false
+    };
+  },
+  created() {
+    this.$eventHub.$on("toggle-sidebar", this.handleToggleSidebar);
+  },
+  beforeDestroy() {
+    this.$eventHub.$off("toggle-sidebar");
+  },
+  methods: {
+    handleToggleSidebar() {
+      this.sidebarVisible = !this.sidebarVisible;
+    }
+  }
 };
 </script>
 

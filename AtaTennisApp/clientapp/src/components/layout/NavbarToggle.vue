@@ -12,11 +12,11 @@
 
 <script>
 export default {
-	name: "NavbarToggle",
-	methods: {
-		handleClick() {
-			this.$eventHub.$emit("toggle-sidebar");
-		}
-	}
+  name: "NavbarToggle",
+  methods: {
+    handleClick() {
+      this.$eventHub.$emit("toggle-sidebar");
+    }
+  }
 };
 </script>

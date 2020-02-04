@@ -6,7 +6,7 @@
 				v-if="isDashboard && isAdmin"
 				class="main-content admin-container offset-lg-2 offset-md-3 p-0 col-sm-12 col-md-9 col-lg-10"
 			>
-				<admin-navbar />
+				 <admin-navbar />
 				<slot v-if="isDashboard" />
 			</main>
 			<d-col class="main-col">
@@ -29,7 +29,7 @@ import { Authorization } from "../../common/authorization";
 const dashboard = "dashboard";
 
 @Component({
-	components: { mainNavbar, mainSidebar, adminNavbar }
+  components: { mainNavbar, mainSidebar, adminNavbar }
 })
 export default class AppLayout extends Vue {
 	private isAdminLogged: boolean;
@@ -39,7 +39,7 @@ export default class AppLayout extends Vue {
 	isCollapsedSidebar = true;
 
 	get isAdmin(): boolean {
-		return Authorization.isAdmin();
+	  return Authorization.isAdmin();
 	}
 
 	// set isAdmin() {
@@ -47,35 +47,35 @@ export default class AppLayout extends Vue {
 	// }
 
 	get isMainNavbar(): boolean {
-		return this.$route.name != "Admin";
+	  return this.$route.name != "Admin";
 	}
 
 	get isDashboard(): boolean {
-		return this.$route.path.includes(dashboard);
+	  return this.$route.path.includes(dashboard);
 	}
 
 	menu: {}[] = [
-		{
-			header: true,
-			title: "Main Navigation",
-			hiddenOnCollapse: true
-		},
-		{
-			href: "/dashboard",
-			title: "Dashboard",
-			icon: "fa fa-user"
-		},
-		{
-			href: "/charts",
-			title: "Charts",
-			icon: "fa fa-chart-area",
-			child: [
-				{
-					href: "/charts/sublink",
-					title: "Sub Link"
-				}
-			]
-		}
+	  {
+	    header: true,
+	    title: "Main Navigation",
+	    hiddenOnCollapse: true
+	  },
+	  {
+	    href: "/dashboard",
+	    title: "Dashboard",
+	    icon: "fa fa-user"
+	  },
+	  {
+	    href: "/charts",
+	    title: "Charts",
+	    icon: "fa fa-chart-area",
+	    child: [
+	      {
+	        href: "/charts/sublink",
+	        title: "Sub Link"
+	      }
+	    ]
+	  }
 	];
 }
 </script>

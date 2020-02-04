@@ -255,54 +255,54 @@ export default class PlayerBio extends BaseComponentClass {
 	playerHelper = PlayerHelper;
 
 	async addOrEditPlayer(): Promise<void> {
-		if (await this.playerForm.validate()) {
-			const client = new PlayerClient();
-			this.tryGetDataByArgs<null, PlayerDTO>({
-				apiMethod: client.addOrEditPlayer,
-				showError: true,
-				requestArgs: this.player
-			}).then(() => {
-				if (this.modifyPlayer != null) {
-					this.modifyPlayer(this.player);
-				}
-				this.hideModal();
-				NotificationUtils.ShowSuccess({
-					message: "Parada ulozene",
-					title: "Player"
-				});
-				console.log("player saved");
-			});
-		}
+	  if (await this.playerForm.validate()) {
+	    const client = new PlayerClient();
+	    this.tryGetDataByArgs<null, PlayerDTO>({
+	      apiMethod: client.addOrEditPlayer,
+	      showError: true,
+	      requestArgs: this.player
+	    }).then(() => {
+	      if (this.modifyPlayer != null) {
+	        this.modifyPlayer(this.player);
+	      }
+	      this.hideModal();
+	      NotificationUtils.ShowSuccess({
+	        message: "Parada ulozene",
+	        title: "Player"
+	      });
+	      console.log("player saved");
+	    });
+	  }
 	}
 
 	@Ref() playerForm!: InstanceType<typeof ValidationObserver>;
 
 	isPlayerNameValid(changed: boolean, validated: boolean, valid: boolean): boolean {
-		if (this.isEdit) {
-			return changed ? validated : null;
-		} else {
-			return changed || validated ? valid : null;
-		}
+	  if (this.isEdit) {
+	    return changed ? validated : null;
+	  } else {
+	    return changed || validated ? valid : null;
+	  }
 	}
 
 	isPlayerSurnameValid(changed: boolean, validated: boolean, valid: boolean): boolean {
-		if (this.isEdit) {
-			return changed ? valid : null;
-		} else {
-			return changed || validated ? valid : null;
-		}
+	  if (this.isEdit) {
+	    return changed ? valid : null;
+	  } else {
+	    return changed || validated ? valid : null;
+	  }
 	}
 
 	mounted(): void {
-		this.player = new PlayerDTO();
-		if (this.playerProp != null) {
-			this.player = { ...this.playerProp };
-		} else {
-			this.player.Id = 0;
-			this.player.Points = 0;
-		}
-		this.isReadonly = !this.isCreateOrEdit;
-		this.isEdit = this.isCreateOrEdit && this.playerProp != null;
+	  this.player = new PlayerDTO();
+	  if (this.playerProp != null) {
+	    this.player = { ...this.playerProp };
+	  } else {
+	    this.player.Id = 0;
+	    this.player.Points = 0;
+	  }
+	  this.isReadonly = !this.isCreateOrEdit;
+	  this.isEdit = this.isCreateOrEdit && this.playerProp != null;
 	}
 }
 </script>

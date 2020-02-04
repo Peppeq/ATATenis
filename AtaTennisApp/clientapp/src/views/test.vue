@@ -29,30 +29,30 @@
 // import dAlert from '../src/components/alert/Alert'
 
 export default {
-	name: "Test",
-	components: {
-		// dButton,
-		// dAlert
-	},
-	data() {
-		return {
-			showAlert: false,
-			isDismisable: true,
-			languages: ["EN", "SK"],
-			selectedLanguage: null
-		};
-	},
-	mounted() {
-		this.selectedLanguage = this.languages[0];
-	},
-	methods: {
-		handleClick() {
-			this.showAlert = true;
-		},
-		siChuj() {
-			this.showAlert = false;
-		}
-		// onNavClicked() {}
-	}
+  name: "Test",
+  components: {
+    // dButton,
+    // dAlert
+  },
+  data() {
+    return {
+      showAlert: false,
+      isDismisable: true,
+      languages: ["EN", "SK"],
+      selectedLanguage: null
+    };
+  },
+  mounted() {
+    this.selectedLanguage = this.languages[0];
+  },
+  methods: {
+    handleClick() {
+      this.showAlert = true;
+    },
+    siChuj() {
+      this.showAlert = false;
+    }
+    // onNavClicked() {}
+  }
 };
 </script>

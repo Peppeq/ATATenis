@@ -52,7 +52,11 @@
 
 <script lang="ts">
 import Component from "vue-class-component";
-import TournamentClient, { TournamentDTO, TournamentFilter, TournamentType } from "@/Api/TournamentController";
+import TournamentClient, {
+  TournamentDTO,
+  TournamentFilter,
+  TournamentType
+} from "@/Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import { TournamentHelper } from "../views/tournament/tournamentHelper";
 import { i18n } from "../plugins/i18n";
@@ -66,57 +70,64 @@ export default class TournamentListClass extends BaseComponentClass {
 	tournamentHelper = TournamentHelper;
 
 	getDate(date: Date): string {
-		const dateConverted = new Date(date);
-		const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
-		return dateConverted.toLocaleString("sk-SK", options);
+	  const dateConverted = new Date(date);
+	  const options = {
+	    weekday: "long",
+	    year: "numeric",
+	    month: "long",
+	    day: "numeric"
+	  };
+	  return dateConverted.toLocaleString("sk-SK", options);
 	}
 
 	getMonthName(date: Date): string {
-		const dateConverted = new Date(date);
-		return dateConverted.toLocaleString(i18n.locale.toString(), { month: "long" });
+	  const dateConverted = new Date(date);
+	  return dateConverted.toLocaleString(i18n.locale.toString(), {
+	    month: "long"
+	  });
 	}
 
 	getYears(): void {
-		for (let index = this.year; index >= 2017; index--) {
-			this.years.push(index);
-		}
+	  for (let index = this.year; index >= 2017; index--) {
+	    this.years.push(index);
+	  }
 	}
 
 	onChangeYear(year: number): void {
-		this.year = year;
-		this.getTournaments();
+	  this.year = year;
+	  this.getTournaments();
 	}
 
 	onChangeTournamentType(tournamentType: TournamentType): void {
-		this.selectedTournamentType = tournamentType;
-		this.getTournaments();
+	  this.selectedTournamentType = tournamentType;
+	  this.getTournaments();
 	}
 
 	getTournaments(): void {
-		const tournamentClient = new TournamentClient();
+	  const tournamentClient = new TournamentClient();
 
-		this.tryGetDataByArgs<TournamentDTO[], TournamentFilter>({
-			apiMethod: tournamentClient.get,
-			showError: true,
-			requestArgs: {
-				Id: null,
-				Year: this.year,
-				Type: this.selectedTournamentType
-			}
-		}).then(resp => {
-			if (resp.ok) {
-				this.tournaments = resp.data;
-				// if (this.tournaments != null && this.tournaments.length > 0) {
-				// 	_this.tournaments = tournaments.sort((a, b) => (a.StartTime > b.StartTime ? 1 : -1));
-				// }
-			}
-		});
+	  this.tryGetDataByArgs<TournamentDTO[], TournamentFilter>({
+	    apiMethod: tournamentClient.get,
+	    showError: true,
+	    requestArgs: {
+	      Id: null,
+	      Year: this.year,
+	      Type: this.selectedTournamentType
+	    }
+	  }).then((resp) => {
+	    if (resp.ok) {
+	      this.tournaments = resp.data;
+	      // if (this.tournaments != null && this.tournaments.length > 0) {
+	      // 	_this.tournaments = tournaments.sort((a, b) => (a.StartTime > b.StartTime ? 1 : -1));
+	      // }
+	    }
+	  });
 	}
 
 	mounted(): void {
-		this.getYears();
-		this.selectedTournamentType = TournamentHelper.GetTournamentTypesWithAll()[5].value;
-		this.getTournaments();
+	  this.getYears();
+	  this.selectedTournamentType = TournamentHelper.GetTournamentTypesWithAll()[5].value;
+	  this.getTournaments();
 	}
 }
 </script>

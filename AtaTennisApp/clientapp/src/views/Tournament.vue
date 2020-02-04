@@ -1,4 +1,4 @@
-﻿<template>
+<template>
 	<d-container v-if="tournament != null" fluid class="main-content-container px-4">
 		<d-card class="mt-4">
 			<d-row>
@@ -55,7 +55,10 @@
 
 <script lang="ts">
 import Component from "vue-class-component";
-import TournamentClient, { TournamentDTO, TournamentFilter } from "../Api/TournamentController";
+import TournamentClient, {
+  TournamentDTO,
+  TournamentFilter
+} from "../Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import { Watch, Prop } from "vue-property-decorator";
 import { router } from "@/router";
@@ -64,7 +67,7 @@ import TournamentDetails from "./tournament/TournamentDetails.vue";
 import TournamentDraw from "./tournament/TournamentDraw.vue";
 
 @Component({
-	components: { TournamentDetails, TournamentDraw }
+  components: { TournamentDetails, TournamentDraw }
 })
 export default class TournamentClass extends BaseComponentClass {
 	tournament?: TournamentDTO = null;
@@ -75,47 +78,47 @@ export default class TournamentClass extends BaseComponentClass {
 	@Prop() tournamentProp?: TournamentDTO;
 
 	getStarttimeText(date: Date): string {
-		return date != null ? DateHelper.getDateByLocale(date, this.$i18n.locale) : "";
+	  return date != null ? DateHelper.getDateByLocale(date, this.$i18n.locale) : "";
 	}
 
 	onChangeCardType(type: number): void {
-		if (type == 0) {
-			this.isDetails = true;
-			this.isDraw = false;
-		} else if (type == 1) {
-			this.isDraw = true;
-			this.isDetails = false;
-		}
+	  if (type == 0) {
+	    this.isDetails = true;
+	    this.isDraw = false;
+	  } else if (type == 1) {
+	    this.isDraw = true;
+	    this.isDetails = false;
+	  }
 	}
 
 	mounted(): void {
-		// const _this = this;
-		console.log("tour was mounted");
-		const tournamentClient = new TournamentClient();
-		//natiahnut data z bekendu ...
+	  // const _this = this;
+	  console.log("tour was mounted");
+	  const tournamentClient = new TournamentClient();
+	  // natiahnut data z bekendu ...
 
-		if (this.tournamentProp == null) {
-			this.tournamentId = parseInt(this.$route.params.id, 10);
-			this.tryGetDataByArgs<TournamentDTO[], TournamentFilter>({
-				apiMethod: tournamentClient.get,
-				showError: true,
-				requestArgs: {
-					Id: this.tournamentId,
-					Year: 0,
-					Type: null
-				}
-			}).then(response => {
-				if (response.ok) this.tournament = response.data[0];
-			});
-		} else {
-			console.log("yeah");
-			this.tournament = this.tournamentProp;
-		}
+	  if (this.tournamentProp == null) {
+	    this.tournamentId = parseInt(this.$route.params.id, 10);
+	    this.tryGetDataByArgs<TournamentDTO[], TournamentFilter>({
+	      apiMethod: tournamentClient.get,
+	      showError: true,
+	      requestArgs: {
+	        Id: this.tournamentId,
+	        Year: 0,
+	        Type: null
+	      }
+	    }).then((response) => {
+	      if (response.ok) this.tournament = response.data[0];
+	    });
+	  } else {
+	    console.log("yeah");
+	    this.tournament = this.tournamentProp;
+	  }
 	}
 
 	@Watch("$route")
 	onUrlChange(to: string): void {
-		router.push(to);
+	  router.push(to);
 	}
 }
 </script>

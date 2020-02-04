@@ -1,4 +1,4 @@
-﻿<template>
+<template>
 	<d-card class="main-card">
 		<d-card-header
 			><h2>{{ $t("rankings") }}</h2></d-card-header
@@ -42,21 +42,21 @@ import { BaseComponentClass } from "../common/BaseComponentClass";
 export default class RankingsView extends BaseComponentClass {
 	players: PlayerDTO[] = [];
 	mounted() {
-		const client = new PlayerClient();
-		console.log(client);
+	  const client = new PlayerClient();
+	  console.log(client);
 
-		this.tryGetDataByArgs<PlayerDTO[], null>({
-			apiMethod: client.getWithoutParams,
-			showError: true,
-			requestArgs: null
-		}).then(resp => {
-			if (resp.ok) {
-				this.players = resp.data;
-			}
-		});
+	  this.tryGetDataByArgs<PlayerDTO[], null>({
+	    apiMethod: client.getWithoutParams,
+	    showError: true,
+	    requestArgs: null
+	  }).then((resp) => {
+	    if (resp.ok) {
+	      this.players = resp.data;
+	    }
+	  });
 	}
 	getPlayerFullname(player: PlayerDTO): string {
-		return player.Name + " " + player.Surname;
+	  return player.Name + " " + player.Surname;
 	}
 }
 </script>

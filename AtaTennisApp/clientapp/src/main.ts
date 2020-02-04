@@ -24,7 +24,7 @@ import EventHub from "vue-event-hub";
 // plugins
 import { router } from "./router";
 import { i18n } from "./plugins/i18n";
-import { store } from "./store/indexx";
+import store from "./store/indexx";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 // @ts-ignore
 import VueVisible from "vue-visible";
@@ -54,9 +54,9 @@ Vue.use(EventHub);
 Vue.use(VueVisible);
 
 new Vue({
-	router,
-	store,
-	i18n,
-	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-	render: h => h(App)
+  router,
+  store: store.original,
+  i18n,
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  render: h => h(App)
 }).$mount("#app");

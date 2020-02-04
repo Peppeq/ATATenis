@@ -3,7 +3,10 @@ import { required, email } from "vee-validate/dist/rules";
 import { i18n } from "./i18n";
 
 // Add the required rule
-extend("required", { ...required, message: (_, values): string => i18n.t("validations.required", values).toString() });
+extend("required", {
+  ...required,
+  message: (_, values): string => i18n.t("validations.required", values).toString()
+});
 
 // Add the email rule
 extend("email", email);

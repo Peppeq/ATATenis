@@ -74,27 +74,27 @@ import TournamentDetails from "../tournament/TournamentDetails.vue";
 import TournamentDraw from "../tournament/TournamentDraw.vue";
 import TournamentPlayers from "../tournament/TournamentPlayers.vue";
 import TournamentClient, {
-	TournamentDTO,
-	SearchedTournamentByNameArgs,
-	SearchedTournamentDTO,
-	TournamentPlayersDTO,
-	TournamentPlayersArgs
+  TournamentDTO,
+  SearchedTournamentByNameArgs,
+  SearchedTournamentDTO,
+  TournamentPlayersDTO,
+  TournamentPlayersArgs
 } from "@/Api/TournamentController";
 import TournamentEntryClient, {
-	PlayerDrawDTO,
-	GetPlayersArgs,
-	DeletePlayerArgs,
-	TournamentEntry,
-	PlayerArgs
+  PlayerDrawDTO,
+  GetPlayersArgs,
+  DeletePlayerArgs,
+  TournamentEntry,
+  PlayerArgs
 } from "@/Api/TournamentEntryController";
 
 @Component({
-	components: {
-		TournamentModal,
-		TournamentDetails,
-		TournamentDraw,
-		TournamentPlayers
-	}
+  components: {
+    TournamentModal,
+    TournamentDetails,
+    TournamentDraw,
+    TournamentPlayers
+  }
 })
 export default class TournamentManagement extends BaseComponentClass {
 	showTournamentModal = false;
@@ -106,115 +106,115 @@ export default class TournamentManagement extends BaseComponentClass {
 	assignedPlayers: PlayerDrawDTO[] = [];
 
 	get selectedTour(): TournamentDTO {
-		return this.selectedTournament;
+	  return this.selectedTournament;
 	}
 
 	set selectedTour(tournament: TournamentDTO) {
-		this.selectedTournament = tournament;
+	  this.selectedTournament = tournament;
 	}
 
 	searchTournamentByName(): void {
-		if (this.searchName != null && this.searchName != "") {
-			console.log("event triggered " + this.searchName);
-			const client = new TournamentClient();
-			this.tryGetDataByArgs<SearchedTournamentDTO[], SearchedTournamentByNameArgs>({
-				apiMethod: client.getSearchedTournamentsByName,
-				showError: true,
-				requestArgs: { Name: this.searchName }
-			}).then(response => {
-				if (response.ok) this.searchedTournaments = response.data;
-			});
-		} else {
-			this.searchName = "";
-			this.searchedTournaments = null;
-		}
+	  if (this.searchName != null && this.searchName != "") {
+	    console.log("event triggered " + this.searchName);
+	    const client = new TournamentClient();
+	    this.tryGetDataByArgs<SearchedTournamentDTO[], SearchedTournamentByNameArgs>({
+	      apiMethod: client.getSearchedTournamentsByName,
+	      showError: true,
+	      requestArgs: { Name: this.searchName }
+	    }).then((response) => {
+	      if (response.ok) this.searchedTournaments = response.data;
+	    });
+	  } else {
+	    this.searchName = "";
+	    this.searchedTournaments = null;
+	  }
 	}
 
 	getAssignedPlayers(): void {
-		const client = new TournamentEntryClient();
-		this.tryGetDataByArgs<PlayerDrawDTO[], GetPlayersArgs>({
-			apiMethod: client.tournamentPlayers,
-			showError: true,
-			requestArgs: { TournamentId: this.selectedTournament.Id }
-		}).then(response => {
-			if (response.ok) {
-				this.assignedPlayers = response.data;
-			}
-		});
+	  const client = new TournamentEntryClient();
+	  this.tryGetDataByArgs<PlayerDrawDTO[], GetPlayersArgs>({
+	    apiMethod: client.tournamentPlayers,
+	    showError: true,
+	    requestArgs: { TournamentId: this.selectedTournament.Id }
+	  }).then((response) => {
+	    if (response.ok) {
+	      this.assignedPlayers = response.data;
+	    }
+	  });
 	}
 
 	async addTournamentEntry(player: PlayerDrawDTO): Promise<boolean> {
-		let result = false;
-		const client = new TournamentEntryClient();
-		await this.tryGetDataByArgs<TournamentEntry, PlayerArgs>({
-			apiMethod: client.addTournamentPlayer,
-			showError: true,
-			requestArgs: {
-				TournamentId: this.selectedTournament.Id,
-				PlayerId: player.PlayerId
-			}
-		}).then(response => {
-			result = response.ok;
-			if (response.ok) {
-				player.TournamentEntryId = response.data.Id;
-				this.assignedPlayers.push(player);
-			}
-		});
-		return result;
+	  let result = false;
+	  const client = new TournamentEntryClient();
+	  await this.tryGetDataByArgs<TournamentEntry, PlayerArgs>({
+	    apiMethod: client.addTournamentPlayer,
+	    showError: true,
+	    requestArgs: {
+	      TournamentId: this.selectedTournament.Id,
+	      PlayerId: player.PlayerId
+	    }
+	  }).then((response) => {
+	    result = response.ok;
+	    if (response.ok) {
+	      player.TournamentEntryId = response.data.Id;
+	      this.assignedPlayers.push(player);
+	    }
+	  });
+	  return result;
 	}
 
 	async removeTournamentEntry(tournamentId: number): Promise<boolean> {
-		const client = new TournamentEntryClient();
-		if (tournamentId > 0) {
-			await this.tryGetDataByArgs<void, DeletePlayerArgs>({
-				apiMethod: client.deleteTournamentPlayer,
-				showError: true,
-				requestArgs: { TournamentEntryId: tournamentId }
-			}).then(response => {
-				if (response.ok) {
-					this.assignedPlayers = this.assignedPlayers.filter(p => p.TournamentEntryId != tournamentId);
-				}
-				return response.ok;
-			});
-		} else {
-			return false;
-		}
+	  const client = new TournamentEntryClient();
+	  if (tournamentId > 0) {
+	    await this.tryGetDataByArgs<void, DeletePlayerArgs>({
+	      apiMethod: client.deleteTournamentPlayer,
+	      showError: true,
+	      requestArgs: { TournamentEntryId: tournamentId }
+	    }).then((response) => {
+	      if (response.ok) {
+	        this.assignedPlayers = this.assignedPlayers.filter(p => p.TournamentEntryId != tournamentId);
+	      }
+	      return response.ok;
+	    });
+	  } else {
+	    return false;
+	  }
 	}
 
 	hideTournamentModal(): void {
-		this.showTournamentModal = false;
+	  this.showTournamentModal = false;
 	}
 
 	editTournament(tournamentId: number): void {
-		const client = new TournamentClient();
-		if (tournamentId > 0) {
-			this.tryGetDataByArgs<TournamentPlayersDTO, TournamentPlayersArgs>({
-				apiMethod: client.getTournamentPlayers,
-				showError: true,
-				requestArgs: { TournamentId: tournamentId }
-			}).then(response => {
-				if (response.ok) {
-					this.assignedPlayers = response.data.Players;
-					this.selectedTour = response.data.Tournament;
-					this.searchedTournaments = null;
-				}
-			});
-		}
+	  const client = new TournamentClient();
+	  if (tournamentId > 0) {
+	    this.tryGetDataByArgs<TournamentPlayersDTO, TournamentPlayersArgs>({
+	      apiMethod: client.getTournamentPlayers,
+	      showError: true,
+	      requestArgs: { TournamentId: tournamentId }
+	    }).then((response) => {
+	      if (response.ok) {
+	        this.assignedPlayers = response.data.Players;
+	        this.selectedTour = response.data.Tournament;
+	        this.searchedTournaments = null;
+	      }
+	    });
+	  }
 	}
 
 	addOrEditTournament(tournament: TournamentDTO): void {
-		console.log("add or edit player called");
-		this.tournament = tournament;
-		this.showTournamentModal = true;
+	  console.log("add or edit player called");
+	  this.tournament = tournament;
+	  this.showTournamentModal = true;
 	}
 
 	modifySearchedTournament(tournament: TournamentDTO): void {
-		const index = this.searchedTournaments.findIndex(p => p.TournamentId == tournament.Id);
-		this.searchedTournaments[index] = {
-			TournamentId: tournament.Id,
-			Name: tournament.Name,
-			StartTime: tournament.StartTime
-		};
+	  const index = this.searchedTournaments.findIndex(p => p.TournamentId == tournament.Id);
+	  this.searchedTournaments[index] = {
+	    TournamentId: tournament.Id,
+	    Name: tournament.Name,
+	    StartTime: tournament.StartTime
+	  };
 	}
 }
 </script>

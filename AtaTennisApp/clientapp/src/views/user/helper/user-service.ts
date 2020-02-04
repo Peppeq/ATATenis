@@ -5,50 +5,50 @@ import { Authorization } from "@/common/authorization";
 const userClient = new UserClient();
 
 export const userService = {
-	login,
-	logout,
-	register,
-	getAll
-	// getById,
-	// update,
-	// delete: _delete
+  login,
+  logout,
+  register,
+  getAll
+  // getById,
+  // update,
+  // delete: _delete
 };
 
 async function login(username: string, password: string): Promise<UserDTO> {
-	console.log("inside login func");
-	return await userClient
-		.authenticate({ Password: password, Username: username, Token: null })
-		.then(
-			(user: UserDTO): UserDTO => {
-				// login successful if there's a jwt token in the response
-				if (user.Token) {
-					// store user details and jwt token in local storage to keep user logged in between page refreshes
-					Authorization.setUser(user);
-					console.log("successful authentication");
-				}
+  console.log("inside login func");
+  return await userClient
+    .authenticate({ Password: password, Username: username, Token: null })
+    .then(
+      (user: UserDTO): UserDTO => {
+        // login successful if there's a jwt token in the response
+        if (user.Token) {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          Authorization.setUser(user);
+          console.log("successful authentication");
+        }
 
-				return user;
-			}
-		)
-		.catch(
-			(e): Promise<UserDTO> => {
-				console.log(e);
-				throw e;
-			}
-		);
+        return user;
+      }
+    )
+    .catch(
+      (e): Promise<UserDTO> => {
+        console.log(e);
+        throw e;
+      }
+    );
 }
 
 export function logout(): void {
-	// remove user from local storage to log user out
-	Authorization.removeUser();
+  // remove user from local storage to log user out
+  Authorization.removeUser();
 }
 
 async function register(user: UserDTO): Promise<void> {
-	await userClient.register(user);
+  await userClient.register(user);
 }
 
 async function getAll(): Promise<UserDTO[]> {
-	return await userClient.getWithoutParams();
+  return await userClient.getWithoutParams();
 }
 
 // function getById(id) {

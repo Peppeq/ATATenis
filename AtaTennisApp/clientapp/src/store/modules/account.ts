@@ -23,6 +23,7 @@ const state: AccountState = user
 
 const actions = {
 	login({ dispatch, commit }: any, userDto: UserDTO) {
+		dispatch("testDispatch", "dispatchujem pre consolu test akciu");
 		commit("loginRequest", userDto.Username);
 		userService.login(userDto.Username, userDto.Password).then(
 			user => {
@@ -35,7 +36,7 @@ const actions = {
 			dispatch("alertModule/error", error.Message, { root: true });
 			NotificationUtils.ShowErrorMessage(error.Message);
 		});
-	}
+	},
 	// logout({ commit }) {
 	// 	userService.logout();
 	// 	commit("logout");
@@ -57,6 +58,9 @@ const actions = {
 	// 		}
 	// 	);
 	// }
+	testDispatch({ dispatch, commit }, message: string) {
+		console.log(message);
+	}
 };
 
 const mutations = {
@@ -88,7 +92,7 @@ const mutations = {
 };
 
 export const accountModule = {
-	namespaced: true,
+	namespaced: true as true,
 	state,
 	actions,
 	mutations

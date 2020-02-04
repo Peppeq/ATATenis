@@ -22,13 +22,15 @@ import TournamentDetails from "./TournamentDetails.vue";
 import { TournamentDTO } from "@/Api/TournamentController";
 
 @Component({
-	components: { TournamentDetails }
+  components: { TournamentDetails }
 })
 export default class TournamentModal extends Vue {
 	@Prop({ default: false }) readonly showModal!: boolean;
 	@Prop({ default: "lg" }) readonly modalSize!: string;
 	@Prop({ default: null }) readonly tournament!: TournamentDTO;
-	@Prop({ default: null }) readonly modifyTournament!: (tournament: TournamentDTO) => void;
+	@Prop({
+	  default: null
+	}) readonly modifyTournament!: (tournament: TournamentDTO) => void;
 	@Prop() readonly hideModal: () => void;
 }
 </script>

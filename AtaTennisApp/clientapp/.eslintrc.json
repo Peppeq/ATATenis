@@ -1,48 +1,21 @@
 {
-	"parserOptions": {
-		"parser": "@typescript-eslint/parser"
-	},
-	"extends": [
-		"plugin:@typescript-eslint/recommended",
-		"plugin:vue/recommended",
-		"prettier/vue",
-		"prettier/@typescript-eslint",
-		"plugin:prettier/recommended"
-	],
-	"plugins": [
-		"@typescript-eslint"
-	],
-	"rules": {
-		"vue/max-attributes-per-line": "off",
-		"vue/singleline-html-element-content-newline": "off",
-		"vue/component-name-in-template-casing": [
-			"error",
-			"PascalCase"
-		],
-		"indent": "off",
-		"@typescript-eslint/indent": ["error", "tab"],
-		"printWidth": 0,
-		"no-console": "off",
-		"no-debugger": "off",
-		"prettier/prettier": [
-			"error",
-			{
-				"singleQuote": false,
-				"useTabs": true,
-				"tabWidth": 4,
-				"printWidth": 120
-			}
-		]
-	},
-	"overrides": [
-		{
-		  "files": ["src/**/*.js"],
-		  "rules": {
-			"no-unused-expressions": "off",
-			"indent":"off",
-			"prettier/prettier": "off"
-		  }
-		}
-	  ]
-
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "plugins": ["es-beautifier"],
+  "extends": [
+    "plugin:vue/essential",
+    "plugin:es-beautifier/standard",
+    "@vue/typescript"
+  ],
+  "rules": {
+    // "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+    // "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
+    "comma-dangle": ["error", "never"],
+    "linebreak-style": "off"
+  },
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser"
+  }
 }

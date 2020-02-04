@@ -27,7 +27,7 @@ import { Component, Vue } from "vue-property-decorator";
 import languageSelect from "../LanguageSelect.vue";
 
 @Component({
-	components: { languageSelect }
+  components: { languageSelect }
 })
 export default class MainNavbar extends Vue {
 	navbarIsJustified = true;

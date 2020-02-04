@@ -20,37 +20,37 @@ export default class HelloWorld extends Vue {
 	@Prop() private msg!: string;
 
 	mounted() {
-		//  this.players = await testApi.getData().catch(() =>
-		//  { alert('no nenatiahli sa data..')});
+	  //  this.players = await testApi.getData().catch(() =>
+	  //  { alert('no nenatiahli sa data..')});
 	}
 
 	reversedMsg(): string {
-		return this.msg
-			.split("")
-			.reverse()
-			.join("");
+	  return this.msg
+	    .split("")
+	    .reverse()
+	    .join("");
 	}
 
-	//computed the same as method but have caching
-	//computed: {
-	//    getPlayerNames() {
-	//        if (this.players != null && this.players.players != null) {
-	//            // console.log(this.players);
-	//            return this.players.players.map(p => { return p.name })
-	//        }
+  // computed the same as method but have caching
+  // computed: {
+  //    getPlayerNames() {
+  //        if (this.players != null && this.players.players != null) {
+  //            // console.log(this.players);
+  //            return this.players.players.map(p => { return p.name })
+  //        }
 
-	//        return null;
-	//    }
+  //        return null;
+  //    }
 
-	//},
-	//setPlayerName: function (player) {
-	//    this.player = player;
-	//}
-	//watch: {
-	//    player: function (playerVal) {
-	//        this.player = await testApi.getData();
-	//    }
-	//}
+  // },
+  // setPlayerName: function (player) {
+  //    this.player = player;
+  // }
+  // watch: {
+  //    player: function (playerVal) {
+  //        this.player = await testApi.getData();
+  //    }
+  // }
 }
 </script>
 

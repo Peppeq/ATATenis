@@ -15,21 +15,22 @@ import NavbarToggle from "./NavbarToggle.vue";
 import LanguageSelect from "../LanguageSelect.vue";
 
 export default {
-	components: {
-		// NavbarSearch,
-		// NavbarNav,
-		NavbarToggle,
-		LanguageSelect
-	},
-	props: {
-		/**
+  components: {
+    // NavbarSearch,
+    // NavbarNav,
+    NavbarToggle,
+    LanguageSelect
+  },
+  props: {
+
+    /**
 		 * Whether the main navbar should be sticky, or not.
 		 */
-		stickyTop: {
-			type: Boolean,
-			default: true
-		}
-	}
+    stickyTop: {
+      type: Boolean,
+      default: true
+    }
+  }
 };
 </script>
 

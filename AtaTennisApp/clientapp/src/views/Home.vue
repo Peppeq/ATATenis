@@ -38,21 +38,21 @@ import TournamentClient, { TournamentDTO } from "../Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 
 @Component({
-	components: {
-		HelloWorld
-	}
+  components: {
+    HelloWorld
+  }
 })
 export default class Home extends BaseComponentClass {
 	nearestTournament: TournamentDTO = null;
 	mounted() {
-		const client = new TournamentClient();
-		this.tryGetDataByArgs<TournamentDTO, null>({
-			apiMethod: client.getWithoutParams,
-			showError: true,
-			requestArgs: null
-		}).then(resp => {
-			if (resp.ok) this.nearestTournament = resp.data;
-		});
+	  const client = new TournamentClient();
+	  this.tryGetDataByArgs<TournamentDTO, null>({
+	    apiMethod: client.getWithoutParams,
+	    showError: true,
+	    requestArgs: null
+	  }).then((resp) => {
+	    if (resp.ok) this.nearestTournament = resp.data;
+	  });
 	}
 }
 </script>

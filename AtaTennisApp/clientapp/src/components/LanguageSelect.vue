@@ -13,10 +13,10 @@ export default class LanguageSelect extends Vue {
 	selectedLanguage: string = null;
 
 	mounted() {
-		this.selectedLanguage = this.languages[0];
+	  this.selectedLanguage = this.languages[0];
 	}
 	onChangeLang(language: string): void {
-		this.$i18n.locale = language.toLowerCase();
+	  this.$i18n.locale = language.toLowerCase();
 	}
 }
 </script>

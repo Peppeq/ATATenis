@@ -17,20 +17,20 @@ const dashboard = "dashboard";
 const login = "admin";
 
 @Component({
-	components: { MainFooter }
+  components: { MainFooter }
 })
 export default class App extends Vue {
-	get isNotMainPage(): boolean {
-		return this.$route.path.includes(dashboard) || this.$route.path.includes(login);
-	}
+  get isNotMainPage(): boolean {
+    return this.$route.path.includes(dashboard) || this.$route.path.includes(login);
+  }
 
-	created() {
-		// let fontawesome = document.createElement("script");
-		// fontawesome.setAttribute("src", "https://kit.fontawesome.com/a8081aacd9.js");
-		// fontawesome.setAttribute("crossorigin", "anonymous");
-		// document.head.appendChild(fontawesome);
-	}
+  created() {
+    // let fontawesome = document.createElement("script");
+    // fontawesome.setAttribute("src", "https://kit.fontawesome.com/a8081aacd9.js");
+    // fontawesome.setAttribute("crossorigin", "anonymous");
+    // document.head.appendChild(fontawesome);
+  }
 
-	// @Ref() provider!: InstanceType<typeof ValidationProvider>;
+  // @Ref() provider!: InstanceType<typeof ValidationProvider>;
 }
 </script>
