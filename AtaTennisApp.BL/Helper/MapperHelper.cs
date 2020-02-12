@@ -13,24 +13,33 @@ namespace AtaTennisApp.BL.Helper
         public static MapperConfiguration Configuration { get; set; } = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Match, MatchDTO>()
-                .ForSourceMember(u => u.Id, opt => opt.DoNotValidate())
+                //.ForSourceMember(u => u.Id, opt => opt.DoNotValidate())
                 .ReverseMap(); // reverse mapping - there is no need to create reverse map <MatchDTO, Match>
             cfg.CreateMap<MatchEntry, MatchEntryDTO>()
-                .ForSourceMember(u => u.Id, opt => opt.DoNotValidate())
+                //.ForSourceMember(u => u.Id, opt => opt.DoNotValidate())
                 .ReverseMap();
             cfg.CreateMap<Tournament, TournamentDTO>()
                 .ForSourceMember(u => u.TournamentEntries, opt => opt.DoNotValidate())
                 .ReverseMap();
-            cfg.CreateMap<Tournament, TournamentPlayersDTO>()
+            cfg.CreateMap<Tournament, TournamentGraphDTO>()
                 .ForMember(tp => tp.Tournament, opt => { opt.MapFrom(t => t); })
+                .ForMember(tg => tg.StartingRound, opt => opt.Ignore());
+                //.ForMember(tp => tp.StartingRound, opt => opt.MapFrom(t => t.Matches.Min(m => m.Round)))
                 //.ForMember(tp => tp.Players, opt => { opt.Ignore(); });
-                .ForMember(tp => tp.Players, opt => opt.MapFrom(t => t.TournamentEntries.Select(te => new PlayerDrawDTO()
-                {
-                    TournamentEntryId = te.Id,
-                    PlayerId = te.Player.Id,
-                    Name = te.Player.Name,
-                    Surname = te.Player.Surname
-                })));
+                // not safe because when player or tournamentEntries are not included or taken from DB there will be null reference exception
+                //.ForMember(tp => tp.Players, opt => opt.MapFrom(t => t.TournamentEntries.Select(te => new PlayerDrawDTO()
+                // {
+                //     TournamentEntryId = te.Id,
+                //     PlayerId = te.Player.Id,
+                //     Name = te.Player.Name,
+                //     Surname = te.Player.Surname
+                // })));
+            //.ForMember(tp=> tp.Matches, opt => opt.MapFrom(t => t.Matches.Select(m => new MatchDTO { 
+            //    Id = m.Id,
+            //    Round = m.Round,
+
+            //})));
+            cfg.CreateMap<Score, ScoreDTO>().ReverseMap();
         });
 
         public static IMapper GetUserMapper()

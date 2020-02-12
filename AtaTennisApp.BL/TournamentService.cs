@@ -27,7 +27,7 @@ namespace AtaTennisApp.BL
         Task<TournamentDTO> AddOrEditTournament(TournamentDTO tournamentDTO);
         Task<List<TournamentDTO>> GetTournamentsByName(string name);
         Task<List<SearchedTournamentDTO>> GetSearchedTournamentsByName(string name);
-        Task<TournamentPlayersDTO> GetTournamentPlayers(int tournamentId);
+        Task<TournamentGraphDTO> GetTournamentGraph(int tournamentId);
     }
     public class TournamentService : ITournamentService
     {
@@ -93,10 +93,11 @@ namespace AtaTennisApp.BL
         public async Task<List<SearchedTournamentDTO>> GetSearchedTournamentsByName(string name)
         {
             var tournamentList = await _dbContext.Tournaments.Where(t => t.Name.ToLower()
-                .Contains(name.ToLower())).Take(5).Select(t => new SearchedTournamentDTO() { 
-                Name = t.Name,
-                TournamentId = t.Id,
-                StartTime = t.StartTime
+                .Contains(name.ToLower())).Take(5).Select(t => new SearchedTournamentDTO()
+                {
+                    Name = t.Name,
+                    TournamentId = t.Id,
+                    StartTime = t.StartTime
                 }).ToListAsync();
 
             return tournamentList;
@@ -105,7 +106,7 @@ namespace AtaTennisApp.BL
         public async Task<TournamentDTO> GetNearestTournament()
         {
             var tournament = await _dbContext.Tournaments.Where(t => t.StartTime > DateTime.Now)
-                .OrderBy(t=> t.StartTime).FirstOrDefaultAsync();
+                .OrderBy(t => t.StartTime).FirstOrDefaultAsync();
 
             var tournamentDto = Mapper.Map<Tournament, TournamentDTO>(tournament);
             return tournamentDto;
@@ -130,13 +131,34 @@ namespace AtaTennisApp.BL
             return updatedTournamentDto;
         }
 
-        public async Task<TournamentPlayersDTO> GetTournamentPlayers(int tournamentId)
+        public async Task<TournamentGraphDTO> GetTournamentGraph(int tournamentId)
         {
-            var tournamentPlayers = await _dbContext.Tournaments.Where(t => t.Id == tournamentId)
-                .ProjectTo<TournamentPlayersDTO>(MapperHelper.Configuration)
+            var tournamentGraph = new TournamentGraphDTO();
+            var tournament = await _dbContext.Tournaments.Where(t => t.Id == tournamentId)
+                .Include(t => t.TournamentEntries)
+                .ThenInclude(te => te.Player)
+                .Include(t => t.Matches)
+                .ThenInclude(t => t.MatchEntries)
+                .ThenInclude(me => me.Scores)
                 .FirstOrDefaultAsync();
+            //tournamentPlayersQuery.ma
+            tournamentGraph = MapperHelper.Configuration.CreateMapper().Map<Tournament, TournamentGraphDTO>(tournament);
+            if (tournament.Matches != null && tournament.Matches.Count > 0)
+            {
+                tournamentGraph.StartingRound = tournament.Matches?.Min(m => m.Round) ?? 0;
+            }
 
-            return tournamentPlayers;
+            if (tournament.TournamentEntries != null && tournament.TournamentEntries.Count > 0)
+            {
+                tournamentGraph.Players =
+                    tournament.TournamentEntries.Select(te => new PlayerDrawDTO { Name = te.Player?.Name, PlayerId = te.PlayerId, Surname = te.Player?.Surname, TournamentEntryId = te.Id }).ToList();
+            }
+            //var tournamentPlayers = await _dbContext.Tournaments.Where(t => t.Id == tournamentId)
+            //   .ProjectTo<TournamentGraphDTO>(MapperHelper.Configuration)
+            //   .FirstOrDefaultAsync();
+
+            return tournamentGraph;
         }
+
     }
 }

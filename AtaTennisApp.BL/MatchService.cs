@@ -19,6 +19,7 @@ namespace AtaTennisApp.BL
         Task<List<MatchDTO>> GetMatchesByPlayer(int playerId);
         Task<List<MatchDTO>> CreateOrUpdateMatchesForTournament(DrawSize drawSize, int tournamentId, List<MatchDTO> matchDTOs);
         Task<MatchDTO> CreateQualificationMatch(int childMatchId, int round);
+        Task DeleteMatchesGraph(int tournamentId);
     }
 
     public class MatchService : IMatchService
@@ -41,16 +42,8 @@ namespace AtaTennisApp.BL
             var matches = await _dbContext.Matches.Where(m => m.TournamentId == tournamentId).Include(m => m.MatchEntries).ToListAsync();
             var matchesDTO = Mapper.Map<List<Match>, List<MatchDTO>>(matches);
             return matchesDTO;
-            //vytiahnem len vsetky matche a na FE rozdelim podla round na Qualificatioon Or NOT
-
         }
 
-        //porozmyslat ako spravim draw ci tam dam poradie alebo ako..
-        // netreba drawOrder lebo mam parentMatch a podla toho urcim order
-        // vygenerujem vsetky matche podla player countu cize velkosti pavuka pre nasledujuce kolo
-        // pridam dalsie matche (parent match ) pre aktualne vygenerovane 
-        // na frontende budem vediet podla id matchu 1 kola a parenta urcit aj order pre predkolo
-        // porozmyslat ako navrhnem na FE pridavanie predkol
         public async Task<List<MatchDTO>> CreateOrUpdateMatchesForTournament(DrawSize drawSize, int tournamentId, List<MatchDTO> matchDTOs = null)
         {
             var matches = await _dbContext.Matches.Where(m => m.TournamentId == tournamentId).ToListAsync();
@@ -63,6 +56,9 @@ namespace AtaTennisApp.BL
                 var draw = InitializeDraw(drawSize, startingRound, matchesCount);
 
                 matches = GetMatchesForNewDraw(draw.InitialRound, draw.MatchesCount, tournamentId);
+
+                // reverse matches because when not In DB stored first match is final(round6), then round5, round4..
+                matches.Reverse();
 
                 var matchesEntries = new List<MatchEntry>();
 
@@ -96,7 +92,6 @@ namespace AtaTennisApp.BL
                     _dbContext.BulkInsert(matchesEntries);
                     transaction.Commit();
                 }
-                matchDTOs = Mapper.Map<List<Match>, List<MatchDTO>>(matches);
 
             }
             else
@@ -113,6 +108,10 @@ namespace AtaTennisApp.BL
             }
 
             await _dbContext.SaveChangesAsync();
+
+            // BUG on bulk - need to reverse inserted data
+            var reversedMatches = ReverseMatches(matches);
+            matchDTOs = Mapper.Map<List<Match>, List<MatchDTO>>(reversedMatches);
 
             return matchDTOs;
         }
@@ -207,6 +206,14 @@ namespace AtaTennisApp.BL
             return matches;
         }
 
+        public async Task DeleteMatchesGraph(int tournamentId)
+        {
+            var matches = _dbContext.Matches.Where(m => m.TournamentId == tournamentId).Include(m => m.MatchEntries);
+            _dbContext.MatchEntries.RemoveRange(matches.SelectMany(m => m.MatchEntries));
+            _dbContext.Matches.RemoveRange(matches);
+            await _dbContext.SaveChangesAsync();
+        }
+
         private void CheckMatches(List<Match> matches)
         {
             matches.ForEach(m =>
@@ -227,6 +234,17 @@ namespace AtaTennisApp.BL
             }
         }
 
+        private List<Match> ReverseMatches(List<Match> matches)
+        {
+            var newList = matches.ToList();
+            newList.Reverse();
+            for (int i = 0; i < matches.Count; i++)
+            {
+                newList[i].Id = matches[i].Id;
+            }
+            //newList.Reverse();
+            return newList;
+        }
     }
 
     internal class Draw

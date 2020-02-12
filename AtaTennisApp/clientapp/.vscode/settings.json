@@ -6,7 +6,7 @@
     }
   },
   "vetur.format.defaultFormatter.ts": "vscode-typescript",
-  "editor.formatOnSave": true,
+  // "editor.formatOnSave": true,
 //   "[scss]": {
 //     "editor.formatOnSave": true
 //   },

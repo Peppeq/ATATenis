@@ -20,30 +20,38 @@ namespace AtaTennisApp.Controllers
             MatchService = new MatchService(dbContext);
         }
 
-        public class GetMatchesArgs
+        public class MatchesArgs
         {
             public int TournamentId { get; set; }
         }
 
-        public class MatchesArgs
+        public class CreateOrUpdateMatchesArgs
         {
             public int TournamentId { get; set; }
             public DrawSize DrawSize { get; set; }
             public List<MatchDTO> Matches { get; set; }
         }
-
+        
         [HttpGet("GetMatches")]
-        public async Task<ActionResult<List<MatchDTO>>> GetMatches([FromQuery]GetMatchesArgs args)
+        public async Task<ActionResult<List<MatchDTO>>> GetMatches([FromQuery]MatchesArgs args)
         {
             var matches = await MatchService.GetMatchesByTournament(args.TournamentId);
             return matches;
         }
 
         [HttpPost("CreateOrUpdateMatches")]
-        public async Task<ActionResult<List<MatchDTO>>> CreateOrUpdateMatches([FromBody]MatchesArgs args)
+        public async Task<ActionResult<List<MatchDTO>>> CreateOrUpdateMatches([FromBody]CreateOrUpdateMatchesArgs args)
         {
             var matches = await MatchService.CreateOrUpdateMatchesForTournament(args.DrawSize, args.TournamentId, args.Matches);
             return matches;
+        }
+
+
+        [HttpDelete("DeleteTournamentMatchesGraph")]
+        public async Task<ActionResult> DeleteTournamentMatchesGraph([FromQuery]MatchesArgs args)
+        {
+            await MatchService.DeleteMatchesGraph(args.TournamentId);
+            return Ok();
         }
     }
 }

@@ -35,15 +35,37 @@ export class SearchedTournamentDTO {
 export class TournamentPlayersArgs {
     TournamentId: number = null;
 }
-export class TournamentPlayersDTO {
+export class TournamentGraphDTO {
     Tournament: TournamentDTO = null;
     Players: PlayerDrawDTO[] = null;
+    Matches: MatchDTO[] = null;
+    StartingRound: TournamentRound = null;
 }
 export class PlayerDrawDTO {
     TournamentEntryId: number = null;
     PlayerId: number = null;
     Name: string = null;
     Surname: string = null;
+}
+export class MatchDTO {
+    Id: number = null;
+    Round: number = null;
+    Winner: number = null;
+    TournamentId: number = null;
+    MatchEntries: MatchEntryDTO[] = null;
+}
+export class MatchEntryDTO {
+    Id: number = null;
+    MatchId: number = null;
+    PlayerId: number = null;
+    ParentMatchId: number = null;
+    Scores: ScoreDTO[] = null;
+}
+export class ScoreDTO {
+    Id: number = null;
+    SetNumber: number = null;
+    GamesWon: number = null;
+    MatchEntryId: number = null;
 }
 
 
@@ -73,6 +95,14 @@ export const enum SurfaceType {
     grass = 1,
     hard = 2
 }
+export const enum TournamentRound {
+    round1 = 1,
+    round2 = 2,
+    round3 = 3,
+    round4 = 4,
+    round5 = 5,
+    round6 = 6
+}
 
 export default class TournamentClient {
 
@@ -84,7 +114,7 @@ export default class TournamentClient {
         return AjaxProvider.apiGet("Tournament/GetSearchedTournamentsByName", data);
     }
 
-    getTournamentPlayers<TArgs extends TournamentPlayersArgs, TResult extends TournamentPlayersDTO>(data: TArgs): Promise<TResult> {
+    getTournamentPlayers<TArgs extends TournamentPlayersArgs, TResult extends TournamentGraphDTO>(data: TArgs): Promise<TResult> {
         return AjaxProvider.apiGet("Tournament/GetTournamentPlayers", data);
     }
 

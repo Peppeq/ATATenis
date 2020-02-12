@@ -52,9 +52,9 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpGet("GetTournamentPlayers")]
-        public async Task<ActionResult<TournamentPlayersDTO>> GetTournamentPlayers([FromQuery]TournamentPlayersArgs args)
+        public async Task<ActionResult<TournamentGraphDTO>> GetTournamentPlayers([FromQuery]TournamentPlayersArgs args)
         {
-            var response = await TournamentService.GetTournamentPlayers(args.TournamentId);
+            var response = await TournamentService.GetTournamentGraph(args.TournamentId);
             if (response == null)
             {
                 return NotFound();

@@ -1024,86 +1024,36 @@
       </div>
       <div class="draw-matches-16">
         <section class="matches show-only-on-large-size round1">
-          <ul class="opponents">
-            <li>
-              <div class="match-container">
-                <table>
-                  <tr>
-                    <d-input-group>
-                      <input type="text" aria-label="Text input with checkbox" class="form-control" />
-                      <d-input-group-text slot="append">
-                        <input type="checkbox" aria-label="Checkbox for following text input" />
-                      </d-input-group-text>
-                    </d-input-group>
-                  </tr>
-                  <tr>
-                    <d-input-group>
-                      <input type="text" aria-label="Text input with checkbox" class="form-control" />
-                      <d-input-group-text slot="append">
-                        <input type="checkbox" aria-label="Checkbox for following text input" />
-                      </d-input-group-text>
-                    </d-input-group>
-                  </tr>
-                  <tr class="mt-1">
-                    <d-input-group>
-                      <input type="text" aria-label="Text input with checkbox" class="form-control" />
-                      <d-input-group-text slot="append">
-                        <input type="checkbox" aria-label="Checkbox for following text input" />
-                      </d-input-group-text>
-                    </d-input-group>
-                  </tr>
-                </table>
-              </div>
-            </li>
-            <li>
-              <div class="match-container">
-                <table>
-                  <tr>
-                    <d-input-group>
-                      <input type="text" aria-label="Text input with checkbox" class="form-control" />
-                      <d-input-group-text slot="append">
-                        <input type="checkbox" aria-label="Checkbox for following text input" />
-                      </d-input-group-text>
-                    </d-input-group>
-                  </tr>
-                  <tr>
-                    <d-input-group>
-                      <input type="text" aria-label="Text input with checkbox" class="form-control" />
-                      <d-input-group-text slot="append">
-                        <input type="checkbox" aria-label="Checkbox for following text input" />
-                      </d-input-group-text>
-                    </d-input-group>
-                  </tr>
-                </table>
-              </div>
-            </li>
-          </ul>
         </section>
         <section class="matches show-only-on-large-size round2">
           <ul class="opponents">
             <li>
-              <div class="match-container">
-                <table>
-                  <tr v-for="(match, index) in matches" :key="match.Id">
-                    <div v-for="entry in match.matchEntries" :key="entry.Id">
-                      <d-input-group :class="{ 'match-margin': isEven(index) }">
-                        <d-input-group-addon prepend>
-                          <d-btn outline theme="success" @click="addQualifier">Qualifier</d-btn>
-                        </d-input-group-addon>
-                        <input type="entry.Id" aria-label="Text input with checkbox" class="form-control" />
-                        <d-input-group-text slot="append">
-                          <input type="checkbox" aria-label="Checkbox for following text input" />
-                        </d-input-group-text>
-                      </d-input-group>
-                    </div>
-                  </tr>
-                </table>
+              <div v-for="(match, index) in matches" :key="match.Id" class="match-container">
+                <div v-if="match.Round == startingRoundProp">
+                  <div v-for="entry in match.MatchEntries" :key="entry.Id">
+                    <table>
+                      <tr>
+                        {{ "match " + index + match.Round}}
+                        <d-input-group :class="{ 'match-margin': isEven(index) }">
+                          <d-input-group-addon prepend>
+                            <d-btn outline theme="success" @click="addQualifier">Qualifier</d-btn>
+                          </d-input-group-addon>
+                          <input type="text" :value="entry.PlayerId" aria-label="Text input with checkbox" class="form-control" />
+                          <d-input-group-text slot="append">
+                            <input type="checkbox" aria-label="Checkbox for following text input" />
+                          </d-input-group-text>
+                        </d-input-group>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
               </div>
             </li>
           </ul>
         </section>
       </div>
       <d-btn @click="createDraw">{{ matches != null && matches.length > 0 ? "Update" : "Create" }}</d-btn>
+      <d-btn style="margin-left: 0.5%" v-if="matches != null && matches.length > 0" @click="deleteDraw">Delete</d-btn>
     </div>
   </div>
 </template>
@@ -1111,30 +1061,41 @@
 <script lang="ts">
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { Prop, Watch } from "vue-property-decorator";
 import { PlayerDrawDTO } from "../../Api/TournamentEntryController";
 import MatchClient, {
   MatchDTO,
   MatchesArgs,
   DrawSize,
-  GetMatchesArgs
+  CreateOrUpdateMatchesArgs
 } from "../../Api/MatchController";
 import { TournamentHelper } from "./tournamentHelper";
 import { NotificationUtils } from "../../common/notification";
 
 @Component
 export default class TournamentDraw extends BaseComponentClass {
-  @Prop() readonly acceptedPlayers: PlayerDrawDTO[];
+  @Prop() readonly acceptedPlayersProp: PlayerDrawDTO[];
+  @Prop() readonly tournamentMatches: MatchDTO[];
   @Prop() readonly tournamentId: number;
+  @Prop() readonly startingRoundProp: number;
+  @Prop() readonly isEditablePage: boolean;
 
+  acceptedPlayers: PlayerDrawDTO[] = [];
   tournamentHelper = TournamentHelper;
   matchClient: MatchClient = new MatchClient();
   matches: MatchDTO[] = null;
+  // startingRound: number;
 
-  isEdit = true;
+  isEdit = false;
   playerCount = 0;
   draw: DrawSize = DrawSize.draw32;
   isQualification = false;
+
+  // toto v podstate nepotrebujem
+  // @Watch("tournamentMatches")
+  // onTournamentMatchesPropChange(tournamentMatches: MatchDTO[]): void {
+  //   this.matches = tournamentMatches;
+  // }
 
   assignedPlayers: PlayerDrawDTO[] = [
     { TournamentEntryId: 1, PlayerId: 1, Name: "A", Surname: "A" },
@@ -1157,29 +1118,6 @@ export default class TournamentDraw extends BaseComponentClass {
     { TournamentEntryId: 18, PlayerId: 18, Name: "s", Surname: "s" }
   ];
 
-  // poriesit ako pridam matche pre prve kolo
-  // pridat btn add qualifier/ delete qualifier
-  // created(): void {
-  // 	if (this.assignedPlayers != null) {
-  // 		this.playerCount = this.assignedPlayers.length;
-  // 	}
-
-  // 	if (this.playerCount > DrawSize.draw32) {
-  // 		const qualificationCount = this.playerCount - DrawSize.draw32;
-  // 		if (qualificationCount > DrawSize.draw32 / 2) this.draw = DrawSize.draw64;
-  // 		else {
-  // 			this.draw = DrawSize.draw32;
-  // 			this.isQualification = true;
-  // 		}
-  // 	} else if (this.playerCount > DrawSize.draw16) {
-  // 		const qualificationCount = this.playerCount - DrawSize.draw16;
-  // 		if (qualificationCount > DrawSize.draw16 / 2) this.draw = DrawSize.draw32;
-  // 		else {
-  // 			this.draw = DrawSize.draw16;
-  // 			this.isQualification = true;
-  // 		}
-  // 	}
-  // }
 
   // main draw is always symmetric, only used to check loosers-draw
   isSymmetricDraw(count: number): boolean {
@@ -1201,8 +1139,9 @@ export default class TournamentDraw extends BaseComponentClass {
   }
 
   createDraw() {
-    if (this.acceptedPlayers.length > 7) {
-      this.tryGetDataByArgs<MatchDTO[], MatchesArgs>({
+    // -------------------------------------- !!!!!! change after TESTING to minimum number of players
+    if (this.acceptedPlayers.length >= 0) {
+      this.tryGetDataByArgs<MatchDTO[], CreateOrUpdateMatchesArgs>({
         apiMethod: this.matchClient.createOrUpdateMatches,
         showError: true,
         requestArgs: {
@@ -1216,24 +1155,57 @@ export default class TournamentDraw extends BaseComponentClass {
         }
       });
     } else {
-      NotificationUtils.ShowErrorMessage("There is not enough players to create draw.");
+      NotificationUtils.ShowErrorMessage("There is not enough accepted players to create draw.");
     }
   }
 
   deleteDraw(): void {
     console.log("draw deleted");
-  }
-
-  created(): void {
-    this.tryGetDataByArgs<MatchDTO[], GetMatchesArgs>({
-      apiMethod: this.matchClient.getMatches,
+    // spravit nejaku normalnu api methodu na delete try delete abo neco s akceptovanim id
+    this.tryGetDataByArgs<void, MatchesArgs>({
+      apiMethod: this.matchClient.deleteTournamentMatchesGraph,
       showError: true,
       requestArgs: { TournamentId: this.tournamentId }
     }).then((resp) => {
       if (resp.ok) {
-        this.matches = resp.data;
+        NotificationUtils.ShowSuccess({
+          message: "Tournament draw deleted",
+          title: "Tournament Draw Delete"
+        });
+        this.matches = null;
       }
     });
+  }
+
+  // poriesit ako pridam matche pre prve kolo
+  // pridat btn add qualifier/ delete qualifier
+  created(): void {
+    this.isEdit = this.isEditablePage;
+    this.matches = [];
+    if (this.tournamentMatches.length > 0) {
+      this.matches = this.tournamentMatches;
+    }
+
+    if (this.acceptedPlayersProp != null) {
+      this.playerCount = this.acceptedPlayersProp.length;
+      this.acceptedPlayers = this.acceptedPlayersProp;
+    }
+
+    if (this.playerCount > DrawSize.draw32) {
+      const qualificationCount = this.playerCount - DrawSize.draw32;
+      if (qualificationCount > DrawSize.draw32 / 2) this.draw = DrawSize.draw64;
+      else {
+        this.draw = DrawSize.draw32;
+        this.isQualification = true;
+      }
+    } else if (this.playerCount > DrawSize.draw16) {
+      const qualificationCount = this.playerCount - DrawSize.draw16;
+      if (qualificationCount > DrawSize.draw16 / 2) this.draw = DrawSize.draw32;
+      else {
+        this.draw = DrawSize.draw16;
+        this.isQualification = true;
+      }
+    }
   }
 }
 </script>
@@ -1241,3 +1213,6 @@ export default class TournamentDraw extends BaseComponentClass {
 <style lang="scss" scoped>
 @import "@/styles/views/tournament/tournament-draw.scss";
 </style>
+
+// draw spravit ppodla roundu, velkost roundu podla draw, qualification podla poctu accepted players, TODO urcit velkosti screenov, base 1250, TODO pozriet preco sa neupdatuje matches na tournamentdraw componente cize tu :)
+//TODO sprav najprv commit

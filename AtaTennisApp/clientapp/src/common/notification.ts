@@ -11,6 +11,11 @@ import { i18n } from "../plugins/i18n";
 //    dark = "dark",
 // }
 
+interface MessageArgs {
+	message: string,
+	title: string
+}
+
 interface NotificationArgs {
 	message: string;
 	title: string;
@@ -32,7 +37,7 @@ export class NotificationUtils {
     });
   }
 
-  public static ShowSuccess(args: NotificationArgs): void {
+  public static ShowSuccess(args: MessageArgs): void {
     this.ShowNotification({
       type: "success",
       title: args.title,
