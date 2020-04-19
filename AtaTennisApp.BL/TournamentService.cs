@@ -32,7 +32,7 @@ namespace AtaTennisApp.BL
     public class TournamentService : ITournamentService
     {
         private AtaTennisContext _dbContext { get; set; }
-        private IMapper Mapper { get; set; } = MapperHelper.GetTournamentMapper();
+        private IMapper Mapper { get; set; } = MapperHelper.GetMapper();
 
         public TournamentService(AtaTennisContext context)
         {
@@ -142,10 +142,16 @@ namespace AtaTennisApp.BL
                 .ThenInclude(me => me.Scores)
                 .FirstOrDefaultAsync();
             //tournamentPlayersQuery.ma
-            tournamentGraph = MapperHelper.Configuration.CreateMapper().Map<Tournament, TournamentGraphDTO>(tournament);
+            tournamentGraph = Mapper.Map<Tournament, TournamentGraphDTO>(tournament);
+            tournamentGraph.Draw = new DrawDTO();
+
             if (tournament.Matches != null && tournament.Matches.Count > 0)
             {
-                tournamentGraph.StartingRound = tournament.Matches?.Min(m => m.Round) ?? 0;
+                tournamentGraph.Draw.InitialRound = tournament.Matches?.Min(m => m.Round) ?? 0;
+                tournamentGraph.Draw.MatchesCount = tournament.Matches.Count;
+                var matchesDto = Mapper.Map<List<Match>, List<MatchDTO>>(tournament.Matches.ToList());
+                var groupMatchesDTO = matchesDto.GroupBy(m => m.Round).Select(g => new RoundMatchDTO { Round = (int)g.Key, Matches = g.ToList() });
+                tournamentGraph.Draw.RoundMatches = groupMatchesDTO.ToList();
             }
 
             if (tournament.TournamentEntries != null && tournament.TournamentEntries.Count > 0)

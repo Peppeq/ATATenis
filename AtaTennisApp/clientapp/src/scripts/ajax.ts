@@ -1,15 +1,15 @@
 import { AuthorizationHeader, Authorization } from "@/common/authorization";
 
 const enum ApiMethod {
-	GET = "GET",
-	POST = "POST",
-	DELETE = "DELETE"
+  GET = "GET",
+  POST = "POST",
+  DELETE = "DELETE"
 }
 
 export interface ErrorResponse {
-	StatusCode: string;
-	StatusDescription: string;
-	Message: string;
+  StatusCode: string;
+  StatusDescription: string;
+  Message: string;
 }
 
 export class AjaxProvider {

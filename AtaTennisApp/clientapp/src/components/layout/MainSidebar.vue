@@ -72,7 +72,8 @@ export default {
   },
   methods: {
     handleToggleSidebar() {
-      this.sidebarVisible = !this.sidebarVisible;
+	  this.sidebarVisible = !this.sidebarVisible;
+      console.log('handler after event called');
     }
   }
 };

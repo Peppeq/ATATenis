@@ -1,307 +1,417 @@
-@mixin drawJoiningLine($height, $width) {
-  position: absolute;
-  content: "";
-  top: 50%;
-  width: $width;
-  height: $height;
-}
-
-.round-header {
-  width: calc(100 / 6 * 1%);
-  vertical-align: top;
-  .like-h3 {
-    text-align: center;
-    font-weight: 800;
-    color: #242424;
-    opacity: 0.72;
-    font-size: 1.41em;
-    padding-bottom: 25px;
-  }
-}
-
-.draw-qualification-container {
-  .draw-container {
-    display: inline-block;
-    width: 100/6 * 5 * 1%;
-  }
-}
-
-.qualification {
-  width: 20%;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.grid-qualification-matches {
-  display: grid;
-  grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
-}
-.qualification-match-3 {
-  grid-row-start: 3;
-  ::before {
-    @include drawJoiningLine(0, 21px);
-  }
-}
-.qualification-match-4 {
-  grid-row-start: 4;
-}
-
-.qualification-match-6 {
-  grid-row-start: 6;
-}
-
-.qualification-32 {
-  width: 100/6 * 1%;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.draw-32 {
-  width: 80%;
-  display: inline-block;
-}
-
-.draw-32-qualification {
-  width: 100%;
-  display: inline-block;
-}
-
-// .draw-matches-16 {
-//   width: 80%;
+// @mixin drawJoiningLine($height, $width) {
+//   position: absolute;
+//   content: "";
+//   top: 50%;
+//   width: $width;
+//   height: $height;
 // }
 
-.matches-container .matches {
-  width: calc(25%);
-  vertical-align: top;
-  // margin-right: 40px;
-  .like-h3 {
-    text-align: center;
-    font-weight: 800;
-    color: #242424;
-    opacity: 0.72;
-    font-size: 1.41em;
-    padding-bottom: 25px;
-  }
-}
+// .round-header {
+//   width: calc(100 / 6 * 1%);
+//   vertical-align: top;
+//   .like-h3 {
+//     text-align: center;
+//     font-weight: 800;
+//     color: #242424;
+//     opacity: 0.72;
+//     font-size: 1.41em;
+//     padding-bottom: 25px;
+//   }
+// }
 
-.matches-container .qualification {
-  width: 100%;
-}
+// .draw-qualification-container {
+//   .draw-container {
+//     display: inline-block;
+//     width: 100/6 * 5 * 1%;
+//   }
+// }
 
-.opponents {
-  list-style: none;
-}
+// .qualification {
+//   width: 20%;
+//   display: inline-block;
+//   vertical-align: top;
+// }
 
-.matches-container .draw-matches-16 .opponents {
-  position: relative;
-  li {
-    position: relative;
-    margin-bottom: 10px;
-    width: 100%;
-  }
-  li::after {
-    @include drawJoiningLine(0, 21px);
-    right: -20px;
-    margin-top: 0px;
-    border-top: 1px solid #e1e1e1;
-  }
-  li:first-child:before {
-    @include drawJoiningLine(91px, 0);
-    right: -20px;
-    margin-top: 0px;
-    border-left: 1px solid #e1e1e1;
-  }
-}
+// .grid-qualification-matches {
+//   display: grid;
+//   grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+// }
+// .qualification-match-3 {
+//   grid-row-start: 3;
+//   ::before {
+//     @include drawJoiningLine(0, 21px);
+//   }
+// }
+// .qualification-match-4 {
+//   grid-row-start: 4;
+// }
 
-.matches-container .draw-matches-16 .qualification .opponents li::after {
-  @include drawJoiningLine(0, 41px);
-  right: -40px;
-  margin-top: 0px;
-  border-top: 1px solid #e1e1e1;
-}
+// .qualification-match-6 {
+//   grid-row-start: 6;
+// }
 
-.matches-container .matches.round2 {
-  .opponents {
-    // margin-bottom: 84px;
-    // margin-top: 43px;
-    li {
-      margin-top: 0px;
-      margin-bottom: 105px;
-    }
-    li:first-child {
-      margin-top: 43px;
-      margin-bottom: 105px;
-    }
-    li:last-child {
-      margin-top: 43px;
-      //   margin-bottom: 0px;
-    }
-  }
-  .opponents:last-child {
-    li:last-child {
-      // margin-top: 43px;
-      margin-bottom: 0px;
-    }
-  }
+// .qualification-32 {
+//   width: 100/6 * 1%;
+//   display: inline-block;
+//   vertical-align: top;
+// }
 
-  li:first-child:before {
-    @include drawJoiningLine(186px, 0);
-    right: -20px;
-    margin-top: 0px;
-    border-left: 1px solid #e1e1e1;
-  }
-  li::before {
-    height: 326px;
-  }
-  table::before {
-    position: absolute;
-    content: "";
-    top: 50%;
-    left: -20px;
-    width: 21px;
-    height: 0;
-    border-top: 1px solid #e1e1e1;
-  }
-}
+// .draw-32 {
+//   width: 80%;
+//   display: inline-block;
+// }
 
-.matches-container .matches.round3 .opponents {
-  margin-bottom: 152px;
-}
+// .draw-32-qualification {
+//   width: 100%;
+//   display: inline-block;
+// }
 
-.matches-container .matches.round3 li {
-  margin-top: 292px;
-}
+// // .draw-matches-16 {
+// //   width: 80%;
+// // }
 
-.matches-container .matches.round3 li:first-child {
-  margin-top: 139px;
-}
+// .matches-container .matches {
+//   width: calc(25%);
+//   vertical-align: top;
+//   // margin-right: 40px;
+//   .like-h3 {
+//     text-align: center;
+//     font-weight: 800;
+//     color: #242424;
+//     opacity: 0.72;
+//     font-size: 1.41em;
+//     padding-bottom: 25px;
+//   }
+// }
 
-.matches-container .matches.round3 li::before {
-  height: 526px;
-}
+// .matches-container .qualification {
+//   width: 100%;
+// }
 
-.matches-container .matches.round3 li table::before {
-  @include drawJoiningLine(0, 21px);
-  left: -20px;
-  border-top: 1px solid #e1e1e1;
-}
+// .opponents {
+//   list-style: none;
+// }
 
-.matches-container .matches.round3 .opponents li:first-child:before {
-  @include drawJoiningLine(374px, 0);
-  right: -20px;
-  margin-top: 0px;
-  border-left: 1px solid #e1e1e1;
-}
+// .matches-container .draw-matches-16 .opponents {
+//   position: relative;
+//   li {
+//     position: relative;
+//     margin-bottom: 10px;
+//     width: 100%;
+//   }
+//   li::after {
+//     @include drawJoiningLine(0, 21px);
+//     right: -20px;
+//     margin-top: 0px;
+//     border-top: 1px solid #e1e1e1;
+//   }
+//   li:first-child:before {
+//     @include drawJoiningLine(91px, 0);
+//     right: -20px;
+//     margin-top: 0px;
+//     border-left: 1px solid #e1e1e1;
+//   }
+// }
 
-.matches-container .matches.round4,
-.matches-container .matches.round4final {
-  .opponents {
-    margin-bottom: 252px;
-  }
-  li {
-    margin-top: 352px;
-  }
-}
+// .matches-container .draw-matches-16 .qualification .opponents li::after {
+//   @include drawJoiningLine(0, 41px);
+//   right: -40px;
+//   margin-top: 0px;
+//   border-top: 1px solid #e1e1e1;
+// }
 
-.matches-container .matches.round4 li:first-child,
-.matches-container .matches.round4final li:first-child {
-  margin-top: 329px;
-}
+// .matches-container .matches.round2 {
+//   .opponents {
+//     // margin-bottom: 84px;
+//     // margin-top: 43px;
+//     li {
+//       margin-top: 0px;
+//       margin-bottom: 105px;
+//     }
+//     li:first-child {
+//       margin-top: 43px;
+//       margin-bottom: 105px;
+//     }
+//     li:last-child {
+//       margin-top: 43px;
+//       //   margin-bottom: 0px;
+//     }
+//   }
+//   .opponents:last-child {
+//     li:last-child {
+//       // margin-top: 43px;
+//       margin-bottom: 0px;
+//     }
+//   }
 
-.matches-container .matches.round4 li::before,
-.matches-container .matches.round4final li::before {
-  height: 526px;
-}
+//   li:first-child:before {
+//     @include drawJoiningLine(186px, 0);
+//     right: -20px;
+//     margin-top: 0px;
+//     border-left: 1px solid #e1e1e1;
+//   }
+//   li::before {
+//     height: 326px;
+//   }
+//   table::before {
+//     position: absolute;
+//     content: "";
+//     top: 50%;
+//     left: -20px;
+//     width: 21px;
+//     height: 0;
+//     border-top: 1px solid #e1e1e1;
+//   }
+// }
 
-.matches-container .matches.round4 li table::before,
-.matches-container .matches.round4final li table::before {
-  @include drawJoiningLine(0, 21px);
-  left: -20px;
-  border-top: 1px solid #e1e1e1;
-}
+// .matches-container .matches.round3 .opponents {
+//   margin-bottom: 152px;
+// }
 
-.matches-container .draw-matches-16:first-child .round4 .opponents li:first-child:before {
-  @include drawJoiningLine(748px, 0);
-  right: -20px;
-  margin-top: 0px;
-  border-left: 1px solid #e1e1e1;
-}
+// .matches-container .matches.round3 li {
+//   margin-top: 292px;
+// }
 
-.matches-container .draw-matches-16 .round4 .opponents li::before,
-.matches-container .draw-matches-16 .qualification .opponents li::before,
-.matches-container .matches.round4final .opponents li:first-child:before,
-.matches-container .matches.round4final .opponents li::after {
-  width: 0;
-  height: 0;
-}
+// .matches-container .matches.round3 li:first-child {
+//   margin-top: 139px;
+// }
 
-// .matches-container .matches.round5::before {
+// .matches-container .matches.round3 li::before {
+//   height: 526px;
+// }
+
+// .matches-container .matches.round3 li table::before {
+//   @include drawJoiningLine(0, 21px);
+//   left: -20px;
+//   border-top: 1px solid #e1e1e1;
+// }
+
+// .matches-container .matches.round3 .opponents li:first-child:before {
 //   @include drawJoiningLine(374px, 0);
 //   right: -20px;
-//   margin-top: -1px;
+//   margin-top: 0px;
 //   border-left: 1px solid #e1e1e1;
 // }
 
-.draw-final {
-  width: 20%;
+// .matches-container .matches.round4,
+// .matches-container .matches.round4final {
+//   .opponents {
+//     margin-bottom: 252px;
+//   }
+//   li {
+//     margin-top: 352px;
+//   }
+// }
+
+// .matches-container .matches.round4 li:first-child,
+// .matches-container .matches.round4final li:first-child {
+//   margin-top: 329px;
+// }
+
+// .matches-container .matches.round4 li::before,
+// .matches-container .matches.round4final li::before {
+//   height: 526px;
+// }
+
+// .matches-container .matches.round4 li table::before,
+// .matches-container .matches.round4final li table::before {
+//   @include drawJoiningLine(0, 21px);
+//   left: -20px;
+//   border-top: 1px solid #e1e1e1;
+// }
+
+// .matches-container .draw-matches-16:first-child .round4 .opponents li:first-child:before {
+//   @include drawJoiningLine(748px, 0);
+//   right: -20px;
+//   margin-top: 0px;
+//   border-left: 1px solid #e1e1e1;
+// }
+
+// .matches-container .draw-matches-16 .round4 .opponents li::before,
+// .matches-container .draw-matches-16 .qualification .opponents li::before,
+// .matches-container .matches.round4final .opponents li:first-child:before,
+// .matches-container .matches.round4final .opponents li::after {
+//   width: 0;
+//   height: 0;
+// }
+
+// // .matches-container .matches.round5::before {
+// //   @include drawJoiningLine(374px, 0);
+// //   right: -20px;
+// //   margin-top: -1px;
+// //   border-left: 1px solid #e1e1e1;
+// // }
+
+// .draw-final {
+//   width: 20%;
+//   display: inline-block;
+//   vertical-align: top;
+//   .round5 {
+//     width: 100%;
+//   }
+//   .opponents {
+//     position: relative;
+//     li {
+//       margin-top: 695px;
+//       margin-bottom: 10px;
+//       position: relative;
+//     }
+//   }
+// }
+
+// .matches-container .matches.round5 li table::before {
+//   @include drawJoiningLine(0, 21px);
+//   left: -20px;
+//   border-top: 1px solid #e1e1e1;
+// }
+
+// table {
+//   border-collapse: collapse;
+// }
+
+// table,
+// td,
+// th {
+//   border: 1px solid #e1e1e1;
+//   padding: 8px;
+//   width: 100%;
+//   white-space: nowrap;
+// }
+
+// .show-only-on-large-size {
+//   display: inline-block;
+// }
+
+// @media (max-width: 1200px) {
+//   table,
+//   td,
+//   th {
+//     padding: 3px;
+//   }
+// }
+
+// .match-margin {
+//   margin-bottom: 5%;
+// }
+
+// .select-draw-size {
+//   display: flex;
+//   align-items: center;
+//   margin-bottom: 3%;
+//   label {
+//     white-space: nowrap;
+//     margin-right: 5%;
+//     text-align: center;
+//     height: 100%;
+//   }
+// }
+
+
+// -------------------- new bracket (draw)
+.bracket {
+  display: inline-block;
+  // position: absolute;
+  // left: 50%;
+  // top: 50%;
+
+  white-space: nowrap;
+  font-size: 10;
+
+}
+.bracket .round {
+  display: inline-block;
+  vertical-align: middle;
+}
+.bracket .round .winners > div {
+  display: inline-block;
+  vertical-align: middle;
+}
+.bracket .round .winners > div.matchups .matchup:last-child {
+  margin-bottom: 0 !important;
+}
+.bracket .round .winners > div.matchups .matchup .participants {
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+.bracket .round .winners > div.matchups .matchup .participants .participant {
+  box-sizing: border-box;
+  color: #858585;
+  border-left: 0.25rem solid #858585;
+  background: white;
+  width: 14rem;
+  height: 3rem;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+}
+.bracket .round .winners > div.matchups .matchup .participants .participant.winner {
+  color: #60c645;
+  border-color: #60c645;
+}
+.bracket .round .winners > div.matchups .matchup .participants .participant.loser {
+  color: #dc563f;
+  border-color: #dc563f;
+}
+.bracket .round .winners > div.matchups .matchup .participants .participant:not(:last-child) {
+  border-bottom: thin solid #f0f2f2;
+}
+.bracket .round .winners > div.matchups .matchup .participants .participant span {
+  margin: 0 1.25rem;
+  line-height: 3;
+  font-size: 1rem;
+  font-family: "Roboto Slab";
+}
+.bracket .round .winners > div.connector.filled .line, .bracket .round .winners > div.connector.filled.bottom .merger:after, .bracket .round .winners > div.connector.filled.top .merger:before {
+  border-color: #60c645;
+}
+.bracket .round .winners > div.connector .line, .bracket .round .winners > div.connector .merger {
+  box-sizing: border-box;
+  width: 2rem;
   display: inline-block;
   vertical-align: top;
-  .round5 {
-    width: 100%;
-  }
-  .opponents {
-    position: relative;
-    li {
-      margin-top: 695px;
-      margin-bottom: 10px;
-      position: relative;
-    }
-  }
 }
-
-.matches-container .matches.round5 li table::before {
-  @include drawJoiningLine(0, 21px);
-  left: -20px;
-  border-top: 1px solid #e1e1e1;
+.bracket .round .winners > div.connector .line {
+  border-bottom: thin solid #c0c0c8;
+  height: 4rem;
 }
-
-table {
-  border-collapse: collapse;
+.bracket .round .winners > div.connector .merger {
+  position: relative;
+  height: 8rem;
 }
-
-table,
-td,
-th {
-  border: 1px solid #e1e1e1;
-  padding: 8px;
+.bracket .round .winners > div.connector .merger:before, .bracket .round .winners > div.connector .merger:after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
   width: 100%;
-  white-space: nowrap;
+  height: 50%;
+  border: 0 solid;
+  border-color: #c0c0c8;
 }
-
-.show-only-on-large-size {
-  display: inline-block;
+.bracket .round .winners > div.connector .merger:before {
+  border-right-width: thin;
+  border-top-width: thin;
 }
-
-@media (max-width: 1200px) {
-  table,
-  td,
-  th {
-    padding: 3px;
-  }
+.bracket .round .winners > div.connector .merger:after {
+  border-right-width: thin;
+  border-bottom-width: thin;
 }
-
-.match-margin {
-  margin-bottom: 5%;
+.bracket .round.quarterfinals .winners:not(:last-child) {
+  margin-bottom: 2rem;
 }
-
-.select-draw-size {
-  display: flex;
-  align-items: center;
-  margin-bottom: 3%;
-  label {
-    white-space: nowrap;
-    margin-right: 5%;
-    text-align: center;
-    height: 100%;
-  }
+.bracket .round.quarterfinals .winners .matchups .matchup:not(:last-child) {
+  margin-bottom: 2rem;
+}
+.bracket .round.semifinals .winners .matchups .matchup:not(:last-child) {
+  margin-bottom: 10rem;
+  background-color: red;
+}
+.bracket .round.semifinals .winners .connector .merger {
+  height: 16rem;
+}
+.bracket .round.semifinals .winners .connector .line {
+  height: 8rem;
+}
+.bracket .round.finals .winners .connector .merger {
+  height: 3rem;
+}
+.bracket .round.finals .winners .connector .line {
+  height: 1.5rem;
 }

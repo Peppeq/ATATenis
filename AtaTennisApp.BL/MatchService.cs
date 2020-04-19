@@ -17,7 +17,7 @@ namespace AtaTennisApp.BL
     {
         Task<List<MatchDTO>> GetMatchesByTournament(int tournamentId);
         Task<List<MatchDTO>> GetMatchesByPlayer(int playerId);
-        Task<List<MatchDTO>> CreateOrUpdateMatchesForTournament(DrawSize drawSize, int tournamentId, List<MatchDTO> matchDTOs);
+        Task<DrawDTO> CreateOrUpdateMatchesForTournament(DrawSize drawSize, int tournamentId, List<MatchDTO> matchDTOs);
         Task<MatchDTO> CreateQualificationMatch(int childMatchId, int round);
         Task DeleteMatchesGraph(int tournamentId);
     }
@@ -44,16 +44,17 @@ namespace AtaTennisApp.BL
             return matchesDTO;
         }
 
-        public async Task<List<MatchDTO>> CreateOrUpdateMatchesForTournament(DrawSize drawSize, int tournamentId, List<MatchDTO> matchDTOs = null)
+        public async Task<DrawDTO> CreateOrUpdateMatchesForTournament(DrawSize drawSize, int tournamentId, List<MatchDTO> matchDTOs = null)
         {
             var matches = await _dbContext.Matches.Where(m => m.TournamentId == tournamentId).ToListAsync();
+            var draw = default(DrawDTO);
 
             if (matches == null || matches.Count == 0)
             {
                 var startingRound = TournamentRound.round1;
                 var matchesCount = 0;
 
-                var draw = InitializeDraw(drawSize, startingRound, matchesCount);
+                draw = InitializeDraw(drawSize, startingRound, matchesCount);
 
                 matches = GetMatchesForNewDraw(draw.InitialRound, draw.MatchesCount, tournamentId);
 
@@ -67,6 +68,10 @@ namespace AtaTennisApp.BL
                     var bulkConfig = new BulkConfig { PreserveInsertOrder = true, SetOutputIdentity = true };
                     _dbContext.BulkInsert(matches, bulkConfig);
                     int matchIndex = 0, round2index = 0;
+
+
+                    // checkin matches id 
+                    matches.Reverse();
 
                     foreach (var match in matches)
                     {
@@ -89,7 +94,7 @@ namespace AtaTennisApp.BL
                         matchesEntries.AddRange(match.MatchEntries);
                         matchIndex++;
                     }
-                    _dbContext.BulkInsert(matchesEntries);
+                    _dbContext.BulkInsert(matchesEntries, bulkConfig);
                     transaction.Commit();
                 }
 
@@ -105,15 +110,20 @@ namespace AtaTennisApp.BL
 
                 await _dbContext.BulkUpdateAsync(matchesDB);
                 await _dbContext.BulkUpdateAsync(matchesEntries);
+                draw.InitialRound = matchesDB.FirstOrDefault().Round;
+                draw.MatchesCount = matchesDB.Count;
             }
 
             await _dbContext.SaveChangesAsync();
 
             // BUG on bulk - need to reverse inserted data
-            var reversedMatches = ReverseMatches(matches);
-            matchDTOs = Mapper.Map<List<Match>, List<MatchDTO>>(reversedMatches);
+            ReverseMatchesIds(matches);
 
-            return matchDTOs;
+            matchDTOs = Mapper.Map<List<Match>, List<MatchDTO>>(matches);
+            var roundMatches = matchDTOs.GroupBy(m => m.Round).Select(g => new RoundMatchDTO { Round = (int)g.Key, Matches = g.ToList() });
+            draw.RoundMatches = roundMatches.ToList();
+
+            return draw;
         }
 
         public async Task<MatchDTO> CreateQualificationMatch(int childMatchId, int round)
@@ -140,12 +150,12 @@ namespace AtaTennisApp.BL
                 transaction.Commit();
             }
             await _dbContext.SaveChangesAsync();
-            return Mapper.Map<Match, MatchDTO>(match); ;
+            return Mapper.Map<Match, MatchDTO>(match);
         }
 
-        private Draw InitializeDraw(DrawSize drawSize, TournamentRound startingRound, int matchesCount)
+        private DrawDTO InitializeDraw(DrawSize drawSize, TournamentRound startingRound, int matchesCount)
         {
-            var draw = new Draw();
+            var draw = new DrawDTO();
 
             switch (drawSize)
             {
@@ -234,26 +244,39 @@ namespace AtaTennisApp.BL
             }
         }
 
-        private List<Match> ReverseMatches(List<Match> matches)
+        private void ReverseMatchesIds(List<Match> matches)
         {
-            var newList = matches.ToList();
-            newList.Reverse();
+            var newIds = matches.Select(m => m.Id).ToList();
+            //var newList = matches.ConvertAll(m => m.clone);
+            //newList.Reverse();
+            matches.Reverse();
             for (int i = 0; i < matches.Count; i++)
             {
-                newList[i].Id = matches[i].Id;
+                matches[i].Id = newIds[i];
             }
             //newList.Reverse();
-            return newList;
+            //return newList;
         }
     }
 
-    internal class Draw
+    public class DrawDTO
     {
         public TournamentRound InitialRound { get; set; }
         public int MatchesCount { get; set; }
+
+        public List<RoundMatchDTO> RoundMatches { get; set; }
     }
 
-    public interface IDbConnectionProvider
+
+        //internal class MatchFactory
+        //{
+        //    public Match CreateMatch(Match match)
+        //    {
+        //        return new Match { Id = match.Id, MatchEntries = match.MatchEntries}
+        //    }
+        //}
+
+        public interface IDbConnectionProvider
     {
     }
 }

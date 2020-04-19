@@ -10,6 +10,11 @@ namespace AtaTennisApp.BL.Helper
 {
     public static class MapperHelper
     {
+        public static IMapper GetMapper()
+        {
+            return Configuration.CreateMapper();
+        }
+
         public static MapperConfiguration Configuration { get; set; } = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Match, MatchDTO>()
@@ -23,7 +28,7 @@ namespace AtaTennisApp.BL.Helper
                 .ReverseMap();
             cfg.CreateMap<Tournament, TournamentGraphDTO>()
                 .ForMember(tp => tp.Tournament, opt => { opt.MapFrom(t => t); })
-                .ForMember(tg => tg.StartingRound, opt => opt.Ignore());
+                .ForMember(tg => tg.Draw, opt => opt.Ignore());
                 //.ForMember(tp => tp.StartingRound, opt => opt.MapFrom(t => t.Matches.Min(m => m.Round)))
                 //.ForMember(tp => tp.Players, opt => { opt.Ignore(); });
                 // not safe because when player or tournamentEntries are not included or taken from DB there will be null reference exception
@@ -44,15 +49,15 @@ namespace AtaTennisApp.BL.Helper
 
         public static IMapper GetUserMapper()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserDTO>()
-                    .ForSourceMember(u => u.Id, opt => opt.DoNotValidate());
-                cfg.CreateMap<UserDTO, User>()
-                    .ForMember(u => u.Id, memberOptions => memberOptions.Ignore());
-            });
-
-            return config.CreateMapper();
+            //var config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.CreateMap<User, UserDTO>()
+            //        .ForSourceMember(u => u.Id, opt => opt.DoNotValidate());
+            //    cfg.CreateMap<UserDTO, User>()
+            //        .ForMember(u => u.Id, memberOptions => memberOptions.Ignore());
+            //});
+            return Configuration.CreateMapper();
+            //return config.CreateMapper();
         }
 
         public static IMapper GetTournamentMapper()

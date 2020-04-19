@@ -38,14 +38,22 @@ export class TournamentPlayersArgs {
 export class TournamentGraphDTO {
     Tournament: TournamentDTO = null;
     Players: PlayerDrawDTO[] = null;
-    Matches: MatchDTO[] = null;
-    StartingRound: TournamentRound = null;
+    Draw: DrawDTO = null;
 }
 export class PlayerDrawDTO {
     TournamentEntryId: number = null;
     PlayerId: number = null;
     Name: string = null;
     Surname: string = null;
+}
+export class DrawDTO {
+    InitialRound: TournamentRound = null;
+    MatchesCount: number = null;
+    RoundMatches: RoundMatchDTO[] = null;
+}
+export class RoundMatchDTO {
+    Round: number = null;
+    Matches: MatchDTO[] = null;
 }
 export class MatchDTO {
     Id: number = null;
@@ -115,7 +123,7 @@ export default class TournamentClient {
     }
 
     getTournamentPlayers<TArgs extends TournamentPlayersArgs, TResult extends TournamentGraphDTO>(data: TArgs): Promise<TResult> {
-        return AjaxProvider.apiGet("Tournament/GetTournamentPlayers", data);
+        return AjaxProvider.apiGet("Tournament/GetTournamentGraph", data);
     }
 
     getWithoutParams<TResult extends TournamentDTO>(): Promise<TResult> {

@@ -50,8 +50,10 @@ Vue.component("ValidationObserver", ValidationObserver);
 
 Vue.use(ShardsVue);
 Vue.use(Notifications);
-Vue.use(EventHub);
+// Vue.use(EventHub);
 Vue.use(VueVisible);
+
+Vue.prototype.$eventHub = new Vue(); // Global event bus
 
 new Vue({
   router,

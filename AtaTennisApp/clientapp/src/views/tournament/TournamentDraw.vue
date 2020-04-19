@@ -1017,48 +1017,32 @@
       </div>
     </div>
     <div v-if="isEdit">
-      <!-- Favourite Surface -->
       <div class="select-draw-size">
         <label for="drawSize">{{ "Draw Size" }}</label>
-        <d-form-select id="drawSize" v-model="draw" :options="tournamentHelper.GetTournamentDrawSizes()" :value="draw" />
+        <d-form-select id="drawSize" v-model="drawSize" :options="tournamentHelper.GetTournamentDrawSizes()" :value="drawSize" />
       </div>
-      <div class="draw-matches-16">
+      <!-- <div class="draw-matches-16">
         <section class="matches show-only-on-large-size round1">
         </section>
         <section class="matches show-only-on-large-size round2">
           <ul class="opponents">
             <li>
-              <div v-for="(match, index) in matches" :key="match.Id" class="match-container">
-                <div v-if="match.Round == startingRoundProp">
-                  <div v-for="entry in match.MatchEntries" :key="entry.Id">
-                    <table>
-                      <tr>
-                        {{ "match " + index + match.Round}}
-                        <d-input-group :class="{ 'match-margin': isEven(index) }">
-                          <d-input-group-addon prepend>
-                            <d-btn outline theme="success" @click="addQualifier">Qualifier</d-btn>
-                          </d-input-group-addon>
-                          <input type="text" :value="entry.PlayerId" aria-label="Text input with checkbox" class="form-control" />
-                          <d-input-group-text slot="append">
-                            <input type="checkbox" aria-label="Checkbox for following text input" />
-                          </d-input-group-text>
-                        </d-input-group>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-              </div>
             </li>
           </ul>
         </section>
+      </div> -->
+      <div class="bracket">
+        <tournament-draw-round v-for="(matchRound) in draw.RoundMatches" :key="matchRound.Round" :roundMatchProp="matchRound"></tournament-draw-round>
       </div>
-      <d-btn @click="createDraw">{{ matches != null && matches.length > 0 ? "Update" : "Create" }}</d-btn>
-      <d-btn style="margin-left: 0.5%" v-if="matches != null && matches.length > 0" @click="deleteDraw">Delete</d-btn>
+      // vymazat webkit ... pokrracovat v css code
+      <d-btn @click="createDraw">{{ draw.MatchesCount > 0 ? "Update" : "Create" }}</d-btn>
+      <d-btn style="margin-left: 0.5%" v-if="draw.MatchesCount > 0" @click="deleteDraw">Delete</d-btn>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
@@ -1067,15 +1051,23 @@ import MatchClient, {
   MatchDTO,
   MatchesArgs,
   DrawSize,
-  CreateOrUpdateMatchesArgs
+  CreateOrUpdateMatchesArgs,
+  DrawDTO,
+  TournamentRound
 } from "../../Api/MatchController";
 import { TournamentHelper } from "./tournamentHelper";
 import { NotificationUtils } from "../../common/notification";
+import TournamentDrawRound from "./tournament-draw/tournament-draw-round.vue";
 
-@Component
+
+@Component({
+  components: {
+    TournamentDrawRound
+  }
+})
 export default class TournamentDraw extends BaseComponentClass {
   @Prop() readonly acceptedPlayersProp: PlayerDrawDTO[];
-  @Prop() readonly tournamentMatches: MatchDTO[];
+  @Prop() readonly tournamentDraw: DrawDTO;
   @Prop() readonly tournamentId: number;
   @Prop() readonly startingRoundProp: number;
   @Prop() readonly isEditablePage: boolean;
@@ -1083,19 +1075,18 @@ export default class TournamentDraw extends BaseComponentClass {
   acceptedPlayers: PlayerDrawDTO[] = [];
   tournamentHelper = TournamentHelper;
   matchClient: MatchClient = new MatchClient();
-  matches: MatchDTO[] = null;
+  draw: DrawDTO = null;
   // startingRound: number;
 
   isEdit = false;
   playerCount = 0;
-  draw: DrawSize = DrawSize.draw32;
+  drawSize: DrawSize = DrawSize.draw32;
   isQualification = false;
 
-  // toto v podstate nepotrebujem
-  // @Watch("tournamentMatches")
-  // onTournamentMatchesPropChange(tournamentMatches: MatchDTO[]): void {
-  //   this.matches = tournamentMatches;
-  // }
+  @Watch("tournamentDraw")
+  ontournamentDrawPropChange(tournamentDraw: DrawDTO): void {
+    this.draw = tournamentDraw;
+  }
 
   assignedPlayers: PlayerDrawDTO[] = [
     { TournamentEntryId: 1, PlayerId: 1, Name: "A", Surname: "A" },
@@ -1130,28 +1121,30 @@ export default class TournamentDraw extends BaseComponentClass {
     }
   }
 
-  isEven(index: number): boolean {
-    return index % 2 > 0 ? true : false;
-  }
 
   addQualifier() {
     console.log("aqq");
   }
 
   createDraw() {
+    // correct MatchDTO[] to DrawDTO on all modified controllers
     // -------------------------------------- !!!!!! change after TESTING to minimum number of players
     if (this.acceptedPlayers.length >= 0) {
-      this.tryGetDataByArgs<MatchDTO[], CreateOrUpdateMatchesArgs>({
+      this.tryGetDataByArgs<DrawDTO, CreateOrUpdateMatchesArgs>({
         apiMethod: this.matchClient.createOrUpdateMatches,
         showError: true,
         requestArgs: {
           TournamentId: this.tournamentId,
-          DrawSize: this.draw,
-          Matches: this.matches
+          DrawSize: this.drawSize,
+          Matches: this.draw.RoundMatches.flatMap(m => m.Matches)
         }
       }).then((response) => {
         if (response.ok) {
-          this.matches = response.data;
+          // this.matches = response.data;
+
+          // hub not working in Vue component why?
+          this.$eventHub.$emit('createDrawEventOnHub', response.data);
+          // this.$emit("createDrawEvent", response.data);
         }
       });
     } else {
@@ -1159,31 +1152,58 @@ export default class TournamentDraw extends BaseComponentClass {
     }
   }
 
+  // deleteDraw(): void {
+  //   console.log("draw deleted");
+  //   // spravit nejaku normalnu api methodu na delete try delete abo neco s akceptovanim id
+  //   this.tryGetDataByArgs<void, MatchesArgs>({
+  //     apiMethod: this.matchClient.deletetournamentDrawGraph,
+  //     showError: true,
+  //     requestArgs: { TournamentId: this.tournamentId }
+  //   }).then((resp) => {
+  //     if (resp.ok) {
+  //       NotificationUtils.ShowSuccess({
+  //         message: "Tournament draw deleted",
+  //         title: "Tournament Draw Delete"
+  //       });
+  //       this.matches = null;
+  //     }
+  //   });
+  // }
+
+  getClassByRound(round: TournamentRound): string {
+    let roundClass = "";
+    switch (round) {
+      case TournamentRound.round3:
+        roundClass = "round quarterfinals" // temporarily add new clases
+        break;
+      case TournamentRound.round4:
+        roundClass = "round quarterfinals"
+        console.log(round)
+        break;
+      case TournamentRound.round5:
+        roundClass = "round semifinals"
+        console.log(roundClass)
+        break;
+      case TournamentRound.round6:
+        roundClass = "round finals"
+        console.log(roundClass)
+        break;
+    }
+    return roundClass;
+  }
+
+  // implementuj cez event bus
   deleteDraw(): void {
-    console.log("draw deleted");
-    // spravit nejaku normalnu api methodu na delete try delete abo neco s akceptovanim id
-    this.tryGetDataByArgs<void, MatchesArgs>({
-      apiMethod: this.matchClient.deleteTournamentMatchesGraph,
-      showError: true,
-      requestArgs: { TournamentId: this.tournamentId }
-    }).then((resp) => {
-      if (resp.ok) {
-        NotificationUtils.ShowSuccess({
-          message: "Tournament draw deleted",
-          title: "Tournament Draw Delete"
-        });
-        this.matches = null;
-      }
-    });
+    this.$emit('tournamentDrawDelete', this.tournamentId);
+    console.log('delete draw called and emited');
   }
 
   // poriesit ako pridam matche pre prve kolo
   // pridat btn add qualifier/ delete qualifier
   created(): void {
     this.isEdit = this.isEditablePage;
-    this.matches = [];
-    if (this.tournamentMatches.length > 0) {
-      this.matches = this.tournamentMatches;
+    if (this.tournamentDraw.MatchesCount > 0) {
+      this.draw = this.tournamentDraw;
     }
 
     if (this.acceptedPlayersProp != null) {
@@ -1193,16 +1213,16 @@ export default class TournamentDraw extends BaseComponentClass {
 
     if (this.playerCount > DrawSize.draw32) {
       const qualificationCount = this.playerCount - DrawSize.draw32;
-      if (qualificationCount > DrawSize.draw32 / 2) this.draw = DrawSize.draw64;
+      if (qualificationCount > DrawSize.draw32 / 2) this.drawSize = DrawSize.draw64;
       else {
-        this.draw = DrawSize.draw32;
+        this.drawSize = DrawSize.draw32;
         this.isQualification = true;
       }
     } else if (this.playerCount > DrawSize.draw16) {
       const qualificationCount = this.playerCount - DrawSize.draw16;
-      if (qualificationCount > DrawSize.draw16 / 2) this.draw = DrawSize.draw32;
+      if (qualificationCount > DrawSize.draw16 / 2) this.drawSize = DrawSize.draw32;
       else {
-        this.draw = DrawSize.draw16;
+        this.drawSize = DrawSize.draw16;
         this.isQualification = true;
       }
     }
@@ -1214,5 +1234,4 @@ export default class TournamentDraw extends BaseComponentClass {
 @import "@/styles/views/tournament/tournament-draw.scss";
 </style>
 
-// draw spravit ppodla roundu, velkost roundu podla draw, qualification podla poctu accepted players, TODO urcit velkosti screenov, base 1250, TODO pozriet preco sa neupdatuje matches na tournamentdraw componente cize tu :)
-//TODO sprav najprv commit
+// draw spravit ppodla roundu, velkost roundu podla draw, qualification podla poctu accepted players, TODO urcit velkosti screenov, base 1250
