@@ -1231,7 +1231,7 @@ export default class TournamentDraw extends BaseComponentClass {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/views/tournament/tournament-draw.scss";
+@import "@/styles/views/tournament/tournament-bracket.scss";
 </style>
 
 // draw spravit ppodla roundu, velkost roundu podla draw, qualification podla poctu accepted players, TODO urcit velkosti screenov, base 1250

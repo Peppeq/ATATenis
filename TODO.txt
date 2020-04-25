@@ -3,4 +3,6 @@ remove config from git
 poriesit 500 pri zlej coennection
 
 1. pridat btn a funkcionalitu do tournament management - 45 min
-2.
+2. tournament management - tournament, draw, player pridat na bocnu listu 
+	- tak ako teraz nechat pre mobilne zariadenia
+3. spravit responsivny draw
