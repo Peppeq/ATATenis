@@ -1,0 +1,48 @@
+{
+	// "editor.detectIndentation": false,
+	// "editor.formatOnType": true,
+	// "editor.insertSpaces": false,
+	// "editor.tabSize": 2,
+	"files.trimTrailingWhitespace": true,
+	"html.format.indentInnerHtml": true,
+	"html.format.preserveNewLines": true,
+	"html.format.unformatted": "code",
+	"html.format.wrapLineLength": 0,
+	"telemetry.enableTelemetry": false,
+	"javascript.implicitProjectConfig.checkJs": true,
+	"window.newWindowDimensions": "maximized",
+	"window.openFoldersInNewWindow": "on",
+	"workbench.activityBar.visible": true,
+	"editor.quickSuggestions": {
+		"strings": true
+	},
+	"editor.wordWrap": "on",
+	"terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+	"liveServer.settings.CustomBrowser": "chrome",
+	"explorer.confirmDelete": false,
+	"liveServer.settings.donotShowInfoMsg": true,
+	"window.zoomLevel": 0,
+	"workbench.colorCustomizations": {
+		// "editor.background": "#5e5e5e"
+	},
+	"workbench.colorTheme": "GitHub Sharp",
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript"
+	],
+	"diffEditor.ignoreTrimWhitespace": false,
+	"[javascript]": {},
+	"files.associations": {
+		"*.js": "javascript"
+	},
+	"window.openFilesInNewWindow": "on",
+	"extensions.autoUpdate": false,
+	"[scss]": {
+		"editor.defaultFormatter": "sibiraj-s.vscode-scss-formatter"
+	},
+	"[vue]": {
+		"editor.defaultFormatter": "octref.vetur"
+	},
+	"vsicons.dontShowNewVersionMessage": true
+}
