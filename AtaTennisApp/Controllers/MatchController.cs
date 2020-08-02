@@ -45,8 +45,7 @@ namespace AtaTennisApp.Controllers
             var draw = await MatchService.CreateOrUpdateMatchesForTournament(args.DrawSize, args.TournamentId, args.Matches);
             return draw;
         }
-
-
+               
         [HttpDelete("DeleteTournamentDrawGraph")]
         public async Task<ActionResult> DeleteTournamentDrawGraph([FromQuery]MatchesArgs args)
         {

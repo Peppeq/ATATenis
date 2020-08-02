@@ -1,7 +1,7 @@
 <template>
   <section :class="getClassByRound(roundMatchProp.Round)">
     <div v-for="(matchup) in matchups" :key="matchup.mIndex" class="winners">
-      <TournamentDrawMatchup :matchupMatchesProp="matchup.matches"></TournamentDrawMatchup>
+      <tournament-draw-matchup :matchupMatchesProp="matchup.matches"></tournament-draw-matchup>
       <!-- <div class="matchups">
         <div v-for="(match) in matchup.matches" :key="match.mIndex" class="matchup">
           <div class="participants">
@@ -23,7 +23,7 @@
 import { BaseComponentClass } from '../../../common/BaseComponentClass'
 import { Component, Prop } from 'vue-property-decorator';
 import { MatchDTO } from '@/Api/MatchController';
-import TournamentDrawMatch from "./tournament-draw-match.vue";
+import TournamentDrawMatchEntry from "./tournament-draw-match-entry.vue";
 import TournamentDrawMatchup from "./tournament-draw-matchup.vue";
 import {
   DrawDTO,

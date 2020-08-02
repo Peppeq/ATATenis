@@ -143,7 +143,7 @@ namespace AtaTennisApp.BL
                 .FirstOrDefaultAsync();
             //tournamentPlayersQuery.ma
             tournamentGraph = Mapper.Map<Tournament, TournamentGraphDTO>(tournament);
-            tournamentGraph.Draw = new DrawDTO();
+            tournamentGraph.Draw = new Draw();
 
             if (tournament.Matches != null && tournament.Matches.Count > 0)
             {

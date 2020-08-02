@@ -37,7 +37,7 @@ namespace AtaTennisApp
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:8080", "http://localhost:8081", "http://192.168.1.2:8080")
+                    builder.WithOrigins("http://localhost:8080", "http://localhost:8081", "http://192.168.1.2:8080", "http://localhost:55000/", "https://localhost:44398")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
@@ -126,6 +126,7 @@ namespace AtaTennisApp
             else
             {
                 app.ConfigureCustomExceptionMiddleware(app.ApplicationServices.GetRequiredService<ILogger<Startup>>());
+                //// when the value of ASPNETCORE_ENVIRONMENT is set to Staging, Production
                 //app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();

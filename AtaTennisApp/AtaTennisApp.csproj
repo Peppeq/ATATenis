@@ -14,6 +14,10 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
     <!--check what has changed with vue cli after net core 3 update--> 
     <PackageReference Include="VueCliMiddleware" Version="3.0.0" />
@@ -40,11 +44,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="clientapp\src\Api\MatchController - Copy.ts">
+      <CustomToolNamespace>Controllers\MatchController - Copy.cs</CustomToolNamespace>
+    </None>
     <None Update="clientapp\src\Api\MatchController.ts">
       <CustomToolNamespace>Controllers\MatchController.cs</CustomToolNamespace>
     </None>
     <None Update="clientapp\src\Api\PlayerController.ts">
       <CustomToolNamespace>Controllers\PlayerController.cs</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\QualificationMatchController.ts">
+      <CustomToolNamespace>Controllers\QualificationMatchController.cs</CustomToolNamespace>
     </None>
     <None Update="clientapp\src\Api\TournamentController - Copy.ts">
       <CustomToolNamespace>Controllers\Tournament\TournamentController - Copy.cs</CustomToolNamespace>

@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <ol>
-      <li v-for="player in AssignedPlayers" :key="player.PlayerId">
+      <li v-for="player in assignedPlayers" :key="player.PlayerId">
         {{ getFullName(player)
 			}}<span class="text-danger remove-player" @click="removeTournamentEntry"><i :id="player.TournamentEntryId" class="material-icons">clear</i></span>
       </li>
@@ -42,7 +42,7 @@ export default class TournamentPlayers extends BaseComponentClass {
 
   player: string = null;
   selectedPlayer: PlayerDrawDTO = null;
-  assignedPlayers: PlayerDrawDTO[] = [];
+  assignedPlayers: PlayerDrawDTO[];
   searchedPlayers: PlayerDrawDTO[] = [];
 
   getFullName(player: PlayerDrawDTO): string {
@@ -75,7 +75,7 @@ export default class TournamentPlayers extends BaseComponentClass {
 
   addTournamentEntry(): void {
     if (this.AddTournamentEntry != null) {
-      if (this.assignedPlayers.some(p => p.TournamentEntryId == this.selectedPlayer.TournamentEntryId)) {
+      if (!this.assignedPlayers.some(p => p.TournamentEntryId == this.selectedPlayer.TournamentEntryId)) {
         this.AddTournamentEntry(this.selectedPlayer).then((result) => {
           if (result) {
             this.selectedPlayer = null;
@@ -102,6 +102,14 @@ export default class TournamentPlayers extends BaseComponentClass {
 
   onClickPlayer(player: PlayerDrawDTO): void {
     this.selectedPlayer = player;
+  }
+
+  created() {
+    if (this.AssignedPlayers) {
+      this.assignedPlayers = this.AssignedPlayers;
+    } else {
+      this.assignedPlayers = [];
+    }
   }
 }
 </script>

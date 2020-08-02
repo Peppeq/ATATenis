@@ -39,6 +39,7 @@ namespace AtaTennisApp.Controllers
         public async Task<ActionResult<List<PlayerDTO>>> GetAllPlayers()
         {
             var players = await PlayerService.GetAllPlayers();
+
             return players;
         }
 

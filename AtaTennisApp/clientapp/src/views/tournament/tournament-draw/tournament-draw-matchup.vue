@@ -3,7 +3,7 @@
     <div v-for="(match, matchIndex) in matchupMatchesProp" :key="match.mIndex" class="matchup">
       <div class="participants">
         <div v-for="(matchEntry, entryIndex) in match.MatchEntries" :key="matchEntry.Id" :class="getClassByWinner(entryIndex)">
-          <tournament-draw-match :tournamentMatch="match" :tournamentMatchIndex="matchIndex"></tournament-draw-match>
+          <tournament-draw-match-entry :tournamentMatchEntry="matchEntry" :tournamentMatchIndex="matchIndex"></tournament-draw-match-entry>
         </div>
       </div>
     </div>
@@ -14,7 +14,7 @@
 import { BaseComponentClass } from '../../../common/BaseComponentClass'
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { MatchDTO } from '@/Api/MatchController';
-import TournamentDrawMatch from "./tournament-draw-match.vue";
+import TournamentDrawMatchEntry from "./tournament-draw-match-entry.vue";
 import { DrawDTO, TournamentRound } from '../../../Api/TournamentController';
 
 interface Matchup {
@@ -26,7 +26,7 @@ interface Matchup {
 // Role of this component is separate matches from round to matchups
 @Component({
   components: {
-    TournamentDrawMatch
+    TournamentDrawMatchEntry
   }
 })
 export default class TournamentDrawMatchup extends BaseComponentClass {

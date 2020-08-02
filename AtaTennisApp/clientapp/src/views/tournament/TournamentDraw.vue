@@ -1031,12 +1031,14 @@
           </ul>
         </section>
       </div> -->
-      <div class="bracket">
-        <tournament-draw-round v-for="(matchRound) in draw.RoundMatches" :key="matchRound.Round" :roundMatchProp="matchRound"></tournament-draw-round>
+      <div >
+        <div v-if="draw" class="bracket">
+          <tournament-draw-round v-for="(matchRound) in draw.RoundMatches" :key="matchRound.Round" :roundMatchProp="matchRound"></tournament-draw-round>
+        </div>
+        // vymazat webkit ... pokrracovat v css code
+        <d-btn @click="createDraw">{{ createOrUpdateTxtBtn()  }}</d-btn>
+        <d-btn style="margin-left: 0.5%" v-if="existsDraw()" @click="deleteDraw">Delete</d-btn>
       </div>
-      // vymazat webkit ... pokrracovat v css code
-      <d-btn @click="createDraw">{{ draw.MatchesCount > 0 ? "Update" : "Create" }}</d-btn>
-      <d-btn style="margin-left: 0.5%" v-if="draw.MatchesCount > 0" @click="deleteDraw">Delete</d-btn>
     </div>
   </div>
 </template>
@@ -1046,14 +1048,16 @@
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
-import { PlayerDrawDTO } from "../../Api/TournamentEntryController";
+import {
+  PlayerDrawDTO,
+  TournamentRound
+} from "../../Api/TournamentEntryController";
 import MatchClient, {
   MatchDTO,
   MatchesArgs,
   DrawSize,
   CreateOrUpdateMatchesArgs,
-  DrawDTO,
-  TournamentRound
+  DrawDTO
 } from "../../Api/MatchController";
 import { TournamentHelper } from "./tournamentHelper";
 import { NotificationUtils } from "../../common/notification";
@@ -1085,6 +1089,7 @@ export default class TournamentDraw extends BaseComponentClass {
 
   @Watch("tournamentDraw")
   ontournamentDrawPropChange(tournamentDraw: DrawDTO): void {
+    console.log('tournamnt draw changed');
     this.draw = tournamentDraw;
   }
 
@@ -1121,11 +1126,6 @@ export default class TournamentDraw extends BaseComponentClass {
     }
   }
 
-
-  addQualifier() {
-    console.log("aqq");
-  }
-
   createDraw() {
     // correct MatchDTO[] to DrawDTO on all modified controllers
     // -------------------------------------- !!!!!! change after TESTING to minimum number of players
@@ -1136,7 +1136,7 @@ export default class TournamentDraw extends BaseComponentClass {
         requestArgs: {
           TournamentId: this.tournamentId,
           DrawSize: this.drawSize,
-          Matches: this.draw.RoundMatches.flatMap(m => m.Matches)
+          Matches: this.draw?.RoundMatches?.flatMap(m => m.Matches)
         }
       }).then((response) => {
         if (response.ok) {
@@ -1144,6 +1144,8 @@ export default class TournamentDraw extends BaseComponentClass {
 
           // hub not working in Vue component why?
           this.$eventHub.$emit('createDrawEventOnHub', response.data);
+          console.log('new draw created')
+          console.log(response.data)
           // this.$emit("createDrawEvent", response.data);
         }
       });
@@ -1198,11 +1200,19 @@ export default class TournamentDraw extends BaseComponentClass {
     console.log('delete draw called and emited');
   }
 
+  existsDraw(): boolean {
+    return this.draw && this.draw.RoundMatches.length > 0;
+  }
+
+  createOrUpdateTxtBtn(): string {
+    return this.existsDraw() ? "Update" : "Create";
+  }
+
   // poriesit ako pridam matche pre prve kolo
   // pridat btn add qualifier/ delete qualifier
   created(): void {
     this.isEdit = this.isEditablePage;
-    if (this.tournamentDraw.MatchesCount > 0) {
+    if (this.tournamentDraw.RoundMatches?.length > 0) {
       this.draw = this.tournamentDraw;
     }
 

@@ -232,5 +232,5 @@ _Pvt_Extensions
 .fake/
 
 .vs
-AtaTennisApp/appsettings.json
+AtaTennisApp/appsettings.Development.json
 AtaTennisApp/clientapp/src/Api/*Controller.*

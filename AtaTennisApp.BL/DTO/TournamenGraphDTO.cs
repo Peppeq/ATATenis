@@ -9,6 +9,6 @@ namespace AtaTennisApp.BL.DTO
     {
         public TournamentDTO Tournament { get; set; }
         public List<PlayerDrawDTO> Players { get; set; } = new List<PlayerDrawDTO>();
-        public DrawDTO Draw { get; set; }
+        public Draw Draw { get; set; }
     }
 }

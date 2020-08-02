@@ -1,8 +1,22 @@
+Nie prioritne tasky:
 otestovat bez connection co sa stane ...
 remove config from git
 poriesit 500 pri zlej coennection
 
-1. pridat btn a funkcionalitu do tournament management - 45 min
-2. tournament management - tournament, draw, player pridat na bocnu listu 
+Co dalej:
+1. tournament management - tournament, draw, player pridat na bocnu listu 
 	- tak ako teraz nechat pre mobilne zariadenia
-3. spravit responsivny draw
+2. spravit responsivny draw
+
+Priority:
+1. opravit draw aby vracel spravne a nie otocoeny pavuk - ok
+2. opravit players - zobrazovat hracov a umoznit pridanie pre turnaj - ok
+3. pridat qualificanta - opravit BE posielat match entry a odskusat BE a vratit novy match do draw na FE a updatovat draw, 
+upravit podla match entry a nie match
+4. nastavit FE btn iba pre prve kolo, odstranit qualificanta
+
+
+Problemy:
+ako urcime pre FE ktory je Qualif match, ktory je prvy round, 
+ako zobrazim spravny qualification => child match
+

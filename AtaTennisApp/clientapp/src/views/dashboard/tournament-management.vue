@@ -34,7 +34,7 @@
           <tournament-players :tournament-id="selectedTour.Id" :assigned-players="assignedPlayers" :remove-tournament-entry="removeTournamentEntry" :add-tournament-entry="addTournamentEntry"></tournament-players>
         </d-tab>
         <d-tab title="Draw">
-          <tournament-draw :tournament-id="selectedTour.Id" :tournament-draw="draw" :starting-round-prop="draw.InitialRound" :is-editable-page="true" @tournamentDrawDelete="deleteDraw" @createDrawEvent="createDrawHandlerHub" />
+          <tournament-draw :tournament-id="selectedTour.Id" :tournament-draw="draw" :is-editable-page="true" @tournamentDrawDelete="deleteDraw" @createDrawEvent="createDrawHandlerHub" @addQualificationMatch="addQualificationMatch" />
         </d-tab>
       </d-tabs>
     </d-card>
@@ -72,6 +72,9 @@ import MatchClient, {
   MatchDTO,
   MatchesArgs
 } from '@/Api/MatchController';
+import QualificationMatchClient, {
+  QualificationMatch
+} from '@/Api/QualificationMatchController';
 import { NotificationUtils } from '@/common/notification';
 
 @Component({
@@ -191,6 +194,9 @@ export default class TournamentManagement extends BaseComponentClass {
         requestArgs: { TournamentId: tournamentId }
       }).then((response) => {
         if (response.ok) {
+          console.log(response)
+          console.log('assigned players')
+          console.log(response.data.Players)
           this.assignedPlayers = response.data.Players;
           this.selectedTour = response.data.Tournament;
           this.searchedTournaments = null;
@@ -234,16 +240,45 @@ export default class TournamentManagement extends BaseComponentClass {
     });
   }
 
-  createDrawHandlerHub(roundMatches: RoundMatchDTO[]): void {
-    this.draw.RoundMatches = roundMatches;
+  addQualificationMatch(childMatchId: number) {
+    const qualificationMatchClient = new QualificationMatchClient();
+
+    var response = this.tryGetDataByArgs<MatchDTO, QualificationMatch>({
+      apiMethod: qualificationMatchClient.createQualificationMatch,
+      showError: true,
+      requestArgs: { ChildMatchId: childMatchId }
+    }).then((resp) => {
+      if (resp.ok) {
+        var roundMatch = this.draw.RoundMatches.filter(roundMatch => roundMatch.Round == resp.data.Round);
+        if (roundMatch) {
+          if (roundMatch[0].Matches && roundMatch[0].Matches.length > 0) {
+            roundMatch[0].Matches.push(resp.data)
+          } else {
+            roundMatch[0].Matches = [resp.data];
+          }
+        } else {
+          roundMatch.push({ Round: resp.data.Round, Matches: [resp.data] });
+        }
+      }
+    })
+  }
+
+  // createDrawHandlerHub(roundMatches: RoundMatchDTO[]): void {
+  //   this.draw.RoundMatches = roundMatches;
+  // }
+
+  createDrawHandlerHub(draw: DrawDTO): void {
+    this.draw = draw;
   }
 
   created() {
     this.$eventHub.$on('createDrawEventOnHub', this.createDrawHandlerHub);
+    this.$eventHub.$on('addQualificationMatch', this.addQualificationMatch);
   }
 
   beforeDestroy() {
     this.$eventHub.$off('createDrawEventOnHub');
+    this.$eventHub.$off('addQualificationMatch');
   }
 }
 </script>
