@@ -1,9 +1,9 @@
 <template>
   <div class="matchups">
-    <div v-for="(match, matchIndex) in matchupMatchesProp" :key="match.mIndex" class="matchup">
-      <div class="participants">
+    <div v-for="(match, index) in matchupMatchesProp.matches" :key="index" class="matchup">
+      <div :style="{visibility: match.Id ? 'visible' : 'hidden'}" class="participants">
         <div v-for="(matchEntry, entryIndex) in match.MatchEntries" :key="matchEntry.Id" :class="getClassByWinner(entryIndex)">
-          <tournament-draw-match-entry :tournamentMatchEntry="matchEntry" :tournamentMatchIndex="matchIndex"></tournament-draw-match-entry>
+          <tournament-draw-match-entry :tournamentMatchEntry="matchEntry" :isFirstRound="isFirstRound"></tournament-draw-match-entry>
         </div>
       </div>
     </div>
@@ -15,7 +15,11 @@ import { BaseComponentClass } from '../../../common/BaseComponentClass'
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { MatchDTO } from '@/Api/MatchController';
 import TournamentDrawMatchEntry from "./tournament-draw-match-entry.vue";
-import { DrawDTO, TournamentRound } from '../../../Api/TournamentController';
+import {
+  TournamentRound,
+  MatchEntryDTO
+} from '../../../Api/TournamentController';
+import { QualificationOrder } from '../TournamentDraw.vue';
 
 interface Matchup {
   index: number,
@@ -31,6 +35,7 @@ interface Matchup {
 })
 export default class TournamentDrawMatchup extends BaseComponentClass {
   @Prop() readonly matchupMatchesProp: MatchDTO[];
+  @Prop() readonly isFirstRound: boolean;
 
   getClassByWinner(index: number): string {
     if (index == 1) {

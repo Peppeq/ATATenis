@@ -22,14 +22,14 @@ namespace AtaTennisApp.Controllers
 
         public class QualificationMatch
         {
-            public int ChildMatchId { get; set; }
+            public int EntryId { get; set; }
         }
 
 
         [HttpPost("CreateQualificationMatch")]
         public async Task<ActionResult<MatchDTO>> CreateQualificationMatch([FromBody]QualificationMatch args)
         {
-            var draw = await MatchService.CreateQualificationMatch(args.ChildMatchId);
+            var draw = await MatchService.CreateQualificationMatch(args.EntryId);
             
             return draw;
         }

@@ -58,8 +58,8 @@ import TournamentClient, {
   SearchedTournamentDTO,
   TournamentGraphDTO,
   TournamentPlayersArgs,
-  DrawDTO,
-  RoundMatchDTO
+  RoundMatchDTO,
+  Draw
 } from "@/Api/TournamentController";
 import TournamentEntryClient, {
   PlayerDrawDTO,
@@ -93,7 +93,7 @@ export default class TournamentManagement extends BaseComponentClass {
   tournament: TournamentDTO = null;
   selectedTournament: TournamentDTO = null;
   assignedPlayers: PlayerDrawDTO[] = [];
-  draw: DrawDTO = null;
+  draw: Draw = null;
   startingRound: number;
   test:string = "abc";
   onChangeTest(val: InputEvent) {
@@ -194,9 +194,6 @@ export default class TournamentManagement extends BaseComponentClass {
         requestArgs: { TournamentId: tournamentId }
       }).then((response) => {
         if (response.ok) {
-          console.log(response)
-          console.log('assigned players')
-          console.log(response.data.Players)
           this.assignedPlayers = response.data.Players;
           this.selectedTour = response.data.Tournament;
           this.searchedTournaments = null;
@@ -240,25 +237,59 @@ export default class TournamentManagement extends BaseComponentClass {
     });
   }
 
-  addQualificationMatch(childMatchId: number) {
+  addQualificationMatch(entryId: number) {
     const qualificationMatchClient = new QualificationMatchClient();
 
     var response = this.tryGetDataByArgs<MatchDTO, QualificationMatch>({
       apiMethod: qualificationMatchClient.createQualificationMatch,
       showError: true,
-      requestArgs: { ChildMatchId: childMatchId }
+      requestArgs: { EntryId: entryId }
     }).then((resp) => {
       if (resp.ok) {
         var roundMatch = this.draw.RoundMatches.filter(roundMatch => roundMatch.Round == resp.data.Round);
+        var roundMatchesIndex = this.draw.RoundMatches.findIndex(roundMatch => roundMatch.Round == resp.data.Round);
+        let newRoundMatch: RoundMatchDTO = null;
+
         if (roundMatch) {
+          console.log('roundMatch')
+          console.log(roundMatch)
           if (roundMatch[0].Matches && roundMatch[0].Matches.length > 0) {
-            roundMatch[0].Matches.push(resp.data)
+            roundMatch[0].Matches.push(resp.data);
+            newRoundMatch = roundMatch[0];
           } else {
             roundMatch[0].Matches = [resp.data];
+            newRoundMatch = roundMatch[0];
           }
         } else {
           roundMatch.push({ Round: resp.data.Round, Matches: [resp.data] });
+          newRoundMatch = { Round: resp.data.Round, Matches: [resp.data] };
         }
+        console.log('reactivity test')
+        let rounds = this.draw.RoundMatches.map(m => m);
+        let testDraw: Draw = new Draw();
+
+        testDraw = { ...this.draw }
+        rounds.push(newRoundMatch);
+        testDraw.RoundMatches = rounds;
+        this.draw = testDraw;
+
+        console.log('nefunguje reactivita na objekte')
+        // toto funguje
+        // let draww = new Draw();
+        // draww.InitialRound = 5;
+        // draww.MatchesCount = 22;
+        // draww.RoundMatches = [];
+        // this.draw = draww;
+
+        // let draww = this.draw;
+        // draww.InitialRound = 5;
+        // draww.MatchesCount = 22;
+        // draww.RoundMatches = [];
+        // this.draw = draww;
+
+        // this.$set(this.draw, "MatchesCount", 100);
+        // Vue.set(this.draw, "MatchesCount", 100)
+        // this.$set(this.draw, "RoundMatches", rounds);
       }
     })
   }
@@ -267,7 +298,7 @@ export default class TournamentManagement extends BaseComponentClass {
   //   this.draw.RoundMatches = roundMatches;
   // }
 
-  createDrawHandlerHub(draw: DrawDTO): void {
+  createDrawHandlerHub(draw: Draw): void {
     this.draw = draw;
   }
 

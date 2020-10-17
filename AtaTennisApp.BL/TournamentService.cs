@@ -151,7 +151,7 @@ namespace AtaTennisApp.BL
                 tournamentGraph.Draw.MatchesCount = tournament.Matches.Count;
                 var matchesDto = Mapper.Map<List<Match>, List<MatchDTO>>(tournament.Matches.ToList());
                 var groupMatchesDTO = matchesDto.GroupBy(m => m.Round).Select(g => new RoundMatchDTO { Round = (int)g.Key, Matches = g.ToList() });
-                tournamentGraph.Draw.RoundMatches = groupMatchesDTO.ToList();
+                tournamentGraph.Draw.RoundMatches = groupMatchesDTO.OrderBy(gm => gm.Round).ToList();
             }
 
             if (tournament.TournamentEntries != null && tournament.TournamentEntries.Count > 0)

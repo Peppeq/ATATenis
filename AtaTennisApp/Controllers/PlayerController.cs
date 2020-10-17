@@ -17,7 +17,7 @@ namespace AtaTennisApp.Controllers
     public class PlayerController : ApiControllerBase
     {
         private AtaTennisContext _dbContext;
-
+         
         public PlayerService PlayerService{ get; set; }
         public PlayerController(AtaTennisContext dbContext)
         {
@@ -70,4 +70,4 @@ namespace AtaTennisApp.Controllers
             return players;
         }
     }
-}
+} 

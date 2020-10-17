@@ -16,7 +16,24 @@ upravit podla match entry a nie match
 4. nastavit FE btn iba pre prve kolo, odstranit qualificanta
 
 
+Preco qualification:
+aby som zbytocne neukladal zapasy, kde nie su ziadny hraci
+
 Problemy:
 ako urcime pre FE ktory je Qualif match, ktory je prvy round, 
-ako zobrazim spravny qualification => child match
+podla poctu zapasov pre jednotlive kolo (round) a podla toho ci ma prve kolo viac zapasov ako druhe kolo
 
+ako zobrazim spravny qualification => child match teda poradie, umiestnenie v pavuku pre prve qualification kolo
+Zacnem prvym kolom a pre vsetky zapasy prveho kola pozeram ci entry ma parenta,
+ak ano, podla indexu spocitam ktory je to zapas v pavuku vynasobim dvomi lebo kazdy match ma 2 entry 
+a pripocitam 1 alebo 2 podla toho ktore entry ma parenta
+
+posunut prop   
+@Prop() readonly getQualificationMatchOrder: (match: MatchDTO) => QualificationOrder;
+
+
+Moznosti qualification:
+1. vytvorit zapasy pre cely round
+2. vytvorit konkretne zapasy a namapovat na qualificationRound - ok
+
+poriesit reaktivitu tournamentDraw objectu ked pridam qualification match teda zmenim ROundMatches property

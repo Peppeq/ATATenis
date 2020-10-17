@@ -129,14 +129,14 @@ namespace AtaTennisApp.BL
             return drawDto;
         }
 
-        public async Task<MatchDTO> CreateQualificationMatch(int childMatchId)
+        public async Task<MatchDTO> CreateQualificationMatch(int entryId)
         {
             var match = new Match();
 
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 // TODO treba testnut
-                var childMatchEntry = await _dbContext.MatchEntries.Where(m => m.Id == childMatchId).Include(m => m.Match).FirstOrDefaultAsync();
+                var childMatchEntry = await _dbContext.MatchEntries.Where(m => m.Id == entryId).Include(m => m.Match).FirstOrDefaultAsync();
 
                 if (childMatchEntry.Match == null)
                 {
@@ -152,13 +152,15 @@ namespace AtaTennisApp.BL
                 match.Round = round;
                 match.TournamentId = childMatchEntry.Match.TournamentId;
                 
-                var entityEntry = _dbContext.Matches.Add(match);
+                _dbContext.Matches.Add(match);
+                await _dbContext.SaveChangesAsync();
+
                 var matchEntries = new List<MatchEntry>() {
-                    new MatchEntry { MatchId = entityEntry.Entity.Id},
-                    new MatchEntry { MatchId = entityEntry.Entity.Id}
+                    new MatchEntry { MatchId = match.Id},
+                    new MatchEntry { MatchId = match.Id}
                 };
 
-                childMatchEntry.ParentMatchId = entityEntry.Entity.Id;
+                childMatchEntry.ParentMatchId = match.Id;
 
                 _dbContext.MatchEntries.AddRange(matchEntries);
                 transaction.Commit();

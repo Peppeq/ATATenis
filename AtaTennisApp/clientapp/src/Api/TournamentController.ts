@@ -38,7 +38,7 @@ export class TournamentPlayersArgs {
 export class TournamentGraphDTO {
     Tournament: TournamentDTO = null;
     Players: PlayerDrawDTO[] = null;
-    Draw: DrawDTO = null;
+    Draw: Draw = null;
 }
 export class PlayerDrawDTO {
     TournamentEntryId: number = null;
@@ -46,7 +46,7 @@ export class PlayerDrawDTO {
     Name: string = null;
     Surname: string = null;
 }
-export class DrawDTO {
+export class Draw {
     InitialRound: TournamentRound = null;
     MatchesCount: number = null;
     RoundMatches: RoundMatchDTO[] = null;

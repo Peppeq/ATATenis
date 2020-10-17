@@ -14,7 +14,7 @@ namespace AtaTennisApp.Controllers
     [Route("api/[controller]")]
     public class MatchController : ApiControllerBase
     {
-        public MatchService MatchService { get; set; }
+        public MatchService MatchService { get; set; } 
         public MatchController(AtaTennisContext dbContext)
         {
             MatchService = new MatchService(dbContext);
@@ -39,7 +39,7 @@ namespace AtaTennisApp.Controllers
             return matches;
         }
 
-        [HttpPost("CreateOrUpdateMatches")]
+        [HttpPost("CreateOrUpdateMatches")] 
         public async Task<ActionResult<DrawDTO>> CreateOrUpdateMatches([FromBody]CreateOrUpdateMatchesArgs args)
         {
             var draw = await MatchService.CreateOrUpdateMatchesForTournament(args.DrawSize, args.TournamentId, args.Matches);

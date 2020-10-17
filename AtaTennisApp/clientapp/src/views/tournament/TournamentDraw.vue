@@ -1017,7 +1017,7 @@
       </div>
     </div>
     <div v-if="isEdit">
-      <div class="select-draw-size">
+      <div v-if="!existsDraw()" class="select-draw-size">
         <label for="drawSize">{{ "Draw Size" }}</label>
         <d-form-select id="drawSize" v-model="drawSize" :options="tournamentHelper.GetTournamentDrawSizes()" :value="drawSize" />
       </div>
@@ -1032,8 +1032,9 @@
         </section>
       </div> -->
       <div >
-        <div v-if="draw" class="bracket">
-          <tournament-draw-round v-for="(matchRound) in draw.RoundMatches" :key="matchRound.Round" :roundMatchProp="matchRound"></tournament-draw-round>
+        <div v-if="existsDraw()" class="bracket">
+          <!-- <tournament-draw-round v-if="isQualification(null)" :roundMatchProp="getQualificationRound()"></tournament-draw-round> -->
+          <tournament-draw-round v-for="(round) in rounds" :key="round.Round" :roundMatchProp="round"></tournament-draw-round>
         </div>
         // vymazat webkit ... pokrracovat v css code
         <d-btn @click="createDraw">{{ createOrUpdateTxtBtn()  }}</d-btn>
@@ -1057,12 +1058,24 @@ import MatchClient, {
   MatchesArgs,
   DrawSize,
   CreateOrUpdateMatchesArgs,
-  DrawDTO
+  DrawDTO,
+  RoundMatchDTO
 } from "../../Api/MatchController";
 import { TournamentHelper } from "./tournamentHelper";
 import { NotificationUtils } from "../../common/notification";
 import TournamentDrawRound from "./tournament-draw/tournament-draw-round.vue";
+import { MatchEntryDTO } from '../../Api/TournamentController';
 
+export interface QualificationOrder{
+  order: number,
+  entry: number
+}
+
+export interface Round {
+  isQualification: boolean,
+  isFirstRound: boolean,
+  roundMatch: RoundMatchDTO
+}
 
 @Component({
   components: {
@@ -1080,17 +1093,19 @@ export default class TournamentDraw extends BaseComponentClass {
   tournamentHelper = TournamentHelper;
   matchClient: MatchClient = new MatchClient();
   draw: DrawDTO = null;
+  rounds: Round[] = [];
   // startingRound: number;
 
   isEdit = false;
   playerCount = 0;
   drawSize: DrawSize = DrawSize.draw32;
-  isQualification = false;
+  // isQualification = false;
 
   @Watch("tournamentDraw")
   ontournamentDrawPropChange(tournamentDraw: DrawDTO): void {
-    console.log('tournamnt draw changed');
     this.draw = tournamentDraw;
+    console.log('calling draw change')
+    this.roundsInit(this.draw);
   }
 
   assignedPlayers: PlayerDrawDTO[] = [
@@ -1144,8 +1159,6 @@ export default class TournamentDraw extends BaseComponentClass {
 
           // hub not working in Vue component why?
           this.$eventHub.$emit('createDrawEventOnHub', response.data);
-          console.log('new draw created')
-          console.log(response.data)
           // this.$emit("createDrawEvent", response.data);
         }
       });
@@ -1153,24 +1166,6 @@ export default class TournamentDraw extends BaseComponentClass {
       NotificationUtils.ShowErrorMessage("There is not enough accepted players to create draw.");
     }
   }
-
-  // deleteDraw(): void {
-  //   console.log("draw deleted");
-  //   // spravit nejaku normalnu api methodu na delete try delete abo neco s akceptovanim id
-  //   this.tryGetDataByArgs<void, MatchesArgs>({
-  //     apiMethod: this.matchClient.deletetournamentDrawGraph,
-  //     showError: true,
-  //     requestArgs: { TournamentId: this.tournamentId }
-  //   }).then((resp) => {
-  //     if (resp.ok) {
-  //       NotificationUtils.ShowSuccess({
-  //         message: "Tournament draw deleted",
-  //         title: "Tournament Draw Delete"
-  //       });
-  //       this.matches = null;
-  //     }
-  //   });
-  // }
 
   getClassByRound(round: TournamentRound): string {
     let roundClass = "";
@@ -1180,15 +1175,12 @@ export default class TournamentDraw extends BaseComponentClass {
         break;
       case TournamentRound.round4:
         roundClass = "round quarterfinals"
-        console.log(round)
         break;
       case TournamentRound.round5:
         roundClass = "round semifinals"
-        console.log(roundClass)
         break;
       case TournamentRound.round6:
         roundClass = "round finals"
-        console.log(roundClass)
         break;
     }
     return roundClass;
@@ -1197,15 +1189,121 @@ export default class TournamentDraw extends BaseComponentClass {
   // implementuj cez event bus
   deleteDraw(): void {
     this.$emit('tournamentDrawDelete', this.tournamentId);
-    console.log('delete draw called and emited');
   }
 
   existsDraw(): boolean {
-    return this.draw && this.draw.RoundMatches.length > 0;
+    return this.draw?.RoundMatches?.length > 1;
   }
 
   createOrUpdateTxtBtn(): string {
     return this.existsDraw() ? "Update" : "Create";
+  }
+
+  isQualification() {
+    if (this.existsDraw) {
+      if (this.draw.RoundMatches[0].Matches.length < this.draw.RoundMatches[1].Matches.length * 2) {
+        // if(this.draw.RoundMatches[0].Round == roundMatch.Round){
+        return true;
+        // }
+      }
+    }
+    return false;
+  }
+
+  // namiesto toho aby som posielal jak chuj vsetko cez metody,
+  // sprav taky objekt ktory bude mat inicializovany cely round s datami ktore potrebujes napr. isQualification, isFirstRound, matches (t.j. aj inicializovane qualificationMatches)
+  // kedze matches budu mapovane a budu referencovat draw Round matches kludne mozes poslat svoj objekt s referenciami na draw object, vo vues sa ti to automaticky zmeni
+  isFirstRound(roundMatch: RoundMatchDTO): boolean {
+    if (this.isQualification()) {
+      return this.draw.RoundMatches[1].Round == roundMatch.Round;
+    } else {
+      return this.draw.RoundMatches[0].Round == roundMatch.Round;
+    }
+  }
+
+  isQualificationRound(roundMatch: RoundMatchDTO) {
+    if (this.existsDraw) {
+      if (this.draw.RoundMatches[0].Matches.length < this.draw.RoundMatches[1].Matches.length * 2) {
+        return this.draw.RoundMatches[0].Round == roundMatch.Round;
+      }
+      // else {
+      //   return this.draw.RoundMatches[0].Round == roundMatch.Round;
+      // }
+    }
+    return false;
+  }
+
+  getQualificationRound() {
+    let roundMatch = new RoundMatchDTO();
+    roundMatch.Round = this.draw.RoundMatches[0].Round;
+    roundMatch.Matches = [];
+    let qualificationRoundMatches = this.draw.RoundMatches[0].Matches.map(m => ({
+      order: this.getQualificationMatchOrderCount(m),
+      match: m
+    }));
+    const matchesCount = this.draw.RoundMatches[1].Matches.length * 2;
+    for (let index = 0; index < matchesCount; index++) {
+      if (qualificationRoundMatches.some(qm => qm.order == index)) {
+        roundMatch.Matches.push(qualificationRoundMatches.filter(qm => qm.order == index)[0].match);
+        continue;
+      }
+      let matchDto = new MatchDTO();
+      matchDto.MatchEntries = [new MatchEntryDTO(), new MatchEntryDTO()];
+      roundMatch.Matches.push(matchDto);
+    }
+    return roundMatch;
+  }
+
+  getQualificationMatchOrderCount(qualificationMatch: MatchDTO): number {
+    let qualificationMatchOrder = 0;
+    let entryOrder = 0;
+    if (this.existsDraw) {
+      // const firstRoundMatches = this.draw.RoundMatches[1].Matches.sort((mA, mB) => {
+      //   if (mA.Id < mB.Id) return -1; else return 1;
+      // })
+      const matchOrder = this.draw.RoundMatches[1].Matches.findIndex((m) => {
+      // const matchOrder = firstRoundMatches.findIndex((m) => {
+        if (m.MatchEntries[0].ParentMatchId == qualificationMatch.Id) {
+          return true;
+        } else if (m.MatchEntries && m.MatchEntries.length > 1 && m.MatchEntries[1].ParentMatchId == qualificationMatch.Id) {
+          entryOrder = 1;
+          return true;
+        } else false;
+      });
+      console.log(matchOrder);
+      qualificationMatchOrder = matchOrder * 2 + entryOrder;
+      console.log(qualificationMatchOrder)
+    }
+
+    return qualificationMatchOrder;
+    // return { order: qualificationMatchOrder, entry: entryOrder};
+  }
+
+  roundsInit(draw: DrawDTO) {
+    // let rounds: Round[] = [];
+
+    if (this.draw?.RoundMatches?.length > 0) {
+      this.draw.RoundMatches.forEach((roundMatch) => {
+        let round: Round = {
+          isQualification: false,
+          isFirstRound: false,
+          roundMatch: null
+        };
+
+        round.isQualification = this.isQualificationRound(roundMatch);
+        round.isFirstRound = this.isFirstRound(roundMatch);
+
+        if (round.isQualification) {
+          round.roundMatch = this.getQualificationRound();
+        } else {
+          round.roundMatch = roundMatch;
+        }
+
+        this.rounds.push(round)
+      });
+    }
+
+    // this.rounds = rounds;
   }
 
   // poriesit ako pridam matche pre prve kolo
@@ -1214,27 +1312,12 @@ export default class TournamentDraw extends BaseComponentClass {
     this.isEdit = this.isEditablePage;
     if (this.tournamentDraw.RoundMatches?.length > 0) {
       this.draw = this.tournamentDraw;
+      this.roundsInit(this.draw);
     }
 
     if (this.acceptedPlayersProp != null) {
       this.playerCount = this.acceptedPlayersProp.length;
       this.acceptedPlayers = this.acceptedPlayersProp;
-    }
-
-    if (this.playerCount > DrawSize.draw32) {
-      const qualificationCount = this.playerCount - DrawSize.draw32;
-      if (qualificationCount > DrawSize.draw32 / 2) this.drawSize = DrawSize.draw64;
-      else {
-        this.drawSize = DrawSize.draw32;
-        this.isQualification = true;
-      }
-    } else if (this.playerCount > DrawSize.draw16) {
-      const qualificationCount = this.playerCount - DrawSize.draw16;
-      if (qualificationCount > DrawSize.draw16 / 2) this.drawSize = DrawSize.draw32;
-      else {
-        this.drawSize = DrawSize.draw16;
-        this.isQualification = true;
-      }
     }
   }
 }

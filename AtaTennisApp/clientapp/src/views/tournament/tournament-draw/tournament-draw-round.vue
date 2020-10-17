@@ -1,16 +1,8 @@
 <template>
-  <section :class="getClassByRound(roundMatchProp.Round)">
-    <div v-for="(matchup) in matchups" :key="matchup.mIndex" class="winners">
-      <tournament-draw-matchup :matchupMatchesProp="matchup.matches"></tournament-draw-matchup>
-      <!-- <div class="matchups">
-        <div v-for="(match) in matchup.matches" :key="match.mIndex" class="matchup">
-          <div class="participants">
-            <div v-for="(matchEntry, entryIndex) in match.MatchEntries" :key="matchEntry.Id" :class="getClassByWinner(entryIndex)">
-              <tournament-draw-match :tournamentMatch="match" :tournamentMatchIndex="matchIndex"></tournament-draw-match>
-            </div>
-          </div>
-        </div>
-      </div> -->
+  <section :class="getClassByRound(roundMatchProp.roundMatch.Round)">
+    <!-- <div v-for="(matchup) in matchups" :key="matchup.mIndex" class="winners"> -->
+    <div v-for="(matchup, index) in matchups" :key="index" class="winners">
+      <tournament-draw-matchup :matchupMatchesProp="matchup" :isFirstRound="isFirstRound"></tournament-draw-matchup>
       <div class="connector">
         <div class="merger"></div>
         <div class="line"></div>
@@ -21,15 +13,15 @@
 
 <script lang="ts">
 import { BaseComponentClass } from '../../../common/BaseComponentClass'
-import { Component, Prop } from 'vue-property-decorator';
-import { MatchDTO } from '@/Api/MatchController';
+import { Component, Prop, Watch } from 'vue-property-decorator';
+import { MatchDTO, DrawDTO } from '@/Api/MatchController';
 import TournamentDrawMatchEntry from "./tournament-draw-match-entry.vue";
 import TournamentDrawMatchup from "./tournament-draw-matchup.vue";
 import {
-  DrawDTO,
   TournamentRound,
   RoundMatchDTO
 } from '../../../Api/TournamentController';
+import { QualificationOrder, Round } from '../TournamentDraw.vue';
 
 interface Matchup {
   mIndex: number,
@@ -42,9 +34,18 @@ interface Matchup {
   }
 })
 export default class TournamentDrawRound extends BaseComponentClass {
-  @Prop() readonly roundMatchProp: RoundMatchDTO;
-  draw: DrawDTO = null;
+  @Prop() readonly roundMatchProp: Round;
+  // @Prop() readonly getQualificationMatchOrderProp: (match: MatchDTO) => QualificationOrder;
+  // @Prop() readonly isQualificationRound: (roundMatch: RoundMatchDTO) => boolean;
+  // @Prop() readonly getQualificationRound: () => RoundMatchDTO;
+
+  @Watch("roundMatchProp")
+  onRoundMatchPropChange(round: Round) {
+    this.initMatchupsFromMatches(round.roundMatch.Matches);
+  }
+
   matchups: Matchup[] = [];
+  isFirstRound = false;
 
   getClassByWinner(index: number): string {
     if (index == 1) {
@@ -75,27 +76,28 @@ export default class TournamentDrawRound extends BaseComponentClass {
         break;
       case TournamentRound.round4:
         roundClass = "round quarterfinals"
-        console.log(round)
         break;
       case TournamentRound.round5:
         roundClass = "round semifinals"
-        console.log(roundClass)
         break;
       case TournamentRound.round6:
         roundClass = "round finals"
-        console.log(roundClass)
         break;
     }
     return roundClass;
   }
 
-  // created() {
-  //   this.draw = this.drawProp;
-  // }
-
   created() {
-    if (this.roundMatchProp && this.roundMatchProp.Matches && this.roundMatchProp.Matches.length > 0) {
-      this.initMatchupsFromMatches(this.roundMatchProp.Matches)
+    if (this.roundMatchProp?.roundMatch?.Matches?.length > 0) {
+      let matches = this.roundMatchProp.roundMatch.Matches;
+      // if (this.isQualificationRound && this.isQualificationRound(this.roundMatchProp)) {
+      //   matches = this.getQualificationRound().Matches;
+      // } else {
+      //   matches = this.roundMatchProp.Matches;
+      // }
+
+      this.initMatchupsFromMatches(matches)
+      this.isFirstRound = this.roundMatchProp.isFirstRound;
       console.log(this.matchups);
     }
   }

@@ -1,15 +1,9 @@
 <template>
   <d-input-group>
-    <!-- <div v-if="match.Round == startingRoundProp">
-        <div v-for="entry in match.MatchEntries" :key="entry.Id">
-          {{entry.Id}}
-
-        </div>
-      </div> -->
-    <d-input-group-addon prepend>
+    <d-input-group-addon v-if="canAddQualifier()" prepend>
       <d-btn outline theme="success" @click="addQualifier">Qualifier</d-btn>
     </d-input-group-addon>
-    <input type="text" :value="match.PlayerId" aria-label="Text input with checkbox" class="form-control" />
+    <input type="text" :value="matchEntry.PlayerId" aria-label="Text input with checkbox" class="form-control" />
     <d-input-group-text slot="append">
       <input type="checkbox" aria-label="Checkbox for following text input" />
     </d-input-group-text>
@@ -25,9 +19,8 @@ import { MatchEntryDTO } from '../../../Api/TournamentController';
 @Component
 export default class TournamentDrawMatchEntry extends BaseComponentClass {
   @Prop() readonly tournamentMatchEntry: MatchEntryDTO;
-  // @Prop() readonly tournamentMatchIndex: number;
+  @Prop() readonly isFirstRound: boolean;
   matchEntry: MatchEntryDTO = null;
-  // isEven: boolean = false;
 
   checkIfEven(index: number): boolean {
     return index % 2 > 0 ? true : false;
@@ -37,10 +30,13 @@ export default class TournamentDrawMatchEntry extends BaseComponentClass {
     this.$eventHub.$emit('addQualificationMatch', this.matchEntry.Id);
   }
 
+  canAddQualifier(): boolean {
+    return this.isFirstRound && this.matchEntry.ParentMatchId == null;
+  }
+
   created() {
     if (this.tournamentMatchEntry != null) {
       this.matchEntry = this.tournamentMatchEntry;
-      // this.isEven = this.checkIfEven(this.tournamentMatchIndex);
     }
   }
 }
