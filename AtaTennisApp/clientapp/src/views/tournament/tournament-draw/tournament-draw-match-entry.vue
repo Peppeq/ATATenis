@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { BaseComponentClass } from '../../../common/BaseComponentClass'
-import { Component, Prop } from 'vue-property-decorator'
+import { Component, Prop, Watch } from 'vue-property-decorator'
 import { MatchDTO } from '@/Api/MatchController';
 import { MatchEntryDTO } from '../../../Api/TournamentController';
 
@@ -21,6 +21,11 @@ export default class TournamentDrawMatchEntry extends BaseComponentClass {
   @Prop() readonly tournamentMatchEntry: MatchEntryDTO;
   @Prop() readonly isFirstRound: boolean;
   matchEntry: MatchEntryDTO = null;
+
+  @Watch("tournamentMatchEntry")
+  onTournamentMatchEntryChange(matchEntry: MatchEntryDTO) {
+    this.matchEntry = matchEntry;
+  }
 
   checkIfEven(index: number): boolean {
     return index % 2 > 0 ? true : false;

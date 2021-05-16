@@ -56,6 +56,7 @@ export default class TournamentDrawRound extends BaseComponentClass {
   }
 
   initMatchupsFromMatches(matches: MatchDTO[]) {
+    this.matchups = [];
     matches.forEach((value, index) => {
       if ((index + 1) % 2 == 1) {
         let matchupIndex = +(index / 2).toFixed(0);
@@ -71,6 +72,9 @@ export default class TournamentDrawRound extends BaseComponentClass {
   getClassByRound(round: TournamentRound): string {
     let roundClass = "";
     switch (round) {
+      case TournamentRound.round2:
+        roundClass = "round quarterfinals" // temporarily add new clases
+        break;
       case TournamentRound.round3:
         roundClass = "round quarterfinals" // temporarily add new clases
         break;

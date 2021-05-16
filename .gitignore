@@ -234,3 +234,4 @@ _Pvt_Extensions
 .vs
 AtaTennisApp/appsettings.Development.json
 AtaTennisApp/clientapp/src/Api/*Controller.*
+AtaTennisApp/connections.txt

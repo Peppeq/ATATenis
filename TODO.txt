@@ -11,8 +11,8 @@ Co dalej:
 Priority:
 1. opravit draw aby vracel spravne a nie otocoeny pavuk - ok
 2. opravit players - zobrazovat hracov a umoznit pridanie pre turnaj - ok
-3. pridat qualificanta - opravit BE posielat match entry a odskusat BE a vratit novy match do draw na FE a updatovat draw, 
-upravit podla match entry a nie match
+3. pridat qualificanta - opravit BE posielat match entry a odskusat BE a vratit novy match do draw na FE 
+a updatovat draw, upravit podla match entry a nie match
 4. nastavit FE btn iba pre prve kolo, odstranit qualificanta
 
 

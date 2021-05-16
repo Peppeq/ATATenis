@@ -138,7 +138,7 @@ namespace AtaTennisApp.BL
                 // TODO treba testnut
                 var childMatchEntry = await _dbContext.MatchEntries.Where(m => m.Id == entryId).Include(m => m.Match).FirstOrDefaultAsync();
 
-                if (childMatchEntry.Match == null)
+                if (childMatchEntry == null || childMatchEntry.Match == null)
                 {
                     throw new Exception("Cannot create qualification match for child match with id childMatchId.");
                 }

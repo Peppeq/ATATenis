@@ -73,10 +73,14 @@ export class AjaxProvider {
         async (e): Promise<TResult> => {
           console.log("catch in AjaxProvider error: " + e);
           console.log(e);
+          console.log(e instanceof Error);
+          console.log(typeof e);
+
           let error: ErrorResponse = null;
           if (e instanceof Error) {
             error = {
-              Message: e.message,
+              // Message: e.message,
+              Message: "Sory chyba na servri",
               StatusCode: "500",
               StatusDescription: e.name
             };
@@ -84,6 +88,7 @@ export class AjaxProvider {
             error = await e.json();
           }
           console.log("AJAX catch block: " + error);
+          console.log(error);
           throw error;
         }
       );

@@ -14,7 +14,8 @@ namespace ConsoleTests
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var connection = "Server=PCPQ\\SQLEXPRESS;Database=ATATENNIS;Trusted_Connection=True;";
+            //var connection = "Server=PCPQ\\SQLEXPRESS;Database=ATATENNIS;Trusted_Connection=True;";
+            
             var optionsBuilder = new DbContextOptionsBuilder<AtaTennisContext>();
             optionsBuilder.UseSqlServer(connection);
 

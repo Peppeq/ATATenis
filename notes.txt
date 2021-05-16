@@ -15,3 +15,12 @@ Model first to DB
 Package manager console (PowerShell) =>
 Add-Migration <migration name>
 Update-Database
+
+Generating new SQL script
+Script-Migration -v (verbose)
+s
+Script-Migration -from 20191119170002_InitialMigration -to 20210117202309_migration1
+
+securing application 
+only if authenticated you can have administration rigths CORS
+when not - just read data 

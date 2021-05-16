@@ -1108,6 +1108,9 @@ export default class TournamentDraw extends BaseComponentClass {
     this.roundsInit(this.draw);
   }
 
+  @Watch("rounds")
+  onRoundsChange(rounds: Round[]) {}
+
   assignedPlayers: PlayerDrawDTO[] = [
     { TournamentEntryId: 1, PlayerId: 1, Name: "A", Surname: "A" },
     { TournamentEntryId: 2, PlayerId: 2, Name: "b", Surname: "b" },
@@ -1241,6 +1244,7 @@ export default class TournamentDraw extends BaseComponentClass {
       order: this.getQualificationMatchOrderCount(m),
       match: m
     }));
+    console.log(qualificationRoundMatches);
     const matchesCount = this.draw.RoundMatches[1].Matches.length * 2;
     for (let index = 0; index < matchesCount; index++) {
       if (qualificationRoundMatches.some(qm => qm.order == index)) {
@@ -1261,8 +1265,13 @@ export default class TournamentDraw extends BaseComponentClass {
       // const firstRoundMatches = this.draw.RoundMatches[1].Matches.sort((mA, mB) => {
       //   if (mA.Id < mB.Id) return -1; else return 1;
       // })
+      // toto cele treba opravit vobec tu nedava spravny matchOrder
       const matchOrder = this.draw.RoundMatches[1].Matches.findIndex((m) => {
       // const matchOrder = firstRoundMatches.findIndex((m) => {
+        console.log('qualification match')
+        console.log(qualificationMatch)
+        console.log('round match in first round')
+        console.log(m)
         if (m.MatchEntries[0].ParentMatchId == qualificationMatch.Id) {
           return true;
         } else if (m.MatchEntries && m.MatchEntries.length > 1 && m.MatchEntries[1].ParentMatchId == qualificationMatch.Id) {
@@ -1270,8 +1279,10 @@ export default class TournamentDraw extends BaseComponentClass {
           return true;
         } else false;
       });
+      console.log('matchOrder');
       console.log(matchOrder);
       qualificationMatchOrder = matchOrder * 2 + entryOrder;
+      console.log('qualificationMatchOrder')
       console.log(qualificationMatchOrder)
     }
 
@@ -1280,7 +1291,7 @@ export default class TournamentDraw extends BaseComponentClass {
   }
 
   roundsInit(draw: DrawDTO) {
-    // let rounds: Round[] = [];
+    var rounds: Round[] = [];
 
     if (this.draw?.RoundMatches?.length > 0) {
       this.draw.RoundMatches.forEach((roundMatch) => {
@@ -1299,11 +1310,13 @@ export default class TournamentDraw extends BaseComponentClass {
           round.roundMatch = roundMatch;
         }
 
-        this.rounds.push(round)
+        rounds.push(round)
+        console.log('round push')
+        console.log(round)
       });
-    }
 
-    // this.rounds = rounds;
+      this.rounds = rounds;
+    }
   }
 
   // poriesit ako pridam matche pre prve kolo
@@ -1311,6 +1324,10 @@ export default class TournamentDraw extends BaseComponentClass {
   created(): void {
     this.isEdit = this.isEditablePage;
     if (this.tournamentDraw.RoundMatches?.length > 0) {
+      console.log('previous draw')
+      console.log(this.draw)
+      console.log('updated draw')
+      console.log(this.tournamentDraw)
       this.draw = this.tournamentDraw;
       this.roundsInit(this.draw);
     }

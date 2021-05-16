@@ -18,12 +18,12 @@
         <input v-model="searchName" class="navbar-search form-control" type="text" @keyup="searchTournamentByName" />
         <input lass="navbar-search form-control" type="text" :value="test" v-on:change="onChangeTest"/>
       </d-input-group>
-      <d-list-group v-if="searchedTournaments != null">
+      <d-list-group v-if="searchedTournaments != null && searchedTournaments.length > 0">
         <div v-for="searchedTournament in searchedTournaments" :key="searchedTournament.TournamentId" class="list-group-item fake-link" @click="editTournament(searchedTournament.TournamentId)">
           {{ searchedTournament.Name + " " + searchedTournament.StartTime }}
         </div>
       </d-list-group>
-      <d-list-group v-else-if="searchedTournaments != null && searchedTournaments.length > 0">No tournaments founded</d-list-group>
+      <d-list-group v-else-if="searchedTournaments == null || searchedTournaments.length == 0">No tournaments founded</d-list-group>
     </d-row>
     <d-card v-if="selectedTour != null" class="px-4 py-2">
       <d-tabs card>
@@ -93,7 +93,7 @@ export default class TournamentManagement extends BaseComponentClass {
   tournament: TournamentDTO = null;
   selectedTournament: TournamentDTO = null;
   assignedPlayers: PlayerDrawDTO[] = [];
-  draw: Draw = null;
+  draw: Draw = new Draw();
   startingRound: number;
   test:string = "abc";
   onChangeTest(val: InputEvent) {
@@ -247,6 +247,7 @@ export default class TournamentManagement extends BaseComponentClass {
     }).then((resp) => {
       if (resp.ok) {
         var roundMatch = this.draw.RoundMatches.filter(roundMatch => roundMatch.Round == resp.data.Round);
+
         var roundMatchesIndex = this.draw.RoundMatches.findIndex(roundMatch => roundMatch.Round == resp.data.Round);
         let newRoundMatch: RoundMatchDTO = null;
 
@@ -255,6 +256,7 @@ export default class TournamentManagement extends BaseComponentClass {
           console.log(roundMatch)
           if (roundMatch[0].Matches && roundMatch[0].Matches.length > 0) {
             roundMatch[0].Matches.push(resp.data);
+
             newRoundMatch = roundMatch[0];
           } else {
             roundMatch[0].Matches = [resp.data];
@@ -269,7 +271,7 @@ export default class TournamentManagement extends BaseComponentClass {
         let testDraw: Draw = new Draw();
 
         testDraw = { ...this.draw }
-        rounds.push(newRoundMatch);
+        // rounds.push(newRoundMatch);
         testDraw.RoundMatches = rounds;
         this.draw = testDraw;
 

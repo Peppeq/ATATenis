@@ -55,7 +55,7 @@ namespace AtaTennisApp
             // In production, the Vue files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "clientapp/dist";
+                configuration.RootPath = "clientapp";
             });
 
             // configure strongly typed settings objects
@@ -166,15 +166,17 @@ namespace AtaTennisApp
             //    //    defaults: new { controller = "Home", action = "Index" });
             //});
 
-            //app.UseSpa(spa =>
-            //{
-            //    spa.Options.SourcePath = "clientapp";
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "clientapp";
 
-            //    if (env.IsDevelopment())
-            //    {
-            //        spa.UseVueCli(npmScript: "serve");
-            //    }
-            //});
+                if (env.IsDevelopment())
+                {
+                    // Development requests are send through to local node server
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
+                    //spa.UseVueCli(npmScript: "serve");
+                }
+            });
         }
     }
 }
