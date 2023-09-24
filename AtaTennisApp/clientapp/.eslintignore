@@ -3,6 +3,7 @@ src/**/*.js
 src/**/*.map
 src/store/**/*.ts
 src/Api/*.ts
+src/Api/**/*.ts
 src/shims-tsx.d.ts
 src/shims-vue.d.ts
 src/store/modules/alert.js

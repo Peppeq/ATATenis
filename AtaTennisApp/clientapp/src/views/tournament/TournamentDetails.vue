@@ -13,7 +13,7 @@
 					>
 						<d-form-input
 							id="name"
-							v-model="tournament.Name"
+							v-model="tournament.name"
 							:state="isTournamentNameValid(changed, validated, valid)"
 						/>
 						<span
@@ -36,7 +36,7 @@
 					>
 						<d-form-input
 							id="place"
-							v-model="tournament.Place"
+							v-model="tournament.place"
 							:state="isTournamentPlaceValid(changed, validated, valid)"
 						/>
 						<span
@@ -57,7 +57,7 @@
 						v-if="isReadonly"
 						id="Birthdate"
 						:readonly="isReadonly"
-						:value="dateHelper.getDateByLocale(tournament.StartTime, $i18n.locale)"
+						:value="dateHelper.getDateByLocale(tournament.startTime, $i18n.locale)"
 					/>
 					<ValidationProvider
 						v-slot="{ errors, changed, validated, valid, invalid }"
@@ -70,7 +70,7 @@
 							</d-input-group-text>
 							<d-datepicker
 								v-if="!isReadonly"
-								v-model="tournament.StartTime"
+								v-model="tournament.startTime"
 								class="tournament-date"
 								:input-class="[{ 'is-invalid': validated && invalid }, 'form-control']"
 								typeable
@@ -93,7 +93,7 @@
 						v-if="isReadonly"
 						id="EndTime"
 						:readonly="isReadonly"
-						:value="dateHelper.getDateByLocale(tournament.EndTime, $i18n.locale)"
+						:value="dateHelper.getDateByLocale(tournament.endTime, $i18n.locale)"
 					/>
 					<ValidationProvider
 						v-slot="{ errors, changed, validated, valid, invalid }"
@@ -106,7 +106,7 @@
 							</d-input-group-text>
 							<d-datepicker
 								v-if="!isReadonly"
-								v-model="tournament.EndTime"
+								v-model="tournament.endTime"
 								class="tournament-date"
 								:input-class="[{ 'is-invalid': validated && invalid }, 'form-control']"
 								typeable
@@ -130,14 +130,14 @@
 						v-if="isReadonly"
 						id="Category"
 						:readonly="isReadonly"
-						:value="tournamentHelper.GetTournamentCategoryName(tournament.Category)"
+						:value="tournamentHelper.GetTournamentCategoryName(tournament.category)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="Category"
-						v-model="tournament.Category"
+						v-model="tournament.category"
 						:options="tournamentHelper.GetTournamentCategories()"
-						:value="tournament.Category"
+						:value="tournament.category"
 					/>
 				</d-col>
 
@@ -148,14 +148,14 @@
 						v-if="isReadonly"
 						id="PlayingSystem"
 						:readonly="isReadonly"
-						:value="tournamentHelper.GetPlayingSystemName(tournament.PlayingSystem)"
+						:value="tournamentHelper.GetPlayingSystemName(tournament.playingSystem)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="PlayingSystem"
-						v-model="tournament.PlayingSystem"
+						v-model="tournament.playingSystem"
 						:options="tournamentHelper.GetPlayingSystems()"
-						:value="tournament.PlayingSystem"
+						:value="tournament.playingSystem"
 					/>
 				</d-col>
 			</d-form-row>
@@ -168,14 +168,14 @@
 						v-if="isReadonly"
 						id="Type"
 						:readonly="isReadonly"
-						:value="tournamentHelper.GetTournamentTypeName(tournament.TournamentType)"
+						:value="tournamentHelper.GetTournamentTypeName(tournament.tournamentType)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="Category"
-						v-model="tournament.TournamentType"
+						v-model="tournament.tournamentType"
 						:options="tournamentHelper.GetTournamentTypes()"
-						:value="tournament.TournamentType"
+						:value="tournament.tournamentType"
 					/>
 				</d-col>
 
@@ -186,14 +186,14 @@
 						v-if="isReadonly"
 						id="Surface"
 						:readonly="isReadonly"
-						:value="playerHelper.GetSurfaceTypeText(tournament.Surface)"
+						:value="playerHelper.GetSurfaceTypeText(tournament.surface)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="Surface"
-						v-model="tournament.Surface"
+						v-model="tournament.surface"
 						:options="playerHelper.GetSurfaceOptions()"
-						:value="tournament.Surface"
+						:value="tournament.surface"
 					/>
 				</d-col>
 			</d-form-row>
@@ -205,14 +205,14 @@
 						v-if="isReadonly"
 						id="BallsType"
 						:readonly="isReadonly"
-						:value="tournamentHelper.GetBallsTypeName(tournament.BallsType)"
+						:value="tournamentHelper.GetBallsTypeName(tournament.ballsType)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="Category"
-						v-model="tournament.BallsType"
+						v-model="tournament.ballsType"
 						:options="tournamentHelper.GetBallsTypes()"
-						:value="tournament.BallsType"
+						:value="tournament.ballsType"
 					/>
 				</d-col>
 
@@ -223,14 +223,14 @@
 						v-if="isReadonly"
 						id="Surface"
 						:readonly="isReadonly"
-						:value="playerHelper.GetSurfaceTypeText(tournament.Surface)"
+						:value="playerHelper.GetSurfaceTypeText(tournament.surface)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="Surface"
-						v-model="tournament.Surface"
+						v-model="tournament.surface"
 						:options="playerHelper.GetSurfaceOptions()"
-						:value="tournament.Surface"
+						:value="tournament.surface"
 					/>
 				</d-col>
 			</d-form-row>
@@ -248,14 +248,19 @@ import { BaseComponentClass } from "../../common/BaseComponentClass";
 import { NotificationUtils } from "../../common/notification";
 import { ValidationObserver } from "vee-validate";
 import { DateHelper } from "../../common/DateHelper";
-import TournamentClient, {
-  TournamentDTO,
-  TournamentCategory,
-  TournamentType,
-  PlayingSystem
-} from "../../Api/TournamentController";
+// import TournamentClient, {
+//   TournamentDTO,
+//   TournamentCategory,
+//   TournamentType,
+//   PlayingSystem
+// } from "../../Api/TournamentController";
 import { TournamentHelper } from "./tournamentHelper";
 import { PlayerHelper } from "../player/player-helper";
+import { TournamentDTO } from "@/Api/dtos/TournamentDTO";
+import { PlayingSystem } from "@/Api/enums/PlayingSystem";
+import { TournamentCategory } from "@/Api/enums/TournamentCategory";
+import { TournamentType } from "@/Api/enums/TournamentType";
+import { TournamentClient } from "@/Api/TournamentController";
 
 @Component
 export default class TournamentDetails extends BaseComponentClass {
@@ -343,10 +348,10 @@ export default class TournamentDetails extends BaseComponentClass {
 	  if (this.tournamentProp != null) {
 	    this.tournament = { ...this.tournamentProp };
 	  } else {
-	    this.tournament.Id = 0;
-	    this.tournament.Category = TournamentCategory.singles;
-	    this.tournament.TournamentType = TournamentType.ata;
-	    this.tournament.PlayingSystem = PlayingSystem.prince;
+	    this.tournament.id = 0;
+	    this.tournament.category = TournamentCategory.singles;
+	    this.tournament.tournamentType = TournamentType.ata;
+	    this.tournament.playingSystem = PlayingSystem.prince;
 	  }
 	  this.isReadonly = !this.isCreateOrEdit;
 	  this.isEdit = this.isCreateOrEdit && this.tournamentProp != null;

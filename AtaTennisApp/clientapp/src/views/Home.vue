@@ -15,10 +15,10 @@
 				<router-link
 					:to="{
 						name: 'Tournament',
-						params: { id: nearestTournament.Id, tournamentProp: nearestTournament }
+						params: { id: nearestTournament.id, tournamentProp: nearestTournament }
 					}"
 					class="text-fiord-blue"
-					>{{ nearestTournament.Name }}</router-link
+					>{{ nearestTournament.name }}</router-link
 				>
 			</h3>
 		</d-row>
@@ -34,8 +34,9 @@
 <script lang="ts">
 import { Component } from "vue-property-decorator";
 import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
-import TournamentClient, { TournamentDTO } from "../Api/TournamentController";
+import { TournamentClient } from "../Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
+import { TournamentDTO } from "@/Api/dtos/TournamentDTO";
 
 @Component({
   components: {
@@ -47,11 +48,15 @@ export default class Home extends BaseComponentClass {
 	mounted() {
 	  const client = new TournamentClient();
 	  this.tryGetDataByArgs<TournamentDTO, null>({
-	    apiMethod: client.getWithoutParams,
+	    apiMethod: client.getNearestTournament,
 	    showError: true,
 	    requestArgs: null
 	  }).then((resp) => {
-	    if (resp.ok) this.nearestTournament = resp.data;
+	    if (resp.ok) {
+	      this.nearestTournament = resp.data;
+	      console.log(this.nearestTournament)
+	      console.log(resp)
+	    }
 	  });
 	}
 }

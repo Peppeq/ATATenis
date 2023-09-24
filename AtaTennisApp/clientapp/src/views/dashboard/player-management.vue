@@ -17,7 +17,7 @@
       </d-input-group>
       <d-list-group v-if="searchedPlayers != null">
         <div v-for="player in searchedPlayers" :key="player.id" class="list-group-item" @click="addOrEditPlayer(player)">
-          {{ player.Name + " " + player.Surname }}
+          {{ player.name + " " + player.surname }}
         </div>
       </d-list-group>
       <d-list-group v-else>
@@ -36,10 +36,11 @@
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import Component from "vue-class-component";
 import PlayerAddModal from "../player/player-add-modal.vue";
-import PlayerClient, {
-  PlayerDTO,
+import {
+  PlayerClient,
   PlayerSearchArgs
 } from "../../Api/PlayerController";
+import { PlayerDTO } from "@/Api/dtos/PlayerDTO";
 
 @Component({
   components: { PlayerAddModal }
@@ -57,7 +58,7 @@ export default class PlayerManagement extends BaseComponentClass {
       this.tryGetDataByArgs<PlayerDTO[], PlayerSearchArgs>({
         apiMethod: client.playerBySearch,
         showError: true,
-        requestArgs: { SearchName: this.searchName }
+        requestArgs: { searchName: this.searchName }
       }).then((resp) => {
         if (resp.ok) this.searchedPlayers = resp.data;
       });
@@ -77,7 +78,7 @@ export default class PlayerManagement extends BaseComponentClass {
   }
 
   modifySearchedPlayer(player: PlayerDTO): void {
-    const index = this.searchedPlayers.findIndex(p => p.Id == player.Id);
+    const index = this.searchedPlayers.findIndex(p => p.id == player.id);
     this.searchedPlayers[index] = player;
   }
 }

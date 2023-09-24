@@ -7,7 +7,8 @@ namespace AtaTennisApp.Data.Entities
     {
         public Match()
         {
-            // Hashset because it is much faster than list (searching and also inserting to collection) but it is unordered and cannot be accesed by index
+            // Hashset because it is much faster than list (searching and also inserting to collection)
+            // but it is unordered and cannot be accesed by index
             MatchEntries = new HashSet<MatchEntry>();
         }
 
@@ -18,7 +19,8 @@ namespace AtaTennisApp.Data.Entities
         public int TournamentId { get; set; }
         //public bool Retired { get; set; }
 
-        // ICollection for a list of object that needs to be iterated through and modified (IEnumerable only iterated through) (List - iterated, modified, sort)
+        // ICollection for a list of object that needs to be iterated through
+        // and modified (IEnumerable only iterated through) (List - iterated, modified, sort)
         public virtual ICollection<MatchEntry> MatchEntries { get; set; }
         public virtual Tournament Tournament { get; set; }  
     }

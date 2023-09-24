@@ -170,9 +170,9 @@ namespace AtaTennisApp.BL
             return Mapper.Map<Match, MatchDTO>(match);
         }
 
-        private Draw InitializeDraw(DrawSize drawSize, TournamentRound startingRound, int matchesCount)
+        private DrawDTO InitializeDraw(DrawSize drawSize, TournamentRound startingRound, int matchesCount)
         {
-            var draw = new Draw();
+            var draw = new DrawDTO();
 
             switch (drawSize)
             {
@@ -301,13 +301,13 @@ namespace AtaTennisApp.BL
         }
     }
 
-    public class Draw
-    {
-        public TournamentRound InitialRound { get; set; }
-        public int MatchesCount { get; set; }
+    //public class Draw
+    //{
+    //    public TournamentRound InitialRound { get; set; }
+    //    public int MatchesCount { get; set; }
 
-        public List<RoundMatchDTO> RoundMatches { get; set; }
-    }
+    //    public List<RoundMatchDTO> RoundMatches { get; set; }
+    //}
 
 
     //internal class MatchFactory

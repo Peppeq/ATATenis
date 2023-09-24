@@ -27,6 +27,6 @@ namespace AtaTennisApp.BL.DTO
         public int? FinalistCount { get; set; }
         public int? TournamentCount { get; set; }
         public bool? Member { get; set; }
-        public int Points { get; set; } = 0;
+        public int? Points { get; set; }
     }
 }

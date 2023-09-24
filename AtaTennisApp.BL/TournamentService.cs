@@ -13,17 +13,10 @@ using System.Threading.Tasks;
 
 namespace AtaTennisApp.BL
 {
-    public class TournamentFilter
-    {
-        public int? Id { get; set; }
-        public int? Year { get; set; }
-        public TournamentType? Type { get; set; }
-    }
-
     public interface ITournamentService
     {
         Task<TournamentDTO> GetNearestTournament();
-        Task<List<TournamentDTO>> GetFilteredTournaments(TournamentFilter filter);
+        Task<List<TournamentDTO>> GetFilteredTournaments(TournamentFilterDTO filter);
         Task<TournamentDTO> AddOrEditTournament(TournamentDTO tournamentDTO);
         Task<List<TournamentDTO>> GetTournamentsByName(string name);
         Task<List<SearchedTournamentDTO>> GetSearchedTournamentsByName(string name);
@@ -39,7 +32,7 @@ namespace AtaTennisApp.BL
             _dbContext = context;
         }
 
-        public async Task<List<TournamentDTO>> GetFilteredTournaments(TournamentFilter filter)
+        public async Task<List<TournamentDTO>> GetFilteredTournaments(TournamentFilterDTO filter)
         {
             var list = new List<TournamentDTO>();
 
@@ -105,7 +98,8 @@ namespace AtaTennisApp.BL
 
         public async Task<TournamentDTO> GetNearestTournament()
         {
-            var tournament = await _dbContext.Tournaments.Where(t => t.StartTime > DateTime.Now)
+            var tournament = await _dbContext.Tournaments
+                //.Where(t => t.StartTime > DateTime.Now)
                 .OrderBy(t => t.StartTime).FirstOrDefaultAsync();
 
             var tournamentDto = Mapper.Map<Tournament, TournamentDTO>(tournament);
@@ -143,7 +137,7 @@ namespace AtaTennisApp.BL
                 .FirstOrDefaultAsync();
             //tournamentPlayersQuery.ma
             tournamentGraph = Mapper.Map<Tournament, TournamentGraphDTO>(tournament);
-            tournamentGraph.Draw = new Draw();
+            tournamentGraph.Draw = new DrawDTO();
 
             if (tournament.Matches != null && tournament.Matches.Count > 0)
             {

@@ -59,7 +59,7 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpPost("AddTournamentPlayer")]
-        public async Task<ActionResult<TournamentEntry>> AddTournamentPlayer([FromBody]PlayerArgs args)
+        public async Task<ActionResult<TournamentEntryDTO>> AddTournamentPlayer([FromBody]PlayerArgs args)
         {
             var entry = await TournamentEntryService.AddTournamentPlayer(args.TournamentId, args.PlayerId);
             var uri = "api/tournamentEntry";

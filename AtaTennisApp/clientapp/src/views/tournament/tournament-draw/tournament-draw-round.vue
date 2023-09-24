@@ -1,5 +1,5 @@
 <template>
-  <section :class="getClassByRound(roundMatchProp.roundMatch.Round)">
+  <section :class="getClassByRound(roundMatchProp.roundMatch.round)">
     <!-- <div v-for="(matchup) in matchups" :key="matchup.mIndex" class="winners"> -->
     <div v-for="(matchup, index) in matchups" :key="index" class="winners">
       <tournament-draw-matchup :matchupMatchesProp="matchup" :isFirstRound="isFirstRound"></tournament-draw-matchup>
@@ -14,14 +14,11 @@
 <script lang="ts">
 import { BaseComponentClass } from '../../../common/BaseComponentClass'
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import { MatchDTO, DrawDTO } from '@/Api/MatchController';
 import TournamentDrawMatchEntry from "./tournament-draw-match-entry.vue";
 import TournamentDrawMatchup from "./tournament-draw-matchup.vue";
-import {
-  TournamentRound,
-  RoundMatchDTO
-} from '../../../Api/TournamentController';
 import { QualificationOrder, Round } from '../TournamentDraw.vue';
+import { MatchDTO } from '@/Api/dtos/MatchDTO';
+import { TournamentRound } from '@/Api/enums/TournamentRound';
 
 interface Matchup {
   mIndex: number,
@@ -41,7 +38,7 @@ export default class TournamentDrawRound extends BaseComponentClass {
 
   @Watch("roundMatchProp")
   onRoundMatchPropChange(round: Round) {
-    this.initMatchupsFromMatches(round.roundMatch.Matches);
+    this.initMatchupsFromMatches(round.roundMatch.matches);
   }
 
   matchups: Matchup[] = [];
@@ -92,8 +89,8 @@ export default class TournamentDrawRound extends BaseComponentClass {
   }
 
   created() {
-    if (this.roundMatchProp?.roundMatch?.Matches?.length > 0) {
-      let matches = this.roundMatchProp.roundMatch.Matches;
+    if (this.roundMatchProp?.roundMatch?.matches?.length > 0) {
+      let matches = this.roundMatchProp.roundMatch.matches;
       // if (this.isQualificationRound && this.isQualificationRound(this.roundMatchProp)) {
       //   matches = this.getQualificationRound().Matches;
       // } else {

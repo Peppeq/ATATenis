@@ -13,7 +13,7 @@
 					>
 						<d-form-input
 							id="name"
-							v-model="player.Name"
+							v-model="player.name"
 							:state="isPlayerNameValid(changed, validated, valid)"
 						/>
 						<span
@@ -37,7 +37,7 @@
 					>
 						<d-form-input
 							id="surname"
-							v-model="player.Surname"
+							v-model="player.surname"
 							:state="isPlayerSurnameValid(changed, validated, valid)"
 						/>
 						<span
@@ -59,9 +59,9 @@
 						v-if="isReadonly"
 						id="Birthdate"
 						:readonly="isReadonly"
-						:value="dateHelper.getDateByLocale(player.BirthDate, $i18n.locale)"
+						:value="dateHelper.getDateByLocale(player.birthDate, $i18n.locale)"
 					/>
-					<d-datepicker v-if="!isReadonly" v-model="player.BirthDate" typeable />
+					<d-datepicker v-if="!isReadonly" v-model="player.birthDate" typeable />
 					<!-- <d-form-input
 						id="Birthdate"
 						v-model="player.BirthDate"
@@ -77,9 +77,9 @@
 					<!-- <d-form-input id="residence" :readonly="true" :value="player.Residence" /> -->
 					<d-form-input
 						id="residence"
-						v-model="player.Residence"
+						v-model="player.residence"
 						:readonly="isReadonly"
-						:value="player.Residence"
+						:value="player.residence"
 						:class="{ 'player-input': isReadonly }"
 					/>
 				</d-col>
@@ -91,10 +91,10 @@
 					<label for="height">{{ $t("height") }}</label>
 					<d-form-input
 						id="height"
-						v-model="player.Height"
+						v-model="player.height"
 						type="number"
 						:readonly="isReadonly"
-						:value="player.Height"
+						:value="player.height"
 						:class="{ 'player-input': isReadonly }"
 					/>
 				</d-col>
@@ -104,10 +104,10 @@
 					<label for="weight">{{ $t("weight") }}</label>
 					<d-form-input
 						id="weight"
-						v-model="player.Weight"
+						v-model="player.weight"
 						type="number"
 						:readonly="isReadonly"
-						:value="player.Weight"
+						:value="player.weight"
 						class="player-input"
 					/>
 				</d-col>
@@ -121,14 +121,14 @@
 						v-if="isReadonly"
 						id="forehand"
 						:readonly="isReadonly"
-						:value="playerHelper.GetForehandText(player.Forehand)"
+						:value="playerHelper.GetForehandText(player.forehand)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="forehand"
-						v-model="player.Forehand"
+						v-model="player.forehand"
 						:options="playerHelper.GetForeahandOptions()"
-						:value="player.Forehand"
+						:value="player.forehand"
 					/>
 				</d-col>
 
@@ -139,14 +139,14 @@
 						v-if="isReadonly"
 						id="Backhand"
 						:readonly="isReadonly"
-						:value="playerHelper.GetBackhandText(player.Backhand)"
+						:value="playerHelper.GetBackhandText(player.backhand)"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="Backhand"
-						v-model="player.Backhand"
+						v-model="player.backhand"
 						:options="playerHelper.GetBackhandOptions()"
-						:value="player.Backhand"
+						:value="player.backhand"
 					/>
 				</d-col>
 			</d-form-row>
@@ -158,15 +158,15 @@
 					<d-form-input
 						v-if="isReadonly"
 						:readonly="isReadonly"
-						:value="playerHelper.GetSurfaceTypeText(player.Surface)"
+						:value="playerHelper.GetSurfaceTypeText(player.surface)"
 						:class="{ 'player-input': isReadonly }"
 					/>
 					<d-form-select
 						v-if="!isReadonly"
 						id="favSurface"
-						v-model="player.Surface"
+						v-model="player.surface"
 						:options="playerHelper.GetSurfaceOptions()"
-						:value="player.Surface"
+						:value="player.surface"
 					/>
 				</d-col>
 
@@ -175,9 +175,9 @@
 					<label for="favAtpPlayer">{{ $t("favAtpPlayer") }}</label>
 					<d-form-input
 						id="favAtpPlayer"
-						v-model="player.FavouritePlayer"
+						v-model="player.favouritePlayer"
 						:readonly="isReadonly"
-						:value="player.FavouritePlayer"
+						:value="player.favouritePlayer"
 						class="player-input"
 					/>
 				</d-col>
@@ -186,7 +186,7 @@
 				<!-- Titels -->
 				<d-col md="6" class="form-group">
 					<label for="titles">{{ $tc("title", 2) }}</label>
-					<d-form-input id="titles" :readonly="isReadonly" :value="player.TitlesCount" class="player-input" />
+					<d-form-input id="titles" :readonly="isReadonly" :value="player.titlesCount" class="player-input" />
 				</d-col>
 
 				<!-- Finalist -->
@@ -195,7 +195,7 @@
 					<d-form-input
 						id="finalist"
 						:readonly="isReadonly"
-						:value="player.FinalistCount"
+						:value="player.finalistCount"
 						class="player-input"
 					/>
 				</d-col>
@@ -207,7 +207,7 @@
 					<d-form-input
 						id="tournaments"
 						:readonly="isReadonly"
-						:value="player.TournamentCount"
+						:value="player.tournamentCount"
 						class="player-input"
 					/>
 				</d-col>
@@ -217,9 +217,9 @@
 					<label for="racquet">{{ $t("racquet") }}</label>
 					<d-form-input
 						id="racquet"
-						v-model="player.Racquet"
+						v-model="player.racquet"
 						:readonly="isReadonly"
-						:value="player.Racquet"
+						:value="player.racquet"
 						:class="{ 'player-input': isReadonly }"
 					/>
 				</d-col>
@@ -234,11 +234,12 @@
 <script lang="ts">
 import Component from "vue-class-component";
 import { Prop, Ref } from "vue-property-decorator";
-import PlayerClient, { PlayerDTO } from "@/Api/PlayerController";
 import { PlayerHelper } from "../player/player-helper";
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import { NotificationUtils } from "../../common/notification";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { PlayerDTO } from "@/Api/dtos/PlayerDTO";
+import { PlayerClient } from "@/Api/PlayerController";
 
 @Component
 export default class PlayerBio extends BaseComponentClass {
@@ -298,8 +299,8 @@ export default class PlayerBio extends BaseComponentClass {
 	  if (this.playerProp != null) {
 	    this.player = { ...this.playerProp };
 	  } else {
-	    this.player.Id = 0;
-	    this.player.Points = 0;
+	    this.player.id = 0;
+	    this.player.points = 0;
 	  }
 	  this.isReadonly = !this.isCreateOrEdit;
 	  this.isEdit = this.isCreateOrEdit && this.playerProp != null;

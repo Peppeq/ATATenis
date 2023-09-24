@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,7 +46,7 @@ namespace AtaTennisApp
 
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.None)
-                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()); ;
+                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
             //services.AddMvc(options => options.EnableEndpointRouting = false)
             //    .AddNewtonsoftJson(options => options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.None)
@@ -166,17 +167,17 @@ namespace AtaTennisApp
             //    //    defaults: new { controller = "Home", action = "Index" });
             //});
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "clientapp";
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "clientapp";
 
-                if (env.IsDevelopment())
-                {
-                    // Development requests are send through to local node server
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
-                    //spa.UseVueCli(npmScript: "serve");
-                }
-            });
+            //    if (env.IsDevelopment())
+            //    {
+            //        // Development requests are send through to local node server
+            //        spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
+            //        //spa.UseVueCli(npmScript: "serve");
+            //    }
+            //});
         }
     }
 }

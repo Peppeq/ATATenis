@@ -1,13 +1,13 @@
 ﻿using AtaTennisApp.BL.DTO;
 using AtaTennisApp.Data.Entities;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AtaTennisApp.BL.Helper
 {
+    /// <summary>
+    /// Mapper helper for maping domain objects to DTO and vice versa. 
+    /// documentation - https://docs.automapper.org/en/stable/Getting-started.html
+    /// </summary>
     public static class MapperHelper
     {
         public static IMapper GetMapper()
@@ -45,6 +45,7 @@ namespace AtaTennisApp.BL.Helper
 
             //})));
             cfg.CreateMap<Score, ScoreDTO>().ReverseMap();
+            cfg.CreateMap<TournamentEntry, TournamentEntryDTO>().ReverseMap();
         });
 
         public static IMapper GetUserMapper()
@@ -107,5 +108,19 @@ namespace AtaTennisApp.BL.Helper
             return config.CreateMapper();
         }
 
+        public static IMapper GetTournamentEntryMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TournamentEntry, TournamentEntryDTO>()
+                    .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id));
+                // TODO figure out automapper
+                //.ForMember(p => p.TournamentEntryId, opt => opt.Ignore());
+                cfg.CreateMap<TournamentEntryDTO, TournamentEntry>();
+
+            });
+
+            return config.CreateMapper();
+        }
     }
 }

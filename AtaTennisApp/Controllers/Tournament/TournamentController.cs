@@ -37,7 +37,7 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TournamentDTO>>> Get([FromQuery]TournamentFilter args)
+        public async Task<ActionResult<List<TournamentDTO>>> Get([FromQuery]TournamentFilterDTO args)
         {
             var service = new TournamentService(_dbContext);
             List<TournamentDTO> response = await service.GetFilteredTournaments(args);
@@ -71,7 +71,7 @@ namespace AtaTennisApp.Controllers
 
         [Authorize]
         [HttpPost("AddOrEditTournament")]
-        public async Task<ActionResult<TournamentDTO>> AddOrEditTournament([FromBody] TournamentDTO tournamentDto)
+        public async Task<ActionResult<TournamentDTO>> AddOrEditTournament([FromBody]TournamentDTO tournamentDto)
         {
             var updatedTournament = await TournamentService.AddOrEditTournament(tournamentDto);
             if (tournamentDto.Id > 0)

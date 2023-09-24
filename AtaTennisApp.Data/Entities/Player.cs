@@ -24,8 +24,8 @@ namespace AtaTennisApp.Data.Entities
         public string Racquet { get; set; }
         public SurfaceType? Surface { get; set; }
         public string FavouritePlayer { get; set; }
-        public bool Member { get; set; } = false;
-        public int Points { get; set; } = 0;
+        public bool? Member { get; set; }
+        public int? Points { get; set; }
 
         public virtual ICollection<TournamentEntry> TournamentEntries { get; set; }
         public virtual ICollection<MatchEntry> MatchEntries { get; set; }

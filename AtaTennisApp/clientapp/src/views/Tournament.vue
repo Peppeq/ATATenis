@@ -10,9 +10,9 @@
 					</d-list-group> </d-card> -->
 					<div class="tournament-header m-auto">
 						<div class="text-center text-nowrap">
-							<h4>{{ getStarttimeText(tournament.StartTime) }}</h4>
-							<h2>{{ tournament.Name }}</h2>
-							<h4>{{ tournament.Place }}</h4>
+							<h4>{{ getStarttimeText(tournament.startTime) }}</h4>
+							<h2>{{ tournament.name }}</h2>
+							<h4>{{ tournament.place }}</h4>
 						</div>
 					</div>
 					<div class="tournament-options">
@@ -55,16 +55,17 @@
 
 <script lang="ts">
 import Component from "vue-class-component";
-import TournamentClient, {
-  TournamentDTO,
-  TournamentFilter
-} from "../Api/TournamentController";
+import {
+	TournamentClient
+} from "@/Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import { Watch, Prop } from "vue-property-decorator";
 import { router } from "@/router";
 import { DateHelper } from "@/common/DateHelper";
 import TournamentDetails from "./tournament/TournamentDetails.vue";
 import TournamentDraw from "./tournament/TournamentDraw.vue";
+import { TournamentDTO } from "@/Api/dtos/TournamentDTO";
+import { TournamentFilterDTO } from "@/Api/dtos/TournamentFilterDTO";
 
 @Component({
   components: { TournamentDetails, TournamentDraw }
@@ -81,7 +82,7 @@ export default class TournamentClass extends BaseComponentClass {
 	  return date != null ? DateHelper.getDateByLocale(date, this.$i18n.locale) : "";
 	}
 
-	onChangeCardType(type: number): void {
+	onChangeCardType(type: number, event: Event): void {
 	  if (type == 0) {
 	    this.isDetails = true;
 	    this.isDraw = false;
@@ -99,13 +100,13 @@ export default class TournamentClass extends BaseComponentClass {
 
 	  if (this.tournamentProp == null) {
 	    this.tournamentId = parseInt(this.$route.params.id, 10);
-	    this.tryGetDataByArgs<TournamentDTO[], TournamentFilter>({
+	    this.tryGetDataByArgs<TournamentDTO[], TournamentFilterDTO>({
 	      apiMethod: tournamentClient.get,
 	      showError: true,
 	      requestArgs: {
-	        Id: this.tournamentId,
-	        Year: 0,
-	        Type: null
+	        id: this.tournamentId,
+	        year: 0,
+	        type: null
 	      }
 	    }).then((response) => {
 	      if (response.ok) this.tournament = response.data[0];

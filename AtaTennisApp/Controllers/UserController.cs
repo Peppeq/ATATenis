@@ -83,7 +83,7 @@ namespace AtaTennisApp.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]UserDTO userDto)
+        public async Task<ActionResult> Register([FromBody]UserDTO userDto)
         {
             try
             {
@@ -106,8 +106,8 @@ namespace AtaTennisApp.Controllers
             return Ok(userDtos);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("id")]
+        public async Task<ActionResult> GetById(int id)
         {
             var user = await _userService.GetByIdAsync(id);
             var userDto = _mapper.Map<UserDTO>(user);
@@ -134,8 +134,8 @@ namespace AtaTennisApp.Controllers
         //    }
         //}
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("id")]
+        public async Task<ActionResult> Delete(int id)
         {
             await _userService.DeleteAsync(id);
             return Ok();

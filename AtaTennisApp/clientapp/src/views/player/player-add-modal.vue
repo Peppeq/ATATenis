@@ -19,7 +19,7 @@ import Component from "vue-class-component";
 import Vue from "vue";
 import { Prop } from "vue-property-decorator";
 import PlayerBio from "./player-bio.vue";
-import { PlayerDTO } from "@/Api/PlayerController";
+import { PlayerDTO } from "@/Api/dtos/PlayerDTO";
 
 @Component({
   components: { PlayerBio }

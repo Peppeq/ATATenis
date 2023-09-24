@@ -1034,7 +1034,7 @@
       <div >
         <div v-if="existsDraw()" class="bracket">
           <!-- <tournament-draw-round v-if="isQualification(null)" :roundMatchProp="getQualificationRound()"></tournament-draw-round> -->
-          <tournament-draw-round v-for="(round) in rounds" :key="round.Round" :roundMatchProp="round"></tournament-draw-round>
+          <tournament-draw-round v-for="(round) in rounds" :key="round.roundMatch.round" :roundMatchProp="round"></tournament-draw-round>
         </div>
         // vymazat webkit ... pokrracovat v css code
         <d-btn @click="createDraw">{{ createOrUpdateTxtBtn()  }}</d-btn>
@@ -1049,22 +1049,18 @@
 import { BaseComponentClass } from "../../common/BaseComponentClass";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
-import {
-  PlayerDrawDTO,
-  TournamentRound
-} from "../../Api/TournamentEntryController";
-import MatchClient, {
-  MatchDTO,
-  MatchesArgs,
-  DrawSize,
-  CreateOrUpdateMatchesArgs,
-  DrawDTO,
-  RoundMatchDTO
-} from "../../Api/MatchController";
+
 import { TournamentHelper } from "./tournamentHelper";
 import { NotificationUtils } from "../../common/notification";
 import TournamentDrawRound from "./tournament-draw/tournament-draw-round.vue";
-import { MatchEntryDTO } from '../../Api/TournamentController';
+import { RoundMatchDTO } from "@/Api/dtos/RoundMatchDTO";
+import { PlayerDrawDTO } from "@/Api/dtos/PlayerDrawDTO";
+import { DrawDTO } from "@/Api/dtos/DrawDTO";
+import { CreateOrUpdateMatchesArgs, MatchClient } from "@/Api/MatchController";
+import { DrawSize } from "@/Api/enums/DrawSize";
+import { TournamentRound } from "@/Api/enums/TournamentRound";
+import { MatchDTO } from "@/Api/dtos/MatchDTO";
+import { MatchEntryDTO } from "@/Api/dtos/MatchEntryDTO";
 
 export interface QualificationOrder{
   order: number,
@@ -1112,24 +1108,24 @@ export default class TournamentDraw extends BaseComponentClass {
   onRoundsChange(rounds: Round[]) {}
 
   assignedPlayers: PlayerDrawDTO[] = [
-    { TournamentEntryId: 1, PlayerId: 1, Name: "A", Surname: "A" },
-    { TournamentEntryId: 2, PlayerId: 2, Name: "b", Surname: "b" },
-    { TournamentEntryId: 3, PlayerId: 3, Name: "c", Surname: "c" },
-    { TournamentEntryId: 4, PlayerId: 4, Name: "d", Surname: "d" },
-    { TournamentEntryId: 5, PlayerId: 5, Name: "e", Surname: "e" },
-    { TournamentEntryId: 6, PlayerId: 6, Name: "f", Surname: "f" },
-    { TournamentEntryId: 7, PlayerId: 7, Name: "g", Surname: "g" },
-    { TournamentEntryId: 8, PlayerId: 8, Name: "h", Surname: "h" },
-    { TournamentEntryId: 9, PlayerId: 9, Name: "i", Surname: "i" },
-    { TournamentEntryId: 10, PlayerId: 10, Name: "j", Surname: "j" },
-    { TournamentEntryId: 11, PlayerId: 11, Name: "k", Surname: "k" },
-    { TournamentEntryId: 12, PlayerId: 12, Name: "l", Surname: "l" },
-    { TournamentEntryId: 13, PlayerId: 13, Name: "m", Surname: "m" },
-    { TournamentEntryId: 14, PlayerId: 14, Name: "n", Surname: "n" },
-    { TournamentEntryId: 15, PlayerId: 15, Name: "o", Surname: "o" },
-    { TournamentEntryId: 16, PlayerId: 16, Name: "p", Surname: "p" },
-    { TournamentEntryId: 17, PlayerId: 17, Name: "r", Surname: "r" },
-    { TournamentEntryId: 18, PlayerId: 18, Name: "s", Surname: "s" }
+    { tournamentEntryId: 1, playerId: 1, name: "A", surname: "A" },
+    { tournamentEntryId: 2, playerId: 2, name: "b", surname: "b" },
+    { tournamentEntryId: 3, playerId: 3, name: "c", surname: "c" },
+    { tournamentEntryId: 4, playerId: 4, name: "d", surname: "d" },
+    { tournamentEntryId: 5, playerId: 5, name: "e", surname: "e" },
+    { tournamentEntryId: 6, playerId: 6, name: "f", surname: "f" },
+    { tournamentEntryId: 7, playerId: 7, name: "g", surname: "g" },
+    { tournamentEntryId: 8, playerId: 8, name: "h", surname: "h" },
+    { tournamentEntryId: 9, playerId: 9, name: "i", surname: "i" },
+    { tournamentEntryId: 10, playerId: 10, name: "j", surname: "j" },
+    { tournamentEntryId: 11, playerId: 11, name: "k", surname: "k" },
+    { tournamentEntryId: 12, playerId: 12, name: "l", surname: "l" },
+    { tournamentEntryId: 13, playerId: 13, name: "m", surname: "m" },
+    { tournamentEntryId: 14, playerId: 14, name: "n", surname: "n" },
+    { tournamentEntryId: 15, playerId: 15, name: "o", surname: "o" },
+    { tournamentEntryId: 16, playerId: 16, name: "p", surname: "p" },
+    { tournamentEntryId: 17, playerId: 17, name: "r", surname: "r" },
+    { tournamentEntryId: 18, playerId: 18, name: "s", surname: "s" }
   ];
 
 
@@ -1152,9 +1148,9 @@ export default class TournamentDraw extends BaseComponentClass {
         apiMethod: this.matchClient.createOrUpdateMatches,
         showError: true,
         requestArgs: {
-          TournamentId: this.tournamentId,
-          DrawSize: this.drawSize,
-          Matches: this.draw?.RoundMatches?.flatMap(m => m.Matches)
+          tournamentId: this.tournamentId,
+          drawSize: this.drawSize,
+          matches: this.draw?.roundMatches?.flatMap(m => m.matches)
         }
       }).then((response) => {
         if (response.ok) {
@@ -1195,7 +1191,7 @@ export default class TournamentDraw extends BaseComponentClass {
   }
 
   existsDraw(): boolean {
-    return this.draw?.RoundMatches?.length > 1;
+    return this.draw?.roundMatches?.length > 1;
   }
 
   createOrUpdateTxtBtn(): string {
@@ -1204,8 +1200,8 @@ export default class TournamentDraw extends BaseComponentClass {
 
   isQualification() {
     if (this.existsDraw) {
-      if (this.draw.RoundMatches[0].Matches.length < this.draw.RoundMatches[1].Matches.length * 2) {
-        // if(this.draw.RoundMatches[0].Round == roundMatch.Round){
+      if (this.draw?.roundMatches[0].matches.length < this.draw?.roundMatches[1].matches.length * 2) {
+        // if(this.draw?.RoundMatches[0].Round == roundMatch.Round){
         return true;
         // }
       }
@@ -1218,19 +1214,19 @@ export default class TournamentDraw extends BaseComponentClass {
   // kedze matches budu mapovane a budu referencovat draw Round matches kludne mozes poslat svoj objekt s referenciami na draw object, vo vues sa ti to automaticky zmeni
   isFirstRound(roundMatch: RoundMatchDTO): boolean {
     if (this.isQualification()) {
-      return this.draw.RoundMatches[1].Round == roundMatch.Round;
+      return this.draw?.roundMatches[1].round == roundMatch.round;
     } else {
-      return this.draw.RoundMatches[0].Round == roundMatch.Round;
+      return this.draw?.roundMatches[0].round == roundMatch.round;
     }
   }
 
   isQualificationRound(roundMatch: RoundMatchDTO) {
     if (this.existsDraw) {
-      if (this.draw.RoundMatches[0].Matches.length < this.draw.RoundMatches[1].Matches.length * 2) {
-        return this.draw.RoundMatches[0].Round == roundMatch.Round;
+      if (this.draw?.roundMatches[0].matches.length < this.draw?.roundMatches[1].matches.length * 2) {
+        return this.draw?.roundMatches[0].round == roundMatch.round;
       }
       // else {
-      //   return this.draw.RoundMatches[0].Round == roundMatch.Round;
+      //   return this.draw?.RoundMatches[0].Round == roundMatch.Round;
       // }
     }
     return false;
@@ -1238,22 +1234,22 @@ export default class TournamentDraw extends BaseComponentClass {
 
   getQualificationRound() {
     let roundMatch = new RoundMatchDTO();
-    roundMatch.Round = this.draw.RoundMatches[0].Round;
-    roundMatch.Matches = [];
-    let qualificationRoundMatches = this.draw.RoundMatches[0].Matches.map(m => ({
+    roundMatch.round = this.draw?.roundMatches[0].round;
+    roundMatch.matches = [];
+    let qualificationRoundMatches = this.draw?.roundMatches[0].matches.map(m => ({
       order: this.getQualificationMatchOrderCount(m),
       match: m
     }));
     console.log(qualificationRoundMatches);
-    const matchesCount = this.draw.RoundMatches[1].Matches.length * 2;
+    const matchesCount = this.draw?.roundMatches[1].matches.length * 2;
     for (let index = 0; index < matchesCount; index++) {
       if (qualificationRoundMatches.some(qm => qm.order == index)) {
-        roundMatch.Matches.push(qualificationRoundMatches.filter(qm => qm.order == index)[0].match);
+        roundMatch.matches.push(qualificationRoundMatches.filter(qm => qm.order == index)[0].match);
         continue;
       }
       let matchDto = new MatchDTO();
-      matchDto.MatchEntries = [new MatchEntryDTO(), new MatchEntryDTO()];
-      roundMatch.Matches.push(matchDto);
+      matchDto.matchEntries = [new MatchEntryDTO(), new MatchEntryDTO()];
+      roundMatch.matches.push(matchDto);
     }
     return roundMatch;
   }
@@ -1262,19 +1258,19 @@ export default class TournamentDraw extends BaseComponentClass {
     let qualificationMatchOrder = 0;
     let entryOrder = 0;
     if (this.existsDraw) {
-      // const firstRoundMatches = this.draw.RoundMatches[1].Matches.sort((mA, mB) => {
+      // const firstRoundMatches = this.draw?.RoundMatches[1].Matches.sort((mA, mB) => {
       //   if (mA.Id < mB.Id) return -1; else return 1;
       // })
       // toto cele treba opravit vobec tu nedava spravny matchOrder
-      const matchOrder = this.draw.RoundMatches[1].Matches.findIndex((m) => {
+      const matchOrder = this.draw?.roundMatches[1].matches.findIndex((m) => {
       // const matchOrder = firstRoundMatches.findIndex((m) => {
         console.log('qualification match')
         console.log(qualificationMatch)
         console.log('round match in first round')
         console.log(m)
-        if (m.MatchEntries[0].ParentMatchId == qualificationMatch.Id) {
+        if (m.matchEntries[0].parentMatchId == qualificationMatch.id) {
           return true;
-        } else if (m.MatchEntries && m.MatchEntries.length > 1 && m.MatchEntries[1].ParentMatchId == qualificationMatch.Id) {
+        } else if (m.matchEntries && m.matchEntries.length > 1 && m.matchEntries[1].parentMatchId == qualificationMatch.id) {
           entryOrder = 1;
           return true;
         } else false;
@@ -1293,8 +1289,8 @@ export default class TournamentDraw extends BaseComponentClass {
   roundsInit(draw: DrawDTO) {
     var rounds: Round[] = [];
 
-    if (this.draw?.RoundMatches?.length > 0) {
-      this.draw.RoundMatches.forEach((roundMatch) => {
+    if (this.draw?.roundMatches?.length > 0) {
+      this.draw?.roundMatches.forEach((roundMatch) => {
         let round: Round = {
           isQualification: false,
           isFirstRound: false,
@@ -1323,7 +1319,7 @@ export default class TournamentDraw extends BaseComponentClass {
   // pridat btn add qualifier/ delete qualifier
   created(): void {
     this.isEdit = this.isEditablePage;
-    if (this.tournamentDraw.RoundMatches?.length > 0) {
+    if (this.tournamentDraw?.roundMatches?.length > 0) {
       console.log('previous draw')
       console.log(this.draw)
       console.log('updated draw')

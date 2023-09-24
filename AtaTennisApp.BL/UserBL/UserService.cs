@@ -66,7 +66,7 @@ namespace AtaTennisApp.BL.UserService
             var passwordHasher = new PasswordHasher();
             var verification = passwordHasher.VerifyHashedPassword(user.Password, password);
 
-            if (verification != Microsoft.AspNetCore.Identity.PasswordVerificationResult.Success)
+            if (verification != Microsoft.AspNet.Identity.PasswordVerificationResult.Success)
             {
                 return null;
             }

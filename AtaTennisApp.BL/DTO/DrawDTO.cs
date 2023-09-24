@@ -7,9 +7,8 @@ namespace AtaTennisApp.BL.DTO
 {
     public class DrawDTO
     {
-        int TournamentId { get; set; }
-        DrawSize DrawSize { get; set; }
+        public TournamentRound InitialRound { get; set; }
+        public int MatchesCount { get; set; }
         public List<RoundMatchDTO> RoundMatches { get; set; }
-
     }
 }

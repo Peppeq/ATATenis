@@ -44,29 +44,107 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="clientapp\src\Api\dtos\DrawDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\EntryFeeDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\MatchDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\MatchEntryDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\PlayerDrawDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\PlayerDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\QualificationMatchDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\RoundMatchDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\ScoreDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\SearchedTournamentDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\TournamentDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\TournamentEntryDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\TournamentFilterDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\TournamentGraphDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\dtos\UserDTO.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\Backhand.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\BallsType.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\DrawSize.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\DrawType.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\Forehand.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\PlayingSystem.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\SurfaceType.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\TournamentCategory.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\TournamentRound.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\enums\TournamentType.ts">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
     <None Update="clientapp\src\Api\MatchController.ts">
-      <CustomToolNamespace>Controllers\MatchController.cs</CustomToolNamespace>
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
     </None>
     <None Update="clientapp\src\Api\PlayerController.ts">
-      <CustomToolNamespace>Controllers\PlayerController.cs</CustomToolNamespace>
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
     </None>
     <None Update="clientapp\src\Api\QualificationMatchController.ts">
-      <CustomToolNamespace>Controllers\QualificationMatchController.cs</CustomToolNamespace>
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
     </None>
     <None Update="clientapp\src\Api\TournamentController.ts">
-      <CustomToolNamespace>Controllers\Tournament\TournamentController.cs</CustomToolNamespace>
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
     </None>
     <None Update="clientapp\src\Api\TournamentControllerFetch.ts">
       <CustomToolNamespace>Controllers\TournamentController.cs</CustomToolNamespace>
     </None>
     <None Update="clientapp\src\Api\TournamentEntryController.ts">
-      <CustomToolNamespace>Controllers\TournamentEntryController.cs</CustomToolNamespace>
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
     </None>
     <None Update="clientapp\src\Api\TournamentListController.ts">
       <CustomToolNamespace>Controllers\Tournament\TournamentListController.cs</CustomToolNamespace>
     </None>
     <None Update="clientapp\src\Api\UserController.ts">
-      <CustomToolNamespace>Controllers\UserController.cs</CustomToolNamespace>
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
+    </None>
+    <None Update="clientapp\src\Api\TsGeneratorTemplate.nt">
+      <CustomToolNamespace>836e9e14-6e01-4d57-9d9c-1a514b55bd40</CustomToolNamespace>
     </None>
   </ItemGroup>
 

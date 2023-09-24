@@ -19,8 +19,8 @@
         <input lass="navbar-search form-control" type="text" :value="test" v-on:change="onChangeTest"/>
       </d-input-group>
       <d-list-group v-if="searchedTournaments != null && searchedTournaments.length > 0">
-        <div v-for="searchedTournament in searchedTournaments" :key="searchedTournament.TournamentId" class="list-group-item fake-link" @click="editTournament(searchedTournament.TournamentId)">
-          {{ searchedTournament.Name + " " + searchedTournament.StartTime }}
+        <div v-for="searchedTournament in searchedTournaments" :key="searchedTournament.tournamentId" class="list-group-item fake-link" @click="editTournament(searchedTournament.tournamentId)">
+          {{ searchedTournament.name + " " + searchedTournament.startTime }}
         </div>
       </d-list-group>
       <d-list-group v-else-if="searchedTournaments == null || searchedTournaments.length == 0">No tournaments founded</d-list-group>
@@ -31,10 +31,10 @@
           <tournament-details :tournament-prop="selectedTour" :is-create-or-edit="true"></tournament-details>
         </d-tab>
         <d-tab title="Players">
-          <tournament-players :tournament-id="selectedTour.Id" :assigned-players="assignedPlayers" :remove-tournament-entry="removeTournamentEntry" :add-tournament-entry="addTournamentEntry"></tournament-players>
+          <tournament-players :tournament-id="selectedTour.id" :assigned-players="assignedPlayers" :remove-tournament-entry="removeTournamentEntry" :add-tournament-entry="addTournamentEntry"></tournament-players>
         </d-tab>
         <d-tab title="Draw">
-          <tournament-draw :tournament-id="selectedTour.Id" :tournament-draw="draw" :is-editable-page="true" @tournamentDrawDelete="deleteDraw" @createDrawEvent="createDrawHandlerHub" @addQualificationMatch="addQualificationMatch" />
+          <tournament-draw :tournament-id="selectedTour.id" :tournament-draw="draw" :is-editable-page="true" @tournamentDrawDelete="deleteDraw" @createDrawEvent="createDrawHandlerHub" @addQualificationMatch="addQualificationMatch" />
         </d-tab>
       </d-tabs>
     </d-card>
@@ -52,30 +52,34 @@ import TournamentModal from "../tournament/TournamentModal.vue";
 import TournamentDetails from "../tournament/TournamentDetails.vue";
 import TournamentDraw from "../tournament/TournamentDraw.vue";
 import TournamentPlayers from "../tournament/TournamentPlayers.vue";
-import TournamentClient, {
-  TournamentDTO,
+import {
+  TournamentClient,
   SearchedTournamentByNameArgs,
-  SearchedTournamentDTO,
-  TournamentGraphDTO,
-  TournamentPlayersArgs,
-  RoundMatchDTO,
-  Draw
+  TournamentPlayersArgs
 } from "@/Api/TournamentController";
-import TournamentEntryClient, {
-  PlayerDrawDTO,
+import {
+  TournamentEntryClient,
   GetPlayersArgs,
   DeletePlayerArgs,
-  TournamentEntry,
   PlayerArgs
 } from "@/Api/TournamentEntryController";
-import MatchClient, {
-  MatchDTO,
+import {
+  MatchClient,
   MatchesArgs
 } from '@/Api/MatchController';
-import QualificationMatchClient, {
-  QualificationMatch
+import {
+  QualificationMatch,
+  QualificationMatchClient
 } from '@/Api/QualificationMatchController';
 import { NotificationUtils } from '@/common/notification';
+import { SearchedTournamentDTO } from "@/Api/dtos/SearchedTournamentDTO";
+import { TournamentDTO } from "@/Api/dtos/TournamentDTO";
+import { PlayerDrawDTO } from "@/Api/dtos/PlayerDrawDTO";
+import { DrawDTO } from "@/Api/dtos/DrawDTO";
+import { TournamentEntryDTO } from "@/Api/dtos/TournamentEntryDTO";
+import { TournamentGraphDTO } from "@/Api/dtos/TournamentGraphDTO";
+import { MatchDTO } from "@/Api/dtos/MatchDTO";
+import { RoundMatchDTO } from "@/Api/dtos/RoundMatchDTO";
 
 @Component({
   components: {
@@ -93,7 +97,7 @@ export default class TournamentManagement extends BaseComponentClass {
   tournament: TournamentDTO = null;
   selectedTournament: TournamentDTO = null;
   assignedPlayers: PlayerDrawDTO[] = [];
-  draw: Draw = new Draw();
+  draw: DrawDTO = new DrawDTO();
   startingRound: number;
   test:string = "abc";
   onChangeTest(val: InputEvent) {
@@ -113,13 +117,13 @@ export default class TournamentManagement extends BaseComponentClass {
     if (this.searchName != null && this.searchName != "") {
       const ENTER_KEY = 13;
       if (event.keyCode == ENTER_KEY) {
-        this.editTournament(this.searchedTournaments[0].TournamentId);
+        this.editTournament(this.searchedTournaments[0].tournamentId);
       } else {
         const client = new TournamentClient();
         this.tryGetDataByArgs<SearchedTournamentDTO[], SearchedTournamentByNameArgs>({
           apiMethod: client.getSearchedTournamentsByName,
           showError: true,
-          requestArgs: { Name: this.searchName }
+          requestArgs: { name: this.searchName }
         }).then((response) => {
           if (response.ok) this.searchedTournaments = response.data;
         });
@@ -135,7 +139,7 @@ export default class TournamentManagement extends BaseComponentClass {
     this.tryGetDataByArgs<PlayerDrawDTO[], GetPlayersArgs>({
       apiMethod: client.tournamentPlayers,
       showError: true,
-      requestArgs: { TournamentId: this.selectedTournament.Id }
+      requestArgs: { tournamentId: this.selectedTournament.id }
     }).then((response) => {
       if (response.ok) {
         this.assignedPlayers = response.data;
@@ -146,17 +150,17 @@ export default class TournamentManagement extends BaseComponentClass {
   async addTournamentEntry(player: PlayerDrawDTO): Promise<boolean> {
     let result = false;
     const client = new TournamentEntryClient();
-    await this.tryGetDataByArgs<TournamentEntry, PlayerArgs>({
+    await this.tryGetDataByArgs<TournamentEntryDTO, PlayerArgs>({
       apiMethod: client.addTournamentPlayer,
       showError: true,
       requestArgs: {
-        TournamentId: this.selectedTournament.Id,
-        PlayerId: player.PlayerId
+        tournamentId: this.selectedTournament.id,
+        playerId: player.playerId
       }
     }).then((response) => {
       result = response.ok;
       if (response.ok) {
-        player.TournamentEntryId = response.data.Id;
+        player.tournamentEntryId = response.data.id;
         this.assignedPlayers.push(player);
       }
     });
@@ -169,10 +173,10 @@ export default class TournamentManagement extends BaseComponentClass {
       await this.tryGetDataByArgs<void, DeletePlayerArgs>({
         apiMethod: client.deleteTournamentPlayer,
         showError: true,
-        requestArgs: { TournamentEntryId: tournamentId }
+        requestArgs: { tournamentEntryId: tournamentId }
       }).then((response) => {
         if (response.ok) {
-          this.assignedPlayers = this.assignedPlayers.filter(p => p.TournamentEntryId != tournamentId);
+          this.assignedPlayers = this.assignedPlayers.filter(p => p.tournamentEntryId != tournamentId);
         }
         return response.ok;
       });
@@ -191,13 +195,13 @@ export default class TournamentManagement extends BaseComponentClass {
       this.tryGetDataByArgs<TournamentGraphDTO, TournamentPlayersArgs>({
         apiMethod: client.getTournamentPlayers,
         showError: true,
-        requestArgs: { TournamentId: tournamentId }
+        requestArgs: { tournamentId: tournamentId }
       }).then((response) => {
         if (response.ok) {
-          this.assignedPlayers = response.data.Players;
-          this.selectedTour = response.data.Tournament;
+          this.assignedPlayers = response.data.players;
+          this.selectedTour = response.data.tournament;
           this.searchedTournaments = null;
-          this.draw = response.data.Draw;
+          this.draw = response.data.draw;
         }
       });
     }
@@ -210,11 +214,11 @@ export default class TournamentManagement extends BaseComponentClass {
   }
 
   modifySearchedTournament(tournament: TournamentDTO): void {
-    const index = this.searchedTournaments.findIndex(p => p.TournamentId == tournament.Id);
+    const index = this.searchedTournaments.findIndex(p => p.tournamentId == tournament.id);
     this.searchedTournaments[index] = {
-      TournamentId: tournament.Id,
-      Name: tournament.Name,
-      StartTime: tournament.StartTime
+      tournamentId: tournament.id,
+      name: tournament.name,
+      startTime: tournament.startTime
     };
   }
 
@@ -225,7 +229,7 @@ export default class TournamentManagement extends BaseComponentClass {
     this.tryGetDataByArgs<void, MatchesArgs>({
       apiMethod: matchClient.deleteTournamentDrawGraph,
       showError: true,
-      requestArgs: { TournamentId: tournamentId }
+      requestArgs: { tournamentId: tournamentId }
     }).then((resp) => {
       if (resp.ok) {
         NotificationUtils.ShowSuccess({
@@ -243,36 +247,36 @@ export default class TournamentManagement extends BaseComponentClass {
     var response = this.tryGetDataByArgs<MatchDTO, QualificationMatch>({
       apiMethod: qualificationMatchClient.createQualificationMatch,
       showError: true,
-      requestArgs: { EntryId: entryId }
+      requestArgs: { entryId: entryId }
     }).then((resp) => {
       if (resp.ok) {
-        var roundMatch = this.draw.RoundMatches.filter(roundMatch => roundMatch.Round == resp.data.Round);
+        var roundMatch = this.draw.roundMatches.filter(roundMatch => roundMatch.round == resp.data.round);
 
-        var roundMatchesIndex = this.draw.RoundMatches.findIndex(roundMatch => roundMatch.Round == resp.data.Round);
+        var roundMatchesIndex = this.draw.roundMatches.findIndex(roundMatch => roundMatch.round == resp.data.round);
         let newRoundMatch: RoundMatchDTO = null;
 
         if (roundMatch) {
           console.log('roundMatch')
           console.log(roundMatch)
-          if (roundMatch[0].Matches && roundMatch[0].Matches.length > 0) {
-            roundMatch[0].Matches.push(resp.data);
+          if (roundMatch[0].matches && roundMatch[0].matches.length > 0) {
+            roundMatch[0].matches.push(resp.data);
 
             newRoundMatch = roundMatch[0];
           } else {
-            roundMatch[0].Matches = [resp.data];
+            roundMatch[0].matches = [resp.data];
             newRoundMatch = roundMatch[0];
           }
         } else {
-          roundMatch.push({ Round: resp.data.Round, Matches: [resp.data] });
-          newRoundMatch = { Round: resp.data.Round, Matches: [resp.data] };
+          roundMatch.push({ round: resp.data.round, matches: [resp.data] });
+          newRoundMatch = { round: resp.data.round, matches: [resp.data] };
         }
         console.log('reactivity test')
-        let rounds = this.draw.RoundMatches.map(m => m);
-        let testDraw: Draw = new Draw();
+        let rounds = this.draw.roundMatches.map(m => m);
+        let testDraw: DrawDTO = new DrawDTO();
 
         testDraw = { ...this.draw }
         // rounds.push(newRoundMatch);
-        testDraw.RoundMatches = rounds;
+        testDraw.roundMatches = rounds;
         this.draw = testDraw;
 
         console.log('nefunguje reactivita na objekte')
@@ -300,7 +304,7 @@ export default class TournamentManagement extends BaseComponentClass {
   //   this.draw.RoundMatches = roundMatches;
   // }
 
-  createDrawHandlerHub(draw: Draw): void {
+  createDrawHandlerHub(draw: DrawDTO): void {
     this.draw = draw;
   }
 

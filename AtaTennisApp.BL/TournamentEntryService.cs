@@ -1,5 +1,6 @@
 ﻿using AtaTennisApp.BL.DTO;
 using AtaTennisApp.BL.Helper;
+using AtaTennisApp.BL.Helper.Mapper;
 using AtaTennisApp.Data.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -16,26 +17,37 @@ namespace AtaTennisApp.BL
     {
         Task<List<PlayerDrawDTO>> GetTournamentPlayers(int tournamentId);
         Task<List<PlayerDrawDTO>> GetSearchedPlayers(string nameSurname);
-        Task<TournamentEntry> AddTournamentPlayer(int tournamentId, int playerId);
+        Task<TournamentEntryDTO> AddTournamentPlayer(int tournamentId, int playerId);
         Task DeleteTournamentPlayer(int tournamentEntryId);
     }
     public class TournamentEntryService : ITournamentEntryService
     {
         private AtaTennisContext _dbContext { get; set; }
-        private MapperConfiguration Mapper { get; set; } = MapperHelper.GetPlayerDrawConfig();
+        private MapperConfiguration PlayerMapperConfig { get; set; } = MapperHelper.GetPlayerDrawConfig();
+        //private IMapper TournamentEntryMapper { get; set; } = MapperHelper.GetTournamentEntryMapper();
 
         public TournamentEntryService(AtaTennisContext context)
         {
             _dbContext = context;
         }
 
-        public async Task<TournamentEntry> AddTournamentPlayer(int tournamentId, int playerId)
+        public async Task<TournamentEntryDTO> AddTournamentPlayer(int tournamentId, int playerId)
         {
-            var tournamentEntry = await _dbContext.TournamentEntries
+            var tournamentEntryDTO = new TournamentEntryDTO { PlayerId = playerId, TournamentId = tournamentId };
+
+            var tournamentEntryDb = await _dbContext.TournamentEntries
                 .AddAsync(new TournamentEntry { PlayerId = playerId, TournamentId = tournamentId });
 
+
             await _dbContext.SaveChangesAsync();
-            return tournamentEntry.Entity;
+
+            var tournamentEntryDto = TournamentEntryMapper.MapToDTO(tournamentEntryDb.Entity);
+            //tournamentEntryDb.MapTo()
+
+            //TournamentEntryMapper.Map<TournamentEntry, TournamentEntryDTO>(tournamentEntryDb);
+            //var tournamentEntryDto = tournamentEntryDb.ProjectTo<TournamentEntryDTO>(TournamentEntryMapper).FirstOrDefault();
+
+            return tournamentEntryDto;
         }
 
         public async Task<List<PlayerDrawDTO>> GetTournamentPlayers(int tournamentId)
@@ -60,7 +72,7 @@ namespace AtaTennisApp.BL
             var searchSubstring = nameSurname.ToLower();
             var players = await _dbContext.Players.Where(p => p.Surname.ToLower().Contains(searchSubstring)
                 || p.Name.ToLower().Contains(searchSubstring)).Take(5)
-                .ProjectTo<PlayerDrawDTO>(Mapper)
+                .ProjectTo<PlayerDrawDTO>(PlayerMapperConfig)
                 .ToListAsync();
 
             return players;

@@ -23,20 +23,20 @@
 				<d-card v-for="(tournament, index) in tournaments" :key="tournament.id" class="mb-1">
 					<d-card-header class="px-3 py-2" role="tab">
 						<d-btn v-d-toggle="index.toString()" block-level theme="secondary" href="#">{{
-							getMonthName(tournament.StartTime)
+							getMonthName(tournament.startTime)
 						}}</d-btn>
 						<!-- <d-btn :aria-controls="index.toString()" block-level theme="secondary" href="#">{{getMonthName(tournament.StartTime) }}</d-btn> -->
 					</d-card-header>
 					<d-collapse :id="index.toString()" accordion="my-accordion" role="tabpanel">
 						<d-card-body>
 							<p class="card-text">
-								<a :href="'/tournament/' + tournament.Id">
-									{{ getDate(tournament.StartTime) }}
-									{{ tournament.Name }}
-									{{ tournament.Place }}
-									{{ tournamentHelper.GetTournamentCategoryName(tournament.Category) }}
-									{{ tournamentHelper.GetTournamentTypeName(tournament.TournamentType) }}
-									{{ tournamentHelper.GetTournamentSurfaceName(tournament.Surface) }}
+								<a :href="'/tournament/' + tournament.id">
+									{{ getDate(tournament.startTime) }}
+									{{ tournament.name }}
+									{{ tournament.place }}
+									{{ tournamentHelper.GetTournamentCategoryName(tournament.category) }}
+									{{ tournamentHelper.GetTournamentTypeName(tournament.tournamentType) }}
+									{{ tournamentHelper.GetTournamentSurfaceName(tournament.surface) }}
 								</a>
 							</p>
 						</d-card-body>
@@ -52,14 +52,15 @@
 
 <script lang="ts">
 import Component from "vue-class-component";
-import TournamentClient, {
-  TournamentDTO,
-  TournamentFilter,
-  TournamentType
+import {
+  TournamentClient
 } from "@/Api/TournamentController";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import { TournamentHelper } from "../views/tournament/tournamentHelper";
 import { i18n } from "../plugins/i18n";
+import { TournamentType } from "@/Api/enums/TournamentType";
+import { TournamentDTO } from "@/Api/dtos/TournamentDTO";
+import { TournamentFilterDTO } from "@/Api/dtos/TournamentFilterDTO";
 
 @Component
 export default class TournamentListClass extends BaseComponentClass {
@@ -106,13 +107,13 @@ export default class TournamentListClass extends BaseComponentClass {
 	getTournaments(): void {
 	  const tournamentClient = new TournamentClient();
 
-	  this.tryGetDataByArgs<TournamentDTO[], TournamentFilter>({
+	  this.tryGetDataByArgs<TournamentDTO[], TournamentFilterDTO>({
 	    apiMethod: tournamentClient.get,
 	    showError: true,
 	    requestArgs: {
-	      Id: null,
-	      Year: this.year,
-	      Type: this.selectedTournamentType
+	      id: null,
+	      year: this.year,
+	      type: this.selectedTournamentType
 	    }
 	  }).then((resp) => {
 	    if (resp.ok) {

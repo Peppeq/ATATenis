@@ -17,11 +17,11 @@
 					<d-card-header class="border-bottom text-center">
 						<!-- User Avatar -->
 						<div class="mb-3 mx-auto">
-							<img class="rounded-circle" src="../assets/rog.jpg" :alt="player.Name" width="200" />
+							<img class="rounded-circle" src="../assets/rog.jpg" :alt="player.name" width="200" />
 						</div>
 
 						<!-- User Name -->
-						<h4 class="mb-0">{{ player.Name + " " + player.Surname }}</h4>
+						<h4 class="mb-0">{{ player.name + " " + player.surname }}</h4>
 					</d-card-header>
 					<d-list-group flush>
 						<!-- User Performance Report -->
@@ -121,8 +121,9 @@
 <script lang="ts">
 import { BaseComponentClass } from "../common/BaseComponentClass";
 import Component from "vue-class-component";
-import PlayerClient, { PlayerDTO, PlayerArgs } from "@/Api/PlayerController";
+import { PlayerClient, PlayerArgs } from "@/Api/PlayerController";
 import PlayerBio from "./player/player-bio.vue";
+import { PlayerDTO } from "@/Api/dtos/PlayerDTO";
 
 @Component({
   components: { PlayerBio }
@@ -136,7 +137,7 @@ export default class PlayerView extends BaseComponentClass {
 	isTournament = false;
 	results: [] = [];
 
-	onChangeCardType(type: number) {
+	onChangeCardType(type: number, $event: Event) {
 	  if (type == 0) {
 	    this.isBio = true;
 	    this.isTournament = false;
@@ -144,6 +145,10 @@ export default class PlayerView extends BaseComponentClass {
 	    this.isTournament = true;
 	    this.isBio = false;
 	  }
+	}
+
+	onChangeHistory($event: any) {
+		throw new Error("Method not implemented.");
 	}
 
 	mounted() {
@@ -154,7 +159,7 @@ export default class PlayerView extends BaseComponentClass {
 	  this.tryGetDataByArgs<PlayerDTO, PlayerArgs>({
 	    apiMethod: client.getPlayerById,
 	    showError: true,
-	    requestArgs: { Id: this.playerId }
+	    requestArgs: { id: this.playerId }
 	  }).then((response) => {
 	    if (response.ok != null) {
 	      this.player = response.data;

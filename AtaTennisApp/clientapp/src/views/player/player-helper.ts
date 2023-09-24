@@ -1,4 +1,6 @@
-import { SurfaceType, Forehand, Backhand } from "@/Api/PlayerController";
+import { Backhand } from "@/Api/enums/Backhand";
+import { Forehand } from "@/Api/enums/Forehand";
+import { SurfaceType } from "@/Api/enums/SurfaceType";
 import { i18n } from "@/plugins/i18n";
 
 export interface SurfaceObj {

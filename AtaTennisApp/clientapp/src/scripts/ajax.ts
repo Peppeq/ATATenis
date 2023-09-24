@@ -15,8 +15,9 @@ export interface ErrorResponse {
 export class AjaxProvider {
   private static getApiUrl(methodName: string): string {
     // var url = window.location.href;
-    const url = "http://localhost:55000";
-    const apiUrl: string = url + "/api/" + methodName;
+    const url = "http://localhost:55000/";
+    const apiUrl: string = url + methodName;
+    // const apiUrl: string = url + "/api/" + methodName; // TODO upravit api = zmazat api z tejto const a pridat pre kazdu vygenerovanu cestu plus upravit camelcase pre ts zmenit na $param
     return apiUrl;
   }
 

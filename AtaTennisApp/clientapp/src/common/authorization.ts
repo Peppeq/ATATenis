@@ -1,4 +1,4 @@
-import { UserDTO } from "@/Api/UserController";
+import { UserDTO } from "@/Api/dtos/UserDTO";
 
 export interface AuthorizationHeader {
 	Authorization: string;
@@ -8,8 +8,8 @@ export class Authorization {
   public static getAuthHeader(): AuthorizationHeader {
     // return authorization header with jwt token
     const user: UserDTO = JSON.parse(sessionStorage.getItem("user"));
-    if (user && user.Token) {
-      return { Authorization: "Bearer " + user.Token };
+    if (user && user.token) {
+      return { Authorization: "Bearer " + user.token };
     } else {
       return null;
     }
@@ -20,7 +20,7 @@ export class Authorization {
   }
 
   public static isAdmin(): boolean {
-    return this.getUser() != null && this.getUser().Username == "admin";
+    return this.getUser() != null && this.getUser().username == "admin";
   }
 
   public static setUser(user: UserDTO): void {

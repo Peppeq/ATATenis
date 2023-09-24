@@ -19,13 +19,13 @@
 							<router-link
 								:to="{
 									name: 'Player',
-									params: { id: player.Id, testProp: null }
+									params: { id: player.id, testProp: null }
 								}"
 								class="text-fiord-blue"
 								>{{ getPlayerFullname(player) }}</router-link
 							>
 						</td>
-						<td>{{ player.Points }}</td>
+						<td>{{ player.points }}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -34,7 +34,8 @@
 </template>
 
 <script lang="ts">
-import PlayerClient, { PlayerDTO } from "../Api/PlayerController";
+import { PlayerDTO } from "@/Api/dtos/PlayerDTO";
+import { PlayerClient } from "@/Api/PlayerController";
 import { Component } from "vue-property-decorator";
 import { BaseComponentClass } from "../common/BaseComponentClass";
 
@@ -46,7 +47,7 @@ export default class RankingsView extends BaseComponentClass {
 	  console.log(client);
 
 	  this.tryGetDataByArgs<PlayerDTO[], null>({
-	    apiMethod: client.getWithoutParams,
+	    apiMethod: client.getAllPlayers,
 	    showError: true,
 	    requestArgs: null
 	  }).then((resp) => {
@@ -56,7 +57,7 @@ export default class RankingsView extends BaseComponentClass {
 	  });
 	}
 	getPlayerFullname(player: PlayerDTO): string {
-	  return player.Name + " " + player.Surname;
+	  return player.name + " " + player.surname;
 	}
 }
 </script>

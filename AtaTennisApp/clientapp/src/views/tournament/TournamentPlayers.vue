@@ -1,15 +1,15 @@
 <template>
   <div class="">
     <ol>
-      <li v-for="player in assignedPlayers" :key="player.PlayerId">
+      <li v-for="player in assignedPlayers" :key="player.playerId">
         {{ getFullName(player)
-			}}<span class="text-danger remove-player" @click="removeTournamentEntry"><i :id="player.TournamentEntryId" class="material-icons">clear</i></span>
+			}}<span class="text-danger remove-player" @click="removeTournamentEntry"><i :id="player.tournamentEntryId" class="material-icons">clear</i></span>
       </li>
     </ol>
     <d-input-group class="mb-2">
       <input v-model="player" placeholder="Name Surname" list="searchedPlayers" class="form-control" @keyup="searchPlayers" @input="setSelectedPlayer" />
       <datalist id="searchedPlayers">
-        <option v-for="searchedPlayer in searchedPlayers" :key="searchedPlayer.PlayerId" :value="getFullName(searchedPlayer)" />
+        <option v-for="searchedPlayer in searchedPlayers" :key="searchedPlayer.playerId" :value="getFullName(searchedPlayer)" />
         >
       </datalist>
       <d-input-group-addon append>
@@ -23,11 +23,12 @@
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { BaseComponentClass } from "../../common/BaseComponentClass";
-import TournamentEntryClient, {
-  PlayerDrawDTO,
+import {
+  TournamentEntryClient,
   GetSearchedPlayersArgs
 } from "../../Api/TournamentEntryController";
 import { NotificationUtils } from "../../common/notification";
+import { PlayerDrawDTO } from "@/Api/dtos/PlayerDrawDTO";
 
 @Component
 export default class TournamentPlayers extends BaseComponentClass {
@@ -46,7 +47,7 @@ export default class TournamentPlayers extends BaseComponentClass {
   searchedPlayers: PlayerDrawDTO[] = [];
 
   getFullName(player: PlayerDrawDTO): string {
-    return player.Name + " " + player.Surname;
+    return player.name + " " + player.surname;
   }
 
   searchPlayers(): void {
@@ -56,7 +57,7 @@ export default class TournamentPlayers extends BaseComponentClass {
       this.tryGetDataByArgs<PlayerDrawDTO[], GetSearchedPlayersArgs>({
         apiMethod: client.getSearchedPlayers,
         showError: true,
-        requestArgs: { NameSurname: this.player }
+        requestArgs: { nameSurname: this.player }
       }).then((response) => {
         if (response.ok) this.searchedPlayers = response.data;
       });
@@ -75,7 +76,7 @@ export default class TournamentPlayers extends BaseComponentClass {
 
   addTournamentEntry(): void {
     if (this.AddTournamentEntry != null) {
-      if (!this.assignedPlayers.some(p => p.TournamentEntryId == this.selectedPlayer.TournamentEntryId)) {
+      if (!this.assignedPlayers.some(p => p.tournamentEntryId == this.selectedPlayer.tournamentEntryId)) {
         this.AddTournamentEntry(this.selectedPlayer).then((result) => {
           if (result) {
             this.selectedPlayer = null;

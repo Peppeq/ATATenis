@@ -3,7 +3,7 @@
     <d-input-group-addon v-if="canAddQualifier()" prepend>
       <d-btn outline theme="success" @click="addQualifier">Qualifier</d-btn>
     </d-input-group-addon>
-    <input type="text" :value="matchEntry.PlayerId" aria-label="Text input with checkbox" class="form-control" />
+    <input type="text" :value="matchEntry.playerId" aria-label="Text input with checkbox" class="form-control" />
     <d-input-group-text slot="append">
       <input type="checkbox" aria-label="Checkbox for following text input" />
     </d-input-group-text>
@@ -13,8 +13,7 @@
 <script lang="ts">
 import { BaseComponentClass } from '../../../common/BaseComponentClass'
 import { Component, Prop, Watch } from 'vue-property-decorator'
-import { MatchDTO } from '@/Api/MatchController';
-import { MatchEntryDTO } from '../../../Api/TournamentController';
+import { MatchEntryDTO } from '@/Api/dtos/MatchEntryDTO';
 
 @Component
 export default class TournamentDrawMatchEntry extends BaseComponentClass {
@@ -32,11 +31,11 @@ export default class TournamentDrawMatchEntry extends BaseComponentClass {
   }
 
   addQualifier() {
-    this.$eventHub.$emit('addQualificationMatch', this.matchEntry.Id);
+    this.$eventHub.$emit('addQualificationMatch', this.matchEntry.id);
   }
 
   canAddQualifier(): boolean {
-    return this.isFirstRound && this.matchEntry.ParentMatchId == null;
+    return this.isFirstRound && this.matchEntry.parentMatchId == null;
   }
 
   created() {

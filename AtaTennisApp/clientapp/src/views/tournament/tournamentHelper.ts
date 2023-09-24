@@ -1,12 +1,11 @@
-import {
-  TournamentType,
-  TournamentCategory,
-  SurfaceType,
-  PlayingSystem,
-  BallsType
-} from "@/Api/TournamentController";
+
+import { BallsType } from "@/Api/enums/BallsType";
+import { DrawSize } from "@/Api/enums/DrawSize";
+import { PlayingSystem } from "@/Api/enums/PlayingSystem";
+import { SurfaceType } from "@/Api/enums/SurfaceType";
+import { TournamentCategory } from "@/Api/enums/TournamentCategory";
+import { TournamentType } from "@/Api/enums/TournamentType";
 import { i18n } from "@/plugins/i18n";
-import { DrawSize } from "@/Api/MatchController";
 
 export interface TournamentTypeObj {
 	value: TournamentType;

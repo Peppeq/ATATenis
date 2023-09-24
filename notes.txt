@@ -24,3 +24,7 @@ Script-Migration -from 20191119170002_InitialMigration -to 20210117202309_migrat
 securing application 
 only if authenticated you can have administration rigths CORS
 when not - just read data 
+
+
+problemy
+https://stackoverflow.com/questions/57879150/how-can-i-solve-error-gypgyp-errerr-find-vsfind-vs-msvs-version-not-set-from-c

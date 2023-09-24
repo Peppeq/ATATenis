@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import UserClient, { UserDTO } from "@/Api/UserController";
+import { UserDTO } from "@/Api/dtos/UserDTO";
+import { UserClient } from "@/Api/UserController";
 import { Authorization } from "@/common/authorization";
 
 const userClient = new UserClient();
@@ -17,11 +18,11 @@ export const userService = {
 async function login(username: string, password: string): Promise<UserDTO> {
   console.log("inside login func");
   return await userClient
-    .authenticate({ Password: password, Username: username, Token: null })
+    .authenticate({ password, username, token: null })
     .then(
       (user: UserDTO): UserDTO => {
         // login successful if there's a jwt token in the response
-        if (user.Token) {
+        if (user.token) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           Authorization.setUser(user);
           console.log("successful authentication");
@@ -48,7 +49,7 @@ async function register(user: UserDTO): Promise<void> {
 }
 
 async function getAll(): Promise<UserDTO[]> {
-  return await userClient.getWithoutParams();
+  return await userClient.getAll();
 }
 
 // function getById(id) {

@@ -19,7 +19,7 @@ import Component from "vue-class-component";
 import Vue from "vue";
 import { Prop } from "vue-property-decorator";
 import TournamentDetails from "./TournamentDetails.vue";
-import { TournamentDTO } from "@/Api/TournamentController";
+import { TournamentDTO } from "@/Api/dtos/TournamentDTO";
 
 @Component({
   components: { TournamentDetails }
