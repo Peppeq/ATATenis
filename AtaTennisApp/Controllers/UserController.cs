@@ -7,7 +7,6 @@ using AtaTennisApp.Helper;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -19,6 +18,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WebApi.Authorization;
+//using AllowAnonymousAttribute = WebApi.Authorization.AllowAnonymousAttribute;
 
 namespace AtaTennisApp.Controllers
 {
@@ -31,54 +32,28 @@ namespace AtaTennisApp.Controllers
         private readonly AppSettings _appSettings;
         private IMapper _mapper;
 
-        public UserController(AtaTennisContext dbContext, IOptions<AppSettings> appSettings)
+        public UserController(AtaTennisContext dbContext, IOptions<AppSettings> appSettings, IJwtUtils jwtUtils)
         {
             _dbContext = dbContext;
-            _userService = new UserService(_dbContext);
+            _userService = new UserService(_dbContext, jwtUtils);
             _appSettings = appSettings.Value;
 
             _mapper = MapperHelper.GetUserMapper();
         }
-
-        //public class AuthenticatedUser {
-        //    public string UserName { get; set; }
-        //    public string Token { get; set; }
-        //}
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<ActionResult<UserDTO>> Authenticate([FromBody]UserDTO userDto)
         {
             var user = await _userService.AuthenticateAsync(userDto.Username, userDto.Password);
+           
             if (user == null)
             {
                 return GetErrorResponse(System.Net.HttpStatusCode.BadRequest, "Username or password is incorrect");
             }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
-
             // return basic user info (without password) and token to store client side
-            return Ok(new UserDTO
-            {
-                Username = user.Username,
-                //FirstName = user.FirstName,
-                //LastName = user.LastName,
-                Token = tokenString
-            });
+            return Ok(user);
         }
 
         [AllowAnonymous]
@@ -107,7 +82,7 @@ namespace AtaTennisApp.Controllers
         }
 
         [HttpGet("id")]
-        public async Task<ActionResult> GetById(int id)
+        public async Task<ActionResult<UserDTO>> GetById(int id)
         {
             var user = await _userService.GetByIdAsync(id);
             var userDto = _mapper.Map<UserDTO>(user);

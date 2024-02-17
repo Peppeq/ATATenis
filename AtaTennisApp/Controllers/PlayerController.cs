@@ -6,10 +6,10 @@ using AtaTennisApp.BL;
 using AtaTennisApp.BL.DTO;
 using AtaTennisApp.Controllers.Base;
 using AtaTennisApp.Data.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Authorization;
 
 namespace AtaTennisApp.Controllers
 {

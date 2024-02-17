@@ -1,5 +1,6 @@
 ﻿using AtaTennisApp.BL.DTO;
 using AtaTennisApp.BL.Helper;
+using AtaTennisApp.BL.Helper.Mapper;
 using AtaTennisApp.BL.Utils;
 using AtaTennisApp.Data.Entities;
 using AutoMapper;
@@ -9,12 +10,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApi.Authorization;
 
 namespace AtaTennisApp.BL.UserService
 {
     public interface IUserService
     {
-        Task<User> AuthenticateAsync(string username, string password);
+        Task<UserDTO> AuthenticateAsync(string username, string password);
         IEnumerable<User> GetAll();
         Task<User> GetByIdAsync(int id);
         Task<User> CreateAsync(UserDTO userDto);
@@ -24,10 +26,16 @@ namespace AtaTennisApp.BL.UserService
 
     public class UserService : IUserService
     {
-        private AtaTennisContext dbContext { get; set; }
-        public UserService(AtaTennisContext context)
+        private readonly AtaTennisContext dbContext;
+        
+        private readonly IJwtUtils _jwtUtils;
+
+
+
+        public UserService(AtaTennisContext context, IJwtUtils jwtUtils)
         {
             dbContext = context;
+            _jwtUtils = jwtUtils;
         }
 
         public async Task<User> CreateAsync(UserDTO userDto)
@@ -53,7 +61,7 @@ namespace AtaTennisApp.BL.UserService
             return userModel;
         }
 
-        public async Task<User> AuthenticateAsync(string username, string password)
+        public async Task<UserDTO> AuthenticateAsync(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
@@ -70,7 +78,14 @@ namespace AtaTennisApp.BL.UserService
             {
                 return null;
             }
-            return user;
+
+            // authentication successful so generate jwt token
+            var token = _jwtUtils.GenerateJwtToken(user);
+
+            var userDto = UserMapper.MapToDTO(user);
+            userDto.Token = token;
+
+            return userDto;
         }
 
         public IEnumerable<User> GetAll()

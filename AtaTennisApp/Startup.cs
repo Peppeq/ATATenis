@@ -15,6 +15,7 @@ using Newtonsoft.Json.Serialization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApi.Authorization;
 
 namespace AtaTennisApp
 {
@@ -79,39 +80,43 @@ namespace AtaTennisApp
 
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
-            services.AddAuthentication(authOptions =>
-            {
-                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(configOptions =>
-            {
-                configOptions.Events = new JwtBearerEvents
-                {
-                    OnTokenValidated = context =>
-                    {
-                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                        var userId = int.Parse(context.Principal.Identity.Name);
-                        var user = userService.GetByIdAsync(userId).Result;
-                        if (user == null)
-                        {
-                            // return unauthorized if user no longer exists
-                            context.Fail("Unauthorized");
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
-                configOptions.RequireHttpsMetadata = false;
-                configOptions.SaveToken = true;
-                configOptions.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            // authentiacation in NET.CORE 2.2
+            //services.AddAuthentication(authOptions =>
+            //{
+            //    authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(configOptions =>
+            //{
+            //    configOptions.Events = new JwtBearerEvents
+            //    {
+            //        OnTokenValidated = context =>
+            //        {
+            //            var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
+            //            var userId = int.Parse(context.Principal.Identity.Name);
+            //            var user = userService.GetByIdAsync(userId).Result;
+            //            if (user == null)
+            //            {
+            //                // return unauthorized if user no longer exists
+            //                context.Fail("Unauthorized");
+            //            }
+            //            return Task.CompletedTask;
+            //        }
+            //    };
+            //    configOptions.RequireHttpsMetadata = false;
+            //    configOptions.SaveToken = true;
+            //    configOptions.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(key),
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false
+            //    };
+            //});
 
             services.AddLogging();
+
+            // configure DI for application services
+            services.AddScoped<IJwtUtils, JwtUtils>((serviceProvider) => new JwtUtils(appSettings.Secret));
             services.AddScoped<IUserService, UserService>();
         }
 
@@ -147,8 +152,12 @@ namespace AtaTennisApp
             //};
             //app.UseCookiePolicy(cookiePolicyOptions);
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
+
+            // authentiacation in NET.CORE 2.2
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
