@@ -28,3 +28,10 @@ when not - just read data
 
 problemy
 https://stackoverflow.com/questions/57879150/how-can-i-solve-error-gypgyp-errerr-find-vsfind-vs-msvs-version-not-set-from-c
+
+FE FW
+React 
+Vite - je napodobnejsi crea-react-app (ponuka featuri HMR, super quick server starts, native TS support..)
+Next.js - viem ho spravit ako SPA, je ale komplexnejsi
+https://medium.com/@dawid.niegrebecki/create-react-app-is-dead-what-to-use-instead-fcdd46b70295
+

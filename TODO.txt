@@ -37,3 +37,14 @@ Moznosti qualification:
 2. vytvorit konkretne zapasy a namapovat na qualificationRound - ok
 
 poriesit reaktivitu tournamentDraw objectu ked pridam qualification match teda zmenim ROundMatches property
+
+Pridat pre user
+textearea - nieco o sebe
+pridat moznost prihlasenia pre bezneho usera a editacia vlastneho profilu,
+nasledne auto pridanie medzi hracov,
+naparovat vysledky turnajov k hracovemu profilu
+
+do dashboardu: 
+pridat bodovaci system - settings, tie budu pouzite pre ranking
+
+
